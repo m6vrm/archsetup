@@ -16,6 +16,8 @@ timedatectl set-ntp true
 
 # Partitioning
 
+lsblk
+
 sgdisk --clear \
     --new=1:0:+1G   --typecode=1:ef00 \
     --new=2:0:0     --typecode=2:8300 \
@@ -25,6 +27,9 @@ for disk in $pooldisks
 do
     sgdisk --clear --new=1:0:0 --typecode=1:8300 "$disk"
 done
+
+lsblk
+pause
 
 # Formatting
 
@@ -42,11 +47,17 @@ do
     btrfs device add -f "$diskpart" /mnt
 done
 
+lsblk
+pause
+
 # Mounting
 
 btrfs sub create /mnt/@
 btrfs sub create /mnt/@home
 umount /mnt
+
+lsblk
+pause
 
 # Mounting
 
@@ -56,6 +67,9 @@ mount -o noatime,space_cache=v2,compress=zstd:1,discard=async,subvol=@home "$roo
 mkdir /mnt/boot
 mount "$efipart" /mnt/boot
 
+lsblk
+pause
+
 # Pacstrap
 
 pacstrap /mnt base linux linux-firmware vim
@@ -64,6 +78,9 @@ pacstrap /mnt base linux linux-firmware vim
 
 genfstab -U /mnt >> /mnt/etc/fstab
 cat /mnt/etc/fstab
+
+lsblk
+pause
 
 # Chroot
 
