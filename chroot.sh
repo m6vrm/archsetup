@@ -49,10 +49,10 @@ echo "options root=LABEL=ROOT rootflags=subvol=@ rw" >> /boot/loader/entries/arc
 
 # User
 
-useradd -mG wheel roman
+useradd -m -G wheel -C "Roman Madyanov" roman
 
 echo "Enter user password"
-passwd
+passwd roman
 
 sed -i "s/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
 

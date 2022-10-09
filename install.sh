@@ -2,6 +2,10 @@
 set -x
 set -euf -o pipefail
 
+# Unmount everything
+
+umount -R /mnt
+
 # Sync time
 
 timedatectl set-ntp true
