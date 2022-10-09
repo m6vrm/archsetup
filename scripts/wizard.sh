@@ -8,7 +8,7 @@ dialog_options="--stdout --clear"
 dialog_size="10 40"
 
 dialog_rootdisk() {
-    options=$(lsblk -nd -o NAME)
+    options=$(lsblk -ndp -o NAME)
     cmd=(dialog $dialog_options \
         --no-items \
         --menu "Select root (EFI/SWAP) drive:" $dialog_size 0)
@@ -16,7 +16,7 @@ dialog_rootdisk() {
 }
 
 dialog_pooldisks() {
-    options=$(lsblk -nd -o NAME | awk -v rootdisk="$rootdisk" '$1 != rootdisk {print $1, "off"}')
+    options=$(lsblk -ndp -o NAME | awk -v rootdisk="$rootdisk" '$1 != rootdisk {print $1, "off"}')
     cmd=(dialog $dialog_options \
         --separate-output \
         --no-items \
