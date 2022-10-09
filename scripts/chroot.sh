@@ -53,7 +53,7 @@ then
     echo "initrd /${ucode}.img" >> /boot/loader/entries/arch.conf
 fi
 echo "initrd /initramfs-linux.img" >> /boot/loader/entries/arch.conf
-echo "options root=LABEL=ROOT rootopts=subvol=@" >> /boot/loader/entries/arch.conf
+echo "options root=LABEL=ROOT rootopts=subvol=@ rw" >> /boot/loader/entries/arch.conf
 
 # User
 
