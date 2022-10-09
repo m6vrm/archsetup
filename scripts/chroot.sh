@@ -2,6 +2,11 @@
 set -x
 set -euf -o pipefail
 
+username=$1
+userpass=$2
+hostname=$3
+ucode=$4
+
 # System time
 
 ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime

@@ -68,4 +68,4 @@ cat /mnt/etc/fstab
 # Chroot
 
 cp ./scripts/chroot.sh /mnt/chroot.sh
-arch-chroot /mnt ./chroot.sh
+arch-chroot /mnt ./chroot.sh "$username" "$userpass" "$hostname" "$ucode"
