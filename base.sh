@@ -39,7 +39,7 @@ mount "$rootpart" /mnt
 for disk in $pooldisks
 do
     diskpart=`lsblk -lnp -o name | grep "$disk" | sed -n 2p`
-    btrfs device add "$diskpart" /mnt
+    btrfs device add -f "$diskpart" /mnt
 done
 
 # Mounting
