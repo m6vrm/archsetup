@@ -16,8 +16,8 @@ echo "LANG=en_US.UTF-8" >> /etc/locale.conf
 
 # Hosts
 
-HOSTNAME="arch"
 read -p "Enter hostname (default 'arch'): " HOSTNAME
+HOSTNAME=${HOSTNAME:-"arch"}
 
 echo "$HOSTNAME" >> /etc/hostname
 
