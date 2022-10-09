@@ -32,7 +32,7 @@ echo "EFI: $EFI_PARTITION"
 echo "First root partition: $DISK1_ROOT_PARTITION"
 echo "Second root partition: $DISK2_ROOT_PARTITION"
 
-mkfs.fat -F 32 -N EFI "$EFI_PARTITION"
+mkfs.fat -F 32 -n EFI "$EFI_PARTITION"
 mkfs.btrfs -f -d single -L ROOT "$DISK1_ROOT_PARTITION" "$DISK2_ROOT_PARTITION"
 
 # Mounting
