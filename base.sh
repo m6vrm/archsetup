@@ -2,6 +2,10 @@
 set -x
 set -euf -o pipefail
 
+pause() {
+    read -p "Press Enter to continue..."
+}
+
 # Wizard
 
 . ./scripts/wizard.sh
