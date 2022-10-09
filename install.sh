@@ -4,7 +4,7 @@ set -euf -o pipefail
 
 # Unmount everything
 
-umount -R /mnt
+umount -R /mnt || /bin/true
 
 # Sync time
 
