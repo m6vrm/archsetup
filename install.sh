@@ -17,8 +17,8 @@ lsblk
 read -p "Enter first drive name /dev/{name}: " DISK1
 read -p "Enter second drive name /dev/{name}: " DISK2
 
-DISK1="/dev/{$DISK1}"
-DISK2="/dev/{$DISK2}"
+DISK1="/dev/${DISK1}"
+DISK2="/dev/${DISK2}"
 
 sgdisk --clear \
     --new=1:0:+1G   --typecode=1:ef00 \
