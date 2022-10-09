@@ -2,6 +2,28 @@
 set -x
 set -euf -o pipefail
 
+# Select CPU
+
+PS3="Install microcodes for CPU: "
+UCODE_PACKAGE=""
+select opt in "AMD" "Intel" "Skip"; do
+    case $opt in
+    "AMD")
+        UCODE_PACKAGE="amd-ucode"
+        break
+        ;;
+    "Intel")
+        UCODE_PACKAGE="intel-ucode"
+        break
+        ;;
+    "Skip")
+        break
+        ;;
+    *)
+    echo "Invalid option"
+    esac
+done
+
 # System time
 
 ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime
@@ -27,7 +49,7 @@ echo "127.0.1.1	${HOSTNAME}" >> /etc/hosts
 
 # Packages
 
-pacman -S --noconfirm networkmanager btrfs-progs amd-ucode sudo
+pacman -S --noconfirm networkmanager btrfs-progs sudo "$UCODE_PACKAGE"
 
 # Services
 
@@ -46,7 +68,12 @@ echo "editor no" >> /boot/loader/loader.conf
 
 echo "title Arch Linux" >> /boot/loader/entries/arch.conf
 echo "linux /vmlinuz-linux" >> /boot/loader/entries/arch.conf
-echo "initrd /amd-ucode.img" >> /boot/loader/entries/arch.conf
+
+if [[ -n $UCODE_PACKAGE ]]
+then
+    echo "initrd /${UCODE_PACKAGE}.img" >> /boot/loader/entries/arch.conf
+fi
+
 echo "initrd /initramfs-linux.img" >> /boot/loader/entries/arch.conf
 echo "options root=LABEL=ROOT rootflags=subvol=@ rw" >> /boot/loader/entries/arch.conf
 
