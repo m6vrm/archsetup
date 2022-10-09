@@ -4,23 +4,15 @@ set -euf -o pipefail
 
 # Select CPU
 
-PS3="Install microcodes for CPU: "
+PS3="Select option (1-3): "
 UCODE_PACKAGE=""
-select opt in "AMD" "Intel" "Skip"; do
-    case $opt in
-    "AMD")
-        UCODE_PACKAGE="amd-ucode"
-        break
-        ;;
-    "Intel")
-        UCODE_PACKAGE="intel-ucode"
-        break
-        ;;
-    "Skip")
-        break
-        ;;
-    *)
-    echo "Invalid option"
+select option in "Install AMD microcodes" "Install Intel microcodes" "Skip"
+do
+    case $REPLY in
+    1) UCODE_PACKAGE="amd-ucode"; break;;
+    2) UCODE_PACKAGE="intel-ucode"; break;;
+    3) break;;
+    *) echo "Invalid option"
     esac
 done
 
