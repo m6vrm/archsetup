@@ -24,9 +24,9 @@ lsblk
 
 # Formatting
 
-EFI_PARTITION="${DISK1}1"
-DISK1_ROOT_PARTITION="${DISK1}2"
-DISK2_ROOT_PARTITION="${DISK2}1"
+EFI_PARTITION=`lsblk -lnp -o name | grep "$DISK1" | sed -n 1p`
+DISK1_ROOT_PARTITION=`lsblk -lnp -o name | grep "$DISK1" | sed -n 2p`
+DISK2_ROOT_PARTITION=`lsblk -lnp -o name | grep "$DISK2" | sed -n 1p`
 
 echo "EFI: $EFI_PARTITION"
 echo "First root partition: $DISK1_ROOT_PARTITION"
@@ -34,6 +34,8 @@ echo "Second root partition: $DISK2_ROOT_PARTITION"
 
 mkfs.fat -F 32 -n EFI "$EFI_PARTITION"
 mkfs.btrfs -f -d single -L ROOT "$DISK1_ROOT_PARTITION" "$DISK2_ROOT_PARTITION"
+
+lsblk -f
 
 # Mounting
 
@@ -61,5 +63,5 @@ cat /mnt/etc/fstab
 
 # Chroot
 
-cp /archsetup/chroot.sh /mnt/chroot.sh
+cp ./chroot.sh /mnt/chroot.sh
 arch-chroot /mnt ./chroot.sh

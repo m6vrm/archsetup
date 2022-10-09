@@ -22,11 +22,6 @@ echo "127.0.0.1	localhost" >> /etc/hosts
 echo "::1		localhosst" >> /etc/hosts
 echo "127.0.1.1	arch" >> /etc/hosts
 
-# Root password
-
-echo "Enter root password"
-passwd
-
 # Packages
 
 pacman -S --noconfirm networkmanager btrfs-progs amd-ucode sudo
@@ -51,3 +46,16 @@ echo "linux /vmlinuz-linux" >> /boot/loader/entries/arch.conf
 echo "initrd /amd-ucode.img" >> /boot/loader/entries/arch.conf
 echo "initrd /initramfs-linux.img" >> /boot/loader/entries/arch.conf
 echo "options root=LABEL=ROOT rootflags=subvol=@ rw" >> /boot/loader/entries/arch.conf
+
+# User
+
+useradd -mG wheel roman
+
+echo "Enter user password"
+passwd
+
+sed -i "s/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
+
+# Disable root
+
+passwd -l root
