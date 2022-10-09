@@ -49,7 +49,7 @@ echo "options root=LABEL=ROOT rootflags=subvol=@ rw" >> /boot/loader/entries/arc
 
 # User
 
-useradd -m -G wheel -C "Roman Madyanov" roman
+useradd -m -G wheel -c "Roman Madyanov" roman
 
 echo "Enter user password"
 passwd roman
@@ -59,3 +59,7 @@ sed -i "s/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
 # Disable root
 
 passwd -l root
+
+# Remove this script
+
+rm -- "$0"
