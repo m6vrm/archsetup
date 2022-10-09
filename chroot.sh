@@ -49,12 +49,11 @@ echo "options root=LABEL=ROOT rootflags=subvol=@ rw" >> /boot/loader/entries/arc
 
 # User
 
-useradd -m -G wheel -c "Roman Madyanov" roman
+read -p "Enter user name: " USER
+useradd -m -G wheel "$USER"
+passwd "$USER"
 
-echo "Enter user password"
-passwd roman
-
-sed -i "s/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
+echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
 # Disable root
 

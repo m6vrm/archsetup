@@ -14,8 +14,11 @@ timedatectl set-ntp true
 
 lsblk
 
-read -p "First drive: " DISK1
-read -p "Second drive: " DISK2
+read -p "Enter first drive name /dev/{name}: " DISK1
+read -p "Enter second drive name /dev/{name}: " DISK2
+
+DISK1="/dev/{$DISK1}"
+DISK2="/dev/{$DISK2}"
 
 sgdisk --clear \
     --new=1:0:+1G   --typecode=1:ef00 \
@@ -23,8 +26,6 @@ sgdisk --clear \
     "$DISK1"
 
 sgdisk --clear --new=1:0:0 --typecode=1:8300 "$DISK2"
-
-lsblk
 
 # Formatting
 
@@ -39,8 +40,6 @@ echo "Second root partition: $DISK2_ROOT_PARTITION"
 mkfs.fat -F 32 -n EFI "$EFI_PARTITION"
 mkfs.btrfs -f -d single -L ROOT "$DISK1_ROOT_PARTITION" "$DISK2_ROOT_PARTITION"
 
-lsblk -f
-
 # Mounting
 
 mount "$DISK1_ROOT_PARTITION" /mnt
@@ -53,8 +52,6 @@ mkdir /mnt/home
 mount -o noatime,space_cache=v2,compress=zstd:1,discard=async,subvol=@home "$DISK1_ROOT_PARTITION" /mnt/home
 mkdir /mnt/boot
 mount "$EFI_PARTITION" /mnt/boot
-
-lsblk
 
 # Pacstrap
 
