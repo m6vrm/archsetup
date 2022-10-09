@@ -74,13 +74,14 @@ dialog_user() {
 # Finish
 
 dialog_confirm() {
+    alldisks=$(echo "${rootdisk} ${pooldisks}" | tr '\n' ' ')
     dialog $dialog_options \
         --mixedform "Confirmation" 10 50 0 \
-        "Root drive:       " 1 1 "$rootdisk"                       1 20 20 0 2 \
-        "BTRFS pool drives:" 2 1 "$(echo $pooldisks | tr '\n' ' ')" 2 20 20 0 2 \
-        "CPU microcode:    " 3 1 "$ucode"                           3 20 20 0 2 \
-        "Hostname:         " 4 1 "$hostname"                        4 20 20 0 2 \
-        "User:             " 5 1 "$username"                        5 20 20 0 2
+        "Root drive:       " 1 1 "$rootdisk" 1 20 20 0 2 \
+        "BTRFS pool drives:" 2 1 "$alldisks" 2 20 20 0 2 \
+        "CPU microcode:    " 3 1 "$ucode"    20 20 0 2 \
+        "Hostname:         " 4 1 "$hostname" 4 20 20 0 2 \
+        "User:             " 5 1 "$username" 5 20 20 0 2
 }
 
 dialog_rootdisk

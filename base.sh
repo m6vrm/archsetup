@@ -18,7 +18,7 @@ timedatectl set-ntp true
 sgdisk --clear \
     --new=1:0:+1G   --typecode=1:ef00 \
     --new=2:0:0     --typecode=2:8300 \
-    "$firstdisk"
+    "$rootdisk"
 
 for disk in $pooldisks
 do
@@ -27,8 +27,8 @@ done
 
 # Formatting
 
-efipart=`lsblk -lnp -o name | grep "$firstdisk" | sed -n 2p`
-rootpart=`lsblk -lnp -o name | grep "$firstdisk" | sed -n 3p`
+efipart=`lsblk -lnp -o name | grep "$rootdisk" | sed -n 2p`
+rootpart=`lsblk -lnp -o name | grep "$rootdisk" | sed -n 3p`
 
 mkfs.fat -F 32 -n EFI "$efipart"
 mkfs.btrfs -f -d single -L ROOT "$rootpart"
