@@ -29,7 +29,7 @@ echo "127.0.1.1	${hostname}" >> /etc/hosts
 
 # Packages
 
-pacman -S --noconfirm networkmanager btrfs-progs sudo "$ucode"
+pacman -S --noconfirm networkmanager btrfs-progs sudo $ucode
 
 # Services
 
