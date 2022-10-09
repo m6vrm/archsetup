@@ -63,8 +63,8 @@ dialog_user() {
         "Password:" 2 1 "" 2 11 20 0 1)
     usercreds=$("${cmd[@]}")
 
-    username=$(echo "${usercreds} " | sed -n 1p)
-    userpass=$(echo "${usercreds} " | sed -n 2p)
+    username=$(echo "${usercreds}" | sed -n 1p)
+    userpass=$(echo "${usercreds}" | sed -n 2p)
 
     [ -z "$username" ] && dialog_user
     [ -z "$userpass" ] && dialog_user

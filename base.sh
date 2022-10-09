@@ -28,8 +28,8 @@ done
 
 # Formatting
 
-efipart=`lsblk -lnp -o name | grep "$rootdisk" | sed -n 2p`
-rootpart=`lsblk -lnp -o name | grep "$rootdisk" | sed -n 3p`
+efipart=$(lsblk -lnp -o name | grep "$rootdisk" | sed -n 2p)
+rootpart=$(lsblk -lnp -o name | grep "$rootdisk" | sed -n 3p)
 
 mkfs.fat -F 32 -n EFI "$efipart"
 mkfs.btrfs -f -d single -L ROOT "$rootpart"
@@ -38,7 +38,7 @@ mount "$rootpart" /mnt
 
 for disk in $pooldisks
 do
-    diskpart=`lsblk -lnp -o name | grep "$disk" | sed -n 2p`
+    diskpart=$(lsblk -lnp -o name | grep "$disk" | sed -n 2p)
     btrfs device add -f "$diskpart" /mnt
 done
 
