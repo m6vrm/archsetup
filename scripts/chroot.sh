@@ -1,5 +1,4 @@
 #!/bin/bash
-set -x
 set -euf -o pipefail
 
 # System time
@@ -16,29 +15,15 @@ echo "LANG=en_US.UTF-8" >> /etc/locale.conf
 
 # Hosts
 
-read -p "Enter hostname (default 'arch'): " HOSTNAME
-HOSTNAME=${HOSTNAME:-"arch"}
-echo "$HOSTNAME" >> /etc/hostname
+echo "$hostname" >> /etc/hostname
 
 echo "127.0.0.1	localhost" >> /etc/hosts
 echo "::1		localhost" >> /etc/hosts
-echo "127.0.1.1	${HOSTNAME}" >> /etc/hosts
+echo "127.0.1.1	${hostname}" >> /etc/hosts
 
 # Packages
 
-PS3="Select option (1-3): "
-UCODE_PACKAGE=""
-select option in "Install AMD microcodes" "Install Intel microcodes" "Skip"
-do
-    case $REPLY in
-    1) UCODE_PACKAGE="amd-ucode"; break;;
-    2) UCODE_PACKAGE="intel-ucode"; break;;
-    3) break;;
-    *) echo "Invalid option"
-    esac
-done
-
-pacman -S --noconfirm networkmanager btrfs-progs sudo "$UCODE_PACKAGE"
+pacman -S --noconfirm networkmanager btrfs-progs sudo "$ucode"
 
 # Services
 
@@ -57,19 +42,17 @@ echo "editor no" >> /boot/loader/loader.conf
 
 echo "title Arch Linux" >> /boot/loader/entries/arch.conf
 echo "linux /vmlinuz-linux" >> /boot/loader/entries/arch.conf
-if [ -n "$UCODE_PACKAGE" ]
+if [ -n "$ucode" ]
 then
-    echo "initrd /${UCODE_PACKAGE}.img" >> /boot/loader/entries/arch.conf
+    echo "initrd /${ucode}.img" >> /boot/loader/entries/arch.conf
 fi
 echo "initrd /initramfs-linux.img" >> /boot/loader/entries/arch.conf
-echo "options root=LABEL=ROOT rootflags=subvol=@ rw" >> /boot/loader/entries/arch.conf
+echo "options root=LABEL=ROOT" >> /boot/loader/entries/arch.conf
 
 # User
 
-read -p "Enter user name (default 'roman'): " USER
-USER=${USER:-"roman"}
-useradd -m -G wheel "$USER"
-passwd "$USER"
+useradd -m -G wheel "$username"
+echo "${username}:${userpass}" | chpasswd
 
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 

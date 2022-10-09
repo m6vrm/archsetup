@@ -1,6 +1,10 @@
 #!/bin/bash
 set -euf -o pipefail
 
+# Wizard
+
+. ./scripts/wizard.sh
+
 # Unmount everything
 
 umount -R /mnt || /bin/true
@@ -11,48 +15,45 @@ timedatectl set-ntp true
 
 # Partitioning
 
-lsblk
-
-read -p "Enter first drive name /dev/{name}: " DISK1
-read -p "Enter second drive name /dev/{name}: " DISK2
-
-DISK1="/dev/${DISK1}"
-DISK2="/dev/${DISK2}"
-
 sgdisk --clear \
     --new=1:0:+1G   --typecode=1:ef00 \
     --new=2:0:0     --typecode=2:8300 \
-    "$DISK1"
+    "$firstdisk"
 
-sgdisk --clear --new=1:0:0 --typecode=1:8300 "$DISK2"
+for disk in $pooldisks
+do
+    sgdisk --clear --new=1:0:0 --typecode=1:8300 "$disk"
+done
 
 # Formatting
 
-EFI_PARTITION=`lsblk -lnp -o name | grep "$DISK1" | sed -n 2p`
-DISK1_ROOT_PARTITION=`lsblk -lnp -o name | grep "$DISK1" | sed -n 3p`
-DISK2_ROOT_PARTITION=`lsblk -lnp -o name | grep "$DISK2" | sed -n 2p`
+efipart=`lsblk -lnp -o name | grep "$firstdisk" | sed -n 2p`
+rootpart=`lsblk -lnp -o name | grep "$firstdisk" | sed -n 3p`
 
-echo "EFI: $EFI_PARTITION"
-echo "First root partition: $DISK1_ROOT_PARTITION"
-echo "Second root partition: $DISK2_ROOT_PARTITION"
+mkfs.fat -F 32 -n EFI "$efipart"
+mkfs.btrfs -f -d single -L ROOT "$rootpart"
 
-mkfs.fat -F 32 -n EFI "$EFI_PARTITION"
-mkfs.btrfs -f -d single -L ROOT "$DISK1_ROOT_PARTITION" "$DISK2_ROOT_PARTITION"
+mount "$rootpart" /mnt
+
+for disk in $pooldisks
+do
+    diskpart=`lsblk -lnp -o name | grep "$disk" | sed -n 2p`
+    btrfs device add "$diskpart" /mnt
+done
 
 # Mounting
 
-mount "$DISK1_ROOT_PARTITION" /mnt
 btrfs sub create /mnt/@
 btrfs sub create /mnt/@home
 umount /mnt
 
 # Mounting
 
-mount -o noatime,space_cache=v2,compress=zstd:1,discard=async,subvol=@ "$DISK1_ROOT_PARTITION" /mnt
+mount -o noatime,space_cache=v2,compress=zstd:1,discard=async,subvol=@ "$rootpart" /mnt
 mkdir /mnt/home
-mount -o noatime,space_cache=v2,compress=zstd:1,discard=async,subvol=@home "$DISK1_ROOT_PARTITION" /mnt/home
+mount -o noatime,space_cache=v2,compress=zstd:1,discard=async,subvol=@home "$rootpart" /mnt/home
 mkdir /mnt/boot
-mount "$EFI_PARTITION" /mnt/boot
+mount "$efipart" /mnt/boot
 
 # Pacstrap
 
