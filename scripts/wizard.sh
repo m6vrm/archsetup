@@ -2,7 +2,7 @@
 set -euf -o pipefail
 
 pacman -Sy
-pacman -S dialog
+pacman -S --noconfirm dialog
 
 dialog_options="--stdout --clear"
 dialog_size="10 40"
