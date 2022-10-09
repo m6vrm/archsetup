@@ -24,9 +24,9 @@ lsblk
 
 # Formatting
 
-EFI_PARTITION=`lsblk -lnp -o name | grep "$DISK1" | sed -n 1p`
-DISK1_ROOT_PARTITION=`lsblk -lnp -o name | grep "$DISK1" | sed -n 2p`
-DISK2_ROOT_PARTITION=`lsblk -lnp -o name | grep "$DISK2" | sed -n 1p`
+EFI_PARTITION=`lsblk -lnp -o name | grep "$DISK1" | sed -n 2p`
+DISK1_ROOT_PARTITION=`lsblk -lnp -o name | grep "$DISK1" | sed -n 3p`
+DISK2_ROOT_PARTITION=`lsblk -lnp -o name | grep "$DISK2" | sed -n 2p`
 
 echo "EFI: $EFI_PARTITION"
 echo "First root partition: $DISK1_ROOT_PARTITION"
