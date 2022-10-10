@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euf -o pipefail
 
 . "$(dirname "$0")/scripts/init.sh"

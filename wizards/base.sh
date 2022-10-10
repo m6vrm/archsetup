@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euf -o pipefail
 
 device() { grep -P "/dev/(sd|nvme|vd)"; }
