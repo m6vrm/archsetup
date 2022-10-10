@@ -18,6 +18,7 @@ sed -i "s/#en_US.UTF-8/en_US.UTF-8/" /etc/locale.gen
 locale-gen
 
 echo "LANG=en_US.UTF-8" >> /etc/locale.conf
+echo "KEYMAP=us" >> /etc/vconsole.conf
 
 # Host
 
@@ -67,4 +68,6 @@ passwd -l root
 
 rm -- "$0"
 
-echo "Finished!"
+echo "##########################"
+echo "# Installation complete! #"
+echo "##########################"
