@@ -1,9 +1,8 @@
 #!/bin/bash
-set -x
 set -euf -o pipefail
 
-. ./scripts/init.sh
-. ./wizards/base.sh
+. "$(dirname "$0")/scripts/init.sh"
+. "$(dirname "$0")/wizards/base.sh"
 
 # Unmount everything
 
@@ -44,8 +43,8 @@ umount /mnt
 # Mounting
 
 mount "$root_part" /mnt
-btrfs sub create /mnt/@
-btrfs sub create /mnt/@home
+btrfs subvolume create /mnt/@
+btrfs subvolume create /mnt/@home
 umount /mnt
 
 # Mounting

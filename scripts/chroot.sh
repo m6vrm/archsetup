@@ -1,5 +1,4 @@
 #!/bin/bash
-set -x
 set -euf -o pipefail
 
 username=$1
@@ -67,3 +66,5 @@ passwd -l root
 # Remove this script
 
 rm -- "$0"
+
+echo "Finished!"

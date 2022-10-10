@@ -3,6 +3,9 @@ set -euf -o pipefail
 
 device() { grep -P "/dev/(sd|nvme|vd)"; }
 
+timezone=1
+microcode=1
+
 device_names=($(lsblk -dpn -o NAME | device ))
 readarray -t device_table < <(lsblk -dpn -o NAME,MODEL,SIZE | device | awk -F '\t' '{printf "%s %-10s %s\n", $1, $2, $3}')
 
@@ -70,32 +73,51 @@ dialog_hostname() {
     if [[ -z "$hostname" ]]; then
         dialog_error "Hostname can't be empty."
         dialog_hostname
+        return 0
     fi
 }
 
-dialog_user() {
-    local command user confirmation
+dialog_username() {
+    local command
 
     command=(dialog --stdout \
         --clear \
         --no-collapse \
-        --insecure \
-        --mixedform "Create user" 0 0 0 \
-        "Username:    " 1 1 "" 1 15 30 0 0 \
-        "Password:    " 2 1 "" 2 15 30 0 1 \
-        "Confirmation:" 3 1 "" 3 15 30 0 1)
-    user=$("${command[@]}")
+        --inputbox "Enter username:" 0 0 "")
+    username=$("${command[@]}")
 
-    username=$(echo "${user}" | sed -n 1p)
-    password=$(echo "${user}" | sed -n 2p)
-    confirmation=$(echo "${user}" | sed -n 3p)
+    if [[ -z "$username" ]]; then
+        dialog_error "Username can't be empty."
+        dialog_username
+        return 0
+    fi
+}
 
-    if [[ -z "$username" || -z "$password" ]]; then
-        dialog_error "Username and password can't be empty."
-        dialog_user
-    elif [[ "$password" != "$confirmation" ]]; then
+dialog_password() {
+    local command confirmation
+
+    command=(dialog --stdout \
+        --clear \
+        --no-collapse \
+        --passwordbox "Enter password:" 0 0 "")
+    password=$("${command[@]}")
+
+    if [[ -z "$password" ]]; then
+        dialog_error "Password can't be empty."
+        dialog_password
+        return 0
+    fi
+
+    command=(dialog --stdout \
+        --clear \
+        --no-collapse \
+        --passwordbox "Confirm password:" 0 0 "")
+    confirmation=$("${command[@]}")
+
+    if [[ "$password" != "$confirmation" ]]; then
         dialog_error "Passwords don't match."
-        dialog_user
+        dialog_password
+        return 0
     fi
 }
 
@@ -118,12 +140,13 @@ dialog_confirm() {
     dialog \
         --clear \
         --no-collapse \
-        --mixedform "Continue with these parameters? The mentioned devices will be formatted." 0 0 0 \
+        --mixedform "Continue with these parameters?\nRoot and BTRFS pool devices will be formatted right now." 0 0 0 \
         "${fields[@]}" 2> /dev/null
 }
 
 dialog_root_device
 dialog_pool_devices
 dialog_hostname
-dialog_user
+dialog_username
+dialog_password
 dialog_confirm
