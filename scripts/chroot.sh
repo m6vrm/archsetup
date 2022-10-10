@@ -3,22 +3,13 @@ set -x
 set -euf -o pipefail
 
 username=$1
-userpass=$2
+password=$2
 hostname=$3
-
-# Microcode
-
-CPU=$(grep vendor_id /proc/cpuinfo)
-if [[ "$CPU" == *"AuthenticAMD"* ]]
-then
-    ucode="amd-ucode"
-else
-    ucode="intel-ucode"
-fi
+timezone=$4
 
 # System time
 
-ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime
+ln -sf "/usr/share/zoneinfo/${timezone}" /etc/localtime
 hwclock --systohc
 
 # Locale
@@ -28,17 +19,17 @@ locale-gen
 
 echo "LANG=en_US.UTF-8" >> /etc/locale.conf
 
-# Hosts
+# Host
 
 echo "$hostname" >> /etc/hostname
 
-echo "127.0.0.1	localhost" >> /etc/hosts
-echo "::1		localhost" >> /etc/hosts
-echo "127.0.1.1	${hostname}" >> /etc/hosts
+echo "127.0.0.1	localhost"      >> /etc/hosts
+echo "::1		localhost"      >> /etc/hosts
+echo "127.0.1.1	${hostname}"    >> /etc/hosts
 
 # Packages
 
-pacman -S --noconfirm networkmanager btrfs-progs sudo "$ucode"
+pacman -S --noconfirm networkmanager btrfs-progs sudo "$microcode"
 
 # Services
 
@@ -50,24 +41,21 @@ systemctl mask NetworkManager-wait-online
 bootctl install
 
 rm /boot/loader/loader.conf
-echo "default arch.conf" >> /boot/loader/loader.conf
-echo "timeout 0" >> /boot/loader/loader.conf
-echo "console-mode auto" >> /boot/loader/loader.conf
-echo "editor no" >> /boot/loader/loader.conf
+echo "default arch.conf"    >> /boot/loader/loader.conf
+echo "timeout 0"            >> /boot/loader/loader.conf
+echo "console-mode auto"    >> /boot/loader/loader.conf
+echo "editor no"            >> /boot/loader/loader.conf
 
-echo "title Arch Linux" >> /boot/loader/entries/arch.conf
-echo "linux /vmlinuz-linux" >> /boot/loader/entries/arch.conf
-if [ -n "$ucode" ]
-then
-    echo "initrd /${ucode}.img" >> /boot/loader/entries/arch.conf
-fi
-echo "initrd /initramfs-linux.img" >> /boot/loader/entries/arch.conf
-echo "options root=LABEL=ROOT rootflags=subvol=@ rw" >> /boot/loader/entries/arch.conf
+echo "title Arch Linux"                                     >> /boot/loader/entries/arch.conf
+echo "linux /vmlinuz-linux"                                 >> /boot/loader/entries/arch.conf
+[[ -n "$microcode" ]] && echo "initrd /${microcode}.img"    >> /boot/loader/entries/arch.conf
+echo "initrd /initramfs-linux.img"                          >> /boot/loader/entries/arch.conf
+echo "options root=LABEL=ROOT rootflags=subvol=@ rw"        >> /boot/loader/entries/arch.conf
 
 # User
 
 useradd -m -G wheel "$username"
-echo "${username}:${userpass}" | chpasswd
+echo "${username}:${password}" | chpasswd
 
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
