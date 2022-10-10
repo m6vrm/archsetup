@@ -32,7 +32,7 @@ root_part=$(lsblk -lnp -o NAME | grep "$root_device" | sed -n 3p)
 mkfs.fat -F 32 -n EFI "$efi_part"
 mkfs.btrfs -f -d single -L ROOT "$root_part"
 
-mount "$rootpart" /mnt
+mount "$root_part" /mnt
 
 for device in ${pool_devices[@]}; do
     disk_part=$(lsblk -lnp -o NAME | grep "$device" | sed -n 2p)

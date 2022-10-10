@@ -8,6 +8,7 @@ readarray -t device_table < <(lsblk -dpn -o NAME,MODEL,SIZE | device | awk -F '\
 
 dialog_error() {
     dialog  \
+        --clear \
         --no-collapse \
         --title "Error" \
         --msgbox "$1" 0 0
@@ -22,6 +23,7 @@ dialog_root_device() {
     done
 
     command=(dialog --stdout \
+        --clear \
         --no-collapse \
         --menu "Select root device (EFI/SWAP):" 0 0 0)
     selected_device=$("${command[@]}" "${device_menu[@]}")
@@ -45,6 +47,7 @@ dialog_pool_devices() {
     pool_devices=()
     if [[ "$j" -gt 0 ]]; then
         command=(dialog --stdout \
+            --clear \
             --no-collapse \
             --checklist "Select BTRFS pool devices:" 0 0 0)
         selected_devices=$("${command[@]}" "${device_checklist[@]}")
@@ -59,6 +62,7 @@ dialog_hostname() {
     local command
 
     command=(dialog --stdout \
+        --clear \
         --no-collapse \
         --inputbox "Enter hostname:" 0 0 "arch")
     hostname=$("${command[@]}")
@@ -73,6 +77,7 @@ dialog_user() {
     local command user confirmation
 
     command=(dialog --stdout \
+        --clear \
         --no-collapse \
         --insecure \
         --mixedform "Create user" 0 0 0 \
@@ -111,6 +116,7 @@ dialog_confirm() {
     done
 
     dialog \
+        --clear \
         --no-collapse \
         --mixedform "Continue with these parameters? The mentioned devices will be formatted." 0 0 0 \
         "${fields[@]}" 2> /dev/null
