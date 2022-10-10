@@ -66,7 +66,7 @@ cat /mnt/etc/fstab
 
 # Chroot
 
-cp ./scripts/chroot.sh /mnt/chroot.sh
+cp "$(dirname "$0")/scripts/chroot.sh" /mnt/chroot.sh
 
 arch-chroot /mnt "./$(dirname "$0")/chroot.sh" \
     "$username" \
