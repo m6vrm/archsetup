@@ -6,6 +6,7 @@ username=$1
 password=$2
 hostname=$3
 timezone=$4
+microcode=$5
 
 # System time
 

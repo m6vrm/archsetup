@@ -73,4 +73,5 @@ arch-chroot /mnt ./chroot.sh \
     "$username" \
     "$password" \
     "$hostname" \
-    "$timezone"
+    "$timezone" \
+    "$microcode"
