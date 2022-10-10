@@ -1,9 +1,6 @@
 #!/bin/bash
 set -euf -o pipefail
 
-timezone=1
-microcode=1
-
 device() { grep -P "/dev/(sd|nvme|vd)"; }
 
 device_names=($(lsblk -dpn -o NAME | device ))
