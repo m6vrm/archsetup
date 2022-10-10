@@ -1,5 +1,4 @@
 #!/bin/bash
-set -x
 set -euf -o pipefail
 
 # Timezone
