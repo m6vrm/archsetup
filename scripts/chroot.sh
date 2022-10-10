@@ -5,7 +5,16 @@ set -euf -o pipefail
 username=$1
 userpass=$2
 hostname=$3
-ucode=$4
+
+# Microcode
+
+CPU=$(grep vendor_id /proc/cpuinfo)
+if [[ "$CPU" == *"AuthenticAMD"* ]]
+then
+    ucode="amd-ucode"
+else
+    ucode="intel-ucode"
+fi
 
 # System time
 
@@ -29,8 +38,7 @@ echo "127.0.1.1	${hostname}" >> /etc/hosts
 
 # Packages
 
-pacman -S --noconfirm archlinux-keyring
-pacman -S --noconfirm archlinux-keyring networkmanager btrfs-progs sudo $ucode
+pacman -S --noconfirm networkmanager btrfs-progs sudo "$ucode"
 
 # Services
 

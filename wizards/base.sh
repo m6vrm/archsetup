@@ -29,18 +29,6 @@ dialog_pooldevices() {
     fi
 }
 
-dialog_ucode() {
-    ucode=""
-    options=(1 "AMD" 2 "Intel" 3 "Skip")
-    cmd=(dialog $dialog_options \
-        --menu "Select CPU microcode:" $dialog_size 0)
-    result=$("${cmd[@]}" ${options[@]})
-    case $result in
-    1) ucode="amd-ucode";;
-    2) ucode="intel-ucode";;
-    esac
-}
-
 # Hostname
 
 dialog_hostname() {
@@ -85,7 +73,6 @@ dialog_confirm() {
 
 dialog_rootdevice
 dialog_pooldevices
-dialog_ucode
 dialog_hostname
 dialog_user
 dialog_confirm

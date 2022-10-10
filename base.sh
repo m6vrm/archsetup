@@ -42,8 +42,11 @@ do
     btrfs device add -f "$diskpart" /mnt
 done
 
+umount /mnt
+
 # Mounting
 
+mount "$rootpart" /mnt
 btrfs sub create /mnt/@
 btrfs sub create /mnt/@home
 umount /mnt
@@ -58,7 +61,7 @@ mount "$efipart" /mnt/boot
 
 # Pacstrap
 
-pacstrap /mnt base linux linux-firmware vim
+pacstrap -K /mnt base linux linux-firmware vim
 
 # Fstab
 
@@ -72,5 +75,4 @@ cp ./scripts/chroot.sh /mnt/chroot.sh
 arch-chroot /mnt ./chroot.sh \
     "$username" \
     "$userpass" \
-    "$hostname" \
-    "$ucode"
+    "$hostname"
