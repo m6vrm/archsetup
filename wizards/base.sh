@@ -18,23 +18,28 @@ dialog_error() {
 }
 
 dialog_root_device() {
-    local device_menu command
+    local device_menu command message
 
     device_menu=()
     for i in "${!device_table[@]}"; do
         device_menu+=("$((i+1))" "${device_table[$i]}")
     done
 
+    message="An EFI partition will be created on the root device "
+    message+="and the remaining space will be added to the BTRFS pool.\n"
+    message+="All data on the root device will be destroyed during installation."
+
     command=(dialog --stdout \
         --clear \
         --no-collapse \
-        --menu "Select root device (EFI/SWAP):" 0 0 0)
+        --title "Select root device" \
+        --menu "$message" 0 0 0)
     selected_device=$("${command[@]}" "${device_menu[@]}")
     root_device="${device_names[$((selected_device-1))]}"
 }
 
 dialog_pool_devices() {
-    local device_checklist filtered_device_names j command selected_devices
+    local device_checklist filtered_device_names j command selected_devices message
 
     device_checklist=()
     filtered_device_names=()
@@ -49,10 +54,14 @@ dialog_pool_devices() {
 
     pool_devices=()
     if [[ "$j" -gt 0 ]]; then
+        message="One root volume will be created from all selected devices (including the root device).\n"
+        message+="All data on the selected devices will be destroyed during installation."
+
         command=(dialog --stdout \
             --clear \
             --no-collapse \
-            --checklist "Select BTRFS pool devices:" 0 0 0)
+            --title "Select BTRFS pool devices" \
+            --checklist "$message" 0 0 0)
         selected_devices=$("${command[@]}" "${device_checklist[@]}")
 
         for selected_device in ${selected_devices[@]}; do
@@ -122,7 +131,7 @@ dialog_password() {
 }
 
 dialog_confirm() {
-    local i fields
+    local i fields message
 
     i=1
     fields=()
@@ -137,10 +146,14 @@ dialog_confirm() {
         fields+=("                   " "$i" 1 "$device" "$i" 21 30 0 2); let ++i
     done
 
+    message="Continue with selected parameters?\n"
+    message+="The root device and the BTRFS pool devices will be formatted right away."
+
     dialog \
         --clear \
         --no-collapse \
-        --mixedform "Continue with these parameters?\nRoot and BTRFS pool devices will be formatted right now." 0 0 0 \
+        --title "Confirmation" \
+        --mixedform "$message" 0 0 0 \
         "${fields[@]}" 2> /dev/null
 }
 
