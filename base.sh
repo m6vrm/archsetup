@@ -68,7 +68,7 @@ cat /mnt/etc/fstab
 
 cp "$(dirname "$0")/scripts/chroot.sh" /mnt/chroot.sh
 
-arch-chroot /mnt "$(dirname "$0")/scripts/chroot.sh" \
+arch-chroot /mnt ./chroot.sh \
     "$username" \
     "$password" \
     "$hostname" \
