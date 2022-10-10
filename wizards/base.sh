@@ -3,8 +3,8 @@ set -euf -o pipefail
 
 device() { grep -P "/dev/(sd|nvme|vd)"; }
 
-timezone=1
-microcode=1
+timezone=${timezone:-"Europe/Moscow"}
+microcode=${microcode:-"intel-ucode"}
 
 device_names=($(lsblk -dpn -o NAME | device ))
 readarray -t device_table < <(lsblk -dpn -o NAME,MODEL,SIZE | device | awk -F '\t' '{printf "%s %-10s %s\n", $1, $2, $3}')
