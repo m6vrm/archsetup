@@ -5,12 +5,10 @@ username=$1
 password=$2
 hostname=$3
 timezone=$4
-microcode=$5
 
-# System time
+# Disable root
 
-ln -sf "/usr/share/zoneinfo/${timezone}" /etc/localtime
-hwclock --systohc
+passwd -l root
 
 # Locale
 
@@ -20,38 +18,31 @@ locale-gen
 echo "LANG=en_US.UTF-8" >> /etc/locale.conf
 echo "KEYMAP=us" >> /etc/vconsole.conf
 
+# System time
+
+ln -sf "/usr/share/zoneinfo/${timezone}" /etc/localtime
+hwclock --systohc
+
 # Host
 
 echo "$hostname" >> /etc/hostname
 
-echo "127.0.0.1	localhost"      >> /etc/hosts
-echo "::1		localhost"      >> /etc/hosts
-echo "127.0.1.1	${hostname}"    >> /etc/hosts
+cat >> /etc/hosts <<EOF
+127.0.0.1	localhost
+::1		localhost
+127.0.1.1	${hostname}
+EOF
 
 # Packages
 
-pacman -S --noconfirm networkmanager btrfs-progs sudo "$microcode"
+pacman -Sy --noconfirm btrfs-progs sudo networkmanager
 
 # Services
 
+systemctl enable systemd-boot-update
+
 systemctl enable NetworkManager
 systemctl mask NetworkManager-wait-online
-
-# Bootloader
-
-bootctl install
-
-rm /boot/loader/loader.conf
-echo "default arch.conf"    >> /boot/loader/loader.conf
-echo "timeout 3"            >> /boot/loader/loader.conf
-echo "console-mode auto"    >> /boot/loader/loader.conf
-echo "editor no"            >> /boot/loader/loader.conf
-
-echo "title Arch Linux"                                     >> /boot/loader/entries/arch.conf
-echo "linux /vmlinuz-linux"                                 >> /boot/loader/entries/arch.conf
-[[ -n "$microcode" ]] && echo "initrd /${microcode}.img"    >> /boot/loader/entries/arch.conf
-echo "initrd /initramfs-linux.img"                          >> /boot/loader/entries/arch.conf
-echo "options root=LABEL=ROOT rootflags=subvol=@ rw"        >> /boot/loader/entries/arch.conf
 
 # User
 
@@ -60,9 +51,37 @@ echo "${username}:${password}" | chpasswd
 
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
-# Disable root
+# Bootloader
 
-passwd -l root
+bootctl install
+
+cat > /boot/loader/loader.conf <<EOF
+default arch.conf
+timeout 0
+console-mode auto
+editor no
+EOF
+
+kernel_options="root=LABEL=ROOT rootflags=subvol=@ rw"
+
+cat > /boot/loader/entries/arch.conf <<EOF
+title Arch Linux
+linux /vmlinuz-linux
+initrd /initramfs-linux.img
+options ${kernel_options}
+EOF
+
+# Dracut
+
+cat > /etc/dracut.conf.d/00-options.conf <<EOF
+hostonly="yes"
+hostonly_cmdline="no"
+early_microcode="yes"
+compress="zstd"
+reproducible="yes"
+EOF
+
+pacman -S --noconfirm linux # trigger initramfs generation
 
 # Remove this script
 

@@ -25,8 +25,8 @@ done
 
 # Formatting
 
-efi_part=$(lsblk -lnp -o NAME | grep "$root_device" | sed -n 2p)
-root_part=$(lsblk -lnp -o NAME | grep "$root_device" | sed -n 3p)
+efi_part=$(lsblk -lnp -o NAME | grep "^${root_device}" | sed -n 2p)
+root_part=$(lsblk -lnp -o NAME | grep "^${root_device}" | sed -n 3p)
 
 mkfs.fat -F 32 -n EFI "$efi_part"
 mkfs.btrfs -f -d single -L ROOT "$root_part"
@@ -34,7 +34,7 @@ mkfs.btrfs -f -d single -L ROOT "$root_part"
 mount "$root_part" /mnt
 
 for device in ${pool_devices[@]}; do
-    disk_part=$(lsblk -lnp -o NAME | grep "$device" | sed -n 2p)
+    disk_part=$(lsblk -lnp -o NAME | grep "^${device}" | sed -n 2p)
     btrfs device add -f "$disk_part" /mnt
 done
 
@@ -57,12 +57,19 @@ mount "$efi_part" /mnt/boot
 
 # Pacstrap
 
-pacstrap /mnt base linux linux-firmware vim
+pacstrap /mnt linux linux-firmware base "$microcode" vim dracut
 
 # Fstab
 
 genfstab -U /mnt >> /mnt/etc/fstab
-cat /mnt/etc/fstab
+
+# Copy pacman hooks
+
+mkdir -p /mnt/etc/pacman.d/hooks
+mkdir -p /mnt/usr/local/bin
+
+cp "$(dirname "$0")/pacman/dracut-install.hook" /mnt/etc/pacman.d/hooks/90-dracut-install.hook
+cp "$(dirname "$0")/pacman/dracut-install-hook.sh" /mnt/usr/local/bin/dracut-install-hook.sh
 
 # Chroot
 
@@ -72,5 +79,4 @@ arch-chroot /mnt ./chroot.sh \
     "$username" \
     "$password" \
     "$hostname" \
-    "$timezone" \
-    "$microcode"
+    "$timezone"

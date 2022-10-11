@@ -146,7 +146,7 @@ dialog_confirm() {
         fields+=("                   " "$i" 1 "$device" "$i" 21 30 0 2); let ++i
     done
 
-    message="Continue with selected parameters?\n"
+    message="Please review installation options.\n"
     message+="The root device and the BTRFS pool devices will be formatted right away."
 
     dialog \
@@ -163,3 +163,5 @@ dialog_hostname
 dialog_username
 dialog_password
 dialog_confirm
+
+clear
