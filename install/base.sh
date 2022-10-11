@@ -69,7 +69,8 @@ mkdir -p /mnt/etc/pacman.d/hooks
 mkdir -p /mnt/usr/local/bin
 
 cp "$(dirname "$0")/pacman/dracut-install.hook" /mnt/etc/pacman.d/hooks/90-dracut-install.hook
-cp "$(dirname "$0")/pacman/dracut-install-hook.sh" /mnt/usr/local/bin/dracut-install-hook.sh
+cp "$(dirname "$0")/pacman/dracut-uninstall.hook" /mnt/etc/pacman.d/hooks/60-dracut-uninstall.hook
+cp "$(dirname "$0")/pacman/dracut-hook.sh" /mnt/usr/local/bin/dracut-hook.sh
 
 # Chroot
 

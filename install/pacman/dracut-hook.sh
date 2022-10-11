@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euf -o pipefail
 
+command="$1"
+
 while read -r line; do
     if [[ "$line" != "usr/lib/modules/"+([^/])"/pkgbase" ]]; then continue; fi
 
@@ -8,5 +10,10 @@ while read -r line; do
     kver="${line#"usr/lib/modules/"}"
     kver="${kver%"/pkgbase"}"
 
-    kernel-install -v remove "$kver"
+    case "$command" in
+        install)
+            kernel-install -v add "$kver" "/${line%"/pkgbase"}/vmlinuz" ;;
+        uninstall)
+            kernel-install -v remove "$kver" ;;
+    esac
 done

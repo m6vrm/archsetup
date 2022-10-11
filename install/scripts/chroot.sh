@@ -53,25 +53,15 @@ echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
 # Bootloader
 
-bootctl install
-
 echo "root=LABEL=ROOT rootflags=subvol=@ rw" > /etc/kernel/cmdline
 
-# cat > /boot/loader/loader.conf <<EOF
-# default arch.conf
-# timeout 3
-# console-mode auto
-# editor yes
-# EOF
+bootctl install
 
-# kernel_options="root=LABEL=ROOT rootflags=subvol=@ rw"
-
-# cat > /boot/loader/entries/arch.conf <<EOF
-# title Arch Linux
-# linux /vmlinuz-linux
-# initrd /initramfs-linux.img
-# options ${kernel_options}
-# EOF
+cat > /boot/loader/loader.conf <<EOF
+timeout 3
+console-mode auto
+editor yes
+EOF
 
 # Dracut
 
