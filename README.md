@@ -2,7 +2,7 @@
 
 Yet another Arch Linux installation script.
 
-## Base System
+## Base
 
 Keywords: `dracut` `systemd-boot` `btrfs`
 
@@ -21,3 +21,25 @@ Keywords: `dracut` `systemd-boot` `btrfs`
 - Use `systemd-boot` bootloader.
 - Create one user with `sudo` rights.
 - Disabe `root` account.
+
+## Extras (TODO)
+
+- linux lts
+- pacman tweaks
+- reflector
+- journalctl
+- swapfile with low swappiness
+- zram
+## DE (TODO)
+
+- realtime privileges
+- plasma-meta
+- sddm
+- plasma-wayland-session
+- dolphin
+- konsole
+- kate
+- kwrite
+
+- nvidia nvidia-settings settings hook
+- ipv6.disable

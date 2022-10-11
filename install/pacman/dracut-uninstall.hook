@@ -1,0 +1,10 @@
+[Trigger]
+Operation = Remove
+Type = Path
+Target = usr/lib/modules/*/pkgbase
+
+[Action]
+Description = Removing linux initramfs...
+When = PreTransaction
+Exec = /usr/local/bin/dracut-uninstall-hook.sh
+NeedsTargets

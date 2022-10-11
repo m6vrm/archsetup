@@ -29,7 +29,7 @@ echo "$hostname" >> /etc/hostname
 
 cat >> /etc/hosts <<EOF
 127.0.0.1	localhost
-::1		localhost
+::1			localhost
 127.0.1.1	${hostname}
 EOF
 
@@ -55,21 +55,23 @@ echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
 bootctl install
 
-cat > /boot/loader/loader.conf <<EOF
-default arch.conf
-timeout 0
-console-mode auto
-editor no
-EOF
+echo "root=LABEL=ROOT rootflags=subvol=@ rw" > /etc/kernel/cmdline
 
-kernel_options="root=LABEL=ROOT rootflags=subvol=@ rw"
+# cat > /boot/loader/loader.conf <<EOF
+# default arch.conf
+# timeout 3
+# console-mode auto
+# editor yes
+# EOF
 
-cat > /boot/loader/entries/arch.conf <<EOF
-title Arch Linux
-linux /vmlinuz-linux
-initrd /initramfs-linux.img
-options ${kernel_options}
-EOF
+# kernel_options="root=LABEL=ROOT rootflags=subvol=@ rw"
+
+# cat > /boot/loader/entries/arch.conf <<EOF
+# title Arch Linux
+# linux /vmlinuz-linux
+# initrd /initramfs-linux.img
+# options ${kernel_options}
+# EOF
 
 # Dracut
 

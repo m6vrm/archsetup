@@ -8,5 +8,5 @@ while read -r line; do
     kver="${line#"usr/lib/modules/"}"
     kver="${kver%"/pkgbase"}"
 
-    kernel-install -v add "$kver" "/${line%"/pkgbase"}/vmlinuz"
+    kernel-install -v remove "$kver"
 done
