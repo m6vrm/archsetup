@@ -49,15 +49,15 @@ umount /mnt
 
 # Mounting
 
-mount -o noatime,space_cache=v2,compress=zstd:1,discard=async,subvol=@ "$root_part" /mnt
+mount -o noatime,compress=zstd:2,space_cache=v2,discard=async,subvol=@ "$root_part" /mnt
 mkdir /mnt/home
-mount -o noatime,space_cache=v2,compress=zstd:1,discard=async,subvol=@home "$root_part" /mnt/home
+mount -o noatime,compress=zstd:2,space_cache=v2,discard=async,subvol=@home "$root_part" /mnt/home
 mkdir /mnt/boot
 mount "$efi_part" /mnt/boot
 
 # Pacstrap
 
-pacstrap /mnt base linux linux-firmware vim
+pacstrap /mnt base linux linux-firmware dracut vim
 
 # Fstab
 
