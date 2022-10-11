@@ -1,0 +1,11 @@
+[Trigger]
+Operation = Remove
+Type = Path
+Target = usr/lib/modules/*/vmlinuz
+
+[Action]
+Description = Removing kernel and initrd from $BOOT (kernel-install)
+Depends = systemd
+When = PreTransaction
+Exec = /usr/local/bin/kernel-install-hook.sh remove
+NeedsTargets
