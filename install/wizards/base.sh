@@ -131,20 +131,22 @@ dialog_password() {
 }
 
 dialog_confirm() {
-    local i fields message
+    local i fields message width
+
+    width=50
 
     i=1
     fields=()
-    fields+=("Hostname:          " "$i" 1 "$hostname"       "$i" 21 30 0 2); let ++i
-    fields+=("User:              " "$i" 1 "$username"       "$i" 21 30 0 2); let ++i
-    fields+=("CPU microcode:     " "$i" 1 "$microcode"      "$i" 21 30 0 2); let ++i
-    fields+=("Time zone:         " "$i" 1 "$timezone"       "$i" 21 30 0 2); let ++i
-    fields+=("Kernel options:    " "$i" 1 "$kernel_options" "$i" 21 30 0 2); let ++i
-    fields+=("Root device:       " "$i" 1 "$root_device"    "$i" 21 30 0 2); let ++i
-    fields+=("BTRFS pool devices:" "$i" 1 "$root_device"    "$i" 21 30 0 2); let ++i
+    fields+=("Hostname:          " "$i" 1 "$hostname"       "$i" 21 "$width" 0 2); let ++i
+    fields+=("User:              " "$i" 1 "$username"       "$i" 21 "$width" 0 2); let ++i
+    fields+=("CPU microcode:     " "$i" 1 "$microcode"      "$i" 21 "$width" 0 2); let ++i
+    fields+=("Time zone:         " "$i" 1 "$timezone"       "$i" 21 "$width" 0 2); let ++i
+    fields+=("Kernel options:    " "$i" 1 "$kernel_options" "$i" 21 "$width" 0 2); let ++i
+    fields+=("Root device:       " "$i" 1 "$root_device"    "$i" 21 "$width" 0 2); let ++i
+    fields+=("BTRFS pool devices:" "$i" 1 "$root_device"    "$i" 21 "$width" 0 2); let ++i
 
     for device in ${pool_devices[@]}; do
-        fields+=("                   " "$i" 1 "$device" "$i" 21 30 0 2); let ++i
+        fields+=("                   " "$i" 1 "$device" "$i" 21 "$width" 0 2); let ++i
     done
 
     message="Please review installation options.\n"
