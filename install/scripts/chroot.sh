@@ -43,7 +43,7 @@ bootctl install
 
 rm /boot/loader/loader.conf
 echo "default arch.conf"    >> /boot/loader/loader.conf
-echo "timeout 0"            >> /boot/loader/loader.conf
+echo "timeout 3"            >> /boot/loader/loader.conf
 echo "console-mode auto"    >> /boot/loader/loader.conf
 echo "editor no"            >> /boot/loader/loader.conf
 
