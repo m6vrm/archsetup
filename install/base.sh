@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -euf -o pipefail
 
+# Installer dependencies
+
+pacman -Sy --noconfirm dialog
+
+# Includes
+
 . "$(dirname "$0")/scripts/config.sh"
 . "$(dirname "$0")/wizards/base.sh"
 
@@ -12,10 +18,6 @@ umount -R /mnt || /bin/true
 
 timedatectl set-timezone $timezone
 timedatectl set-ntp true
-
-# Installer dependencies
-
-pacman -Sy --noconfirm dialog
 
 # Partitioning
 
