@@ -64,10 +64,16 @@ echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
 passwd -l root
 
+# Initramfs
+
+dracut -f /boot/initramfs-linux.img
+
 # Remove this script
 
 rm -- "$0"
 
+echo
 echo "##########################"
 echo "# Installation complete! #"
 echo "##########################"
+echo
