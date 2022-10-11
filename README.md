@@ -15,10 +15,11 @@ Keywords: `dracut` `systemd-boot` `btrfs`
 - Set time zone using http://ip-api.com/line?fields=timezone.
 - Set default locale to `en_US.UTF-8`.
 - Install microcode for detected CPU.
-- Explicitly install packages `base linux linux-firmware {amd|intel}-ucode vim dracut btrfs-progs sudo networkmanager`.
+- Install packages `base linux linux-firmware {amd|intel}-ucode vim dracut btrfs-progs sudo networkmanager`.
 - Start services `systemd-boot-update NetworkManager`.
 - Use `dracut` to generate `initramfs`.
 - Use `systemd-boot` bootloader.
+- Use `kernel-install` for automatic `initramfs` and bootloader management.
 - Create one user with `sudo` rights.
 - Disabe `root` account.
 

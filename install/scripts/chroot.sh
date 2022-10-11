@@ -5,6 +5,7 @@ username=$1
 password=$2
 hostname=$3
 timezone=$4
+kernel_options=$5
 
 # Disable root
 
@@ -53,8 +54,6 @@ echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
 # Bootloader
 
-echo "root=LABEL=ROOT rootflags=subvol=@ rw" > /etc/kernel/cmdline
-
 bootctl install
 
 cat > /boot/loader/loader.conf <<EOF
@@ -73,7 +72,11 @@ compress="zstd"
 reproducible="yes"
 EOF
 
-pacman -S --noconfirm linux # trigger initramfs generation
+# Trigger initramfs and bootloader entries generation
+
+echo "$kernel_options" > /etc/kernel/cmdline
+pacman -S --noconfirm linux
+rm /etc/kernel/cmdline
 
 # Remove this script
 

@@ -135,12 +135,13 @@ dialog_confirm() {
 
     i=1
     fields=()
-    fields+=("Time zone:         " "$i" 1 "$timezone"    "$i" 21 30 0 2); let ++i
-    fields+=("Hostname:          " "$i" 1 "$hostname"    "$i" 21 30 0 2); let ++i
-    fields+=("User:              " "$i" 1 "$username"    "$i" 21 30 0 2); let ++i
-    fields+=("CPU microcode:     " "$i" 1 "$microcode"   "$i" 21 30 0 2); let ++i
-    fields+=("Root device:       " "$i" 1 "$root_device" "$i" 21 30 0 2); let ++i
-    fields+=("BTRFS pool devices:" "$i" 1 "$root_device" "$i" 21 30 0 2); let ++i
+    fields+=("Hostname:          " "$i" 1 "$hostname"       "$i" 21 30 0 2); let ++i
+    fields+=("User:              " "$i" 1 "$username"       "$i" 21 30 0 2); let ++i
+    fields+=("CPU microcode:     " "$i" 1 "$microcode"      "$i" 21 30 0 2); let ++i
+    fields+=("Time zone:         " "$i" 1 "$timezone"       "$i" 21 30 0 2); let ++i
+    fields+=("Kernel options:    " "$i" 1 "$kernel_options" "$i" 21 30 0 2); let ++i
+    fields+=("Root device:       " "$i" 1 "$root_device"    "$i" 21 30 0 2); let ++i
+    fields+=("BTRFS pool devices:" "$i" 1 "$root_device"    "$i" 21 30 0 2); let ++i
 
     for device in ${pool_devices[@]}; do
         fields+=("                   " "$i" 1 "$device" "$i" 21 30 0 2); let ++i

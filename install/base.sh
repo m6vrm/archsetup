@@ -1,8 +1,21 @@
 #!/usr/bin/env bash
 set -euf -o pipefail
 
-. "$(dirname "$0")/scripts/init.sh"
+. "$(dirname "$0")/scripts/config.sh"
 . "$(dirname "$0")/wizards/base.sh"
+
+# Unmount /mnt
+
+umount -R /mnt || /bin/true
+
+# Sync time
+
+timedatectl set-timezone $timezone
+timedatectl set-ntp true
+
+# Installer dependencies
+
+pacman -Sy --noconfirm dialog
 
 # Partitioning
 
@@ -72,4 +85,5 @@ arch-chroot /mnt ./chroot.sh \
     "$username" \
     "$password" \
     "$hostname" \
-    "$timezone"
+    "$timezone" \
+    "$kernel_options"
