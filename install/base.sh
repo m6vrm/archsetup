@@ -57,7 +57,7 @@ mount "$efi_part" /mnt/boot
 
 # Pacstrap
 
-pacstrap /mnt base linux linux-firmware dracut vim
+pacstrap /mnt base linux linux-firmware vim
 
 # Fstab
 
