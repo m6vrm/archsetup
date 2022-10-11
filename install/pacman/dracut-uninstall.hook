@@ -5,6 +5,8 @@ Target = usr/lib/modules/*/pkgbase
 
 [Action]
 Description = Removing linux initramfs...
+Depends = systemd
+Depends = dracut
 When = PreTransaction
-Exec = /usr/local/bin/dracut-uninstall-hook.sh
+Exec = /usr/local/bin/dracut-hook.sh uninstall
 NeedsTargets

@@ -6,7 +6,8 @@ Target = usr/lib/modules/*/pkgbase
 
 [Action]
 Description = Updating linux initramfs...
+Depends = systemd
 Depends = dracut
 When = PostTransaction
-Exec = /usr/local/bin/dracut-install-hook.sh
+Exec = /usr/local/bin/dracut-hook.sh install
 NeedsTargets
