@@ -1,0 +1,12 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Path
+Target = usr/lib/modules/*/pkgbase
+
+[Action]
+Description = Updating linux initramfs...
+Depends = dracut
+When = PostTransaction
+Exec = /usr/local/bin/dracut-install-hook.sh
+NeedsTargets
