@@ -4,14 +4,6 @@ set -euf -o pipefail
 . "$(dirname "$0")/scripts/init.sh"
 . "$(dirname "$0")/wizards/base.sh"
 
-# Unmount everything
-
-umount -R /mnt || /bin/true
-
-# Sync time
-
-timedatectl set-ntp true
-
 # Partitioning
 
 sgdisk --clear \

@@ -1,10 +1,16 @@
 #!/usr/bin/env bash
 set -euf -o pipefail
 
-# Timezone
+# Unmount /mnt
+
+umount -R /mnt || /bin/true
+
+# Sync time
 
 timezone=$(curl -s http://ip-api.com/line?fields=timezone)
+
 timedatectl set-timezone $timezone
+timedatectl set-ntp true
 
 # Microcode
 
@@ -15,6 +21,6 @@ else
     microcode="intel-ucode"
 fi
 
-# Dependencies
+# Installer dependencies
 
 pacman -Sy --noconfirm dialog
