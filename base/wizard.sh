@@ -15,10 +15,10 @@ fi
 
 # Dialogs
 
-device() { grep -P "/dev/(sd|nvme|vd)"; }
+valid_device() { grep -P "/dev/(sd|nvme|vd)"; }
 
-device_names=($(lsblk -dpn -o NAME | device ))
-readarray -t device_table < <(lsblk -dpn -o NAME,MODEL,SIZE | device | awk -F '\t' '{printf "%s %-10s %s\n", $1, $2, $3}')
+device_names=($(lsblk -dpn -o NAME | valid_device ))
+readarray -t device_table < <(lsblk -dpn -o NAME,MODEL,SIZE | valid_device | awk -F '\t' '{printf "%s %-10s %s\n", $1, $2, $3}')
 
 dialog_error() {
     dialog  \
@@ -195,8 +195,10 @@ dialog_confirm() {
         fields+=("                   " "$i" 1 "$device" "$i" 21 "$width" 0 2); let ++i
     done
 
+    [[ -z "$passphrase" ]] && formatted="formatted" || formatted="encrypted and formatted"
+
     message="Please review installation options.\n"
-    message+="The root device and the BTRFS pool devices will be formatted right away."
+    message+="The root device and the BTRFS pool devices will be ${formatted} right away."
 
     dialog \
         --clear \
