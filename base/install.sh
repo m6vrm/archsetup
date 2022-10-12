@@ -25,26 +25,39 @@ sgdisk --clear \
     --new=2:0:0     --typecode=2:8300 \
     "$root_device"
 
-for device in ${pool_devices[@]}; do
+for device in "${pool_devices[@]}"; do
     sgdisk --clear --new=1:0:0 --typecode=1:8300 "$device"
 done
 
-# Formatting
+# EFI
 
 efi_part=$(lsblk -lnp -o NAME | grep "^${root_device}" | sed -n 2p)
-root_part=$(lsblk -lnp -o NAME | grep "^${root_device}" | sed -n 3p)
-
 mkfs.fat -F 32 -n EFI "$efi_part"
-mkfs.btrfs -f -d single -L ROOT "$root_part"
 
-mount "$root_part" /mnt
+# BTRFS pool
 
-for device in ${pool_devices[@]}; do
-    disk_part=$(lsblk -lnp -o NAME | grep "^${device}" | sed -n 2p)
-    btrfs device add -f "$disk_part" /mnt
+root_part=$(lsblk -lnp -o NAME | grep "^${root_device}" | sed -n 3p)
+all_parts=("$root_part")
+for device in "${pool_devices[@]}"; do
+    all_parts+=("$(lsblk -lnp -o NAME | grep "^${device}" | sed -n 2p)")
 done
 
-umount /mnt
+crypttab=""
+if [[ -n "$passphrase" ]]; then
+    crypt_parts=()
+    for part in "${all_parts[@]}"; do
+        uuid=$(blkid -o value -s UUID "$part")
+        crypt_part="luks-${uuid}"
+        crypt_parts+=("$crypt_part")
+        crypttab+=$"${crypt_part}\tUUID=${uuid}\tnone\tdiscard\n"
+        echo -n "$passphrase" | cryptsetup luksFormat "$part"
+        echo -n "$passphrase" | cryptsetup open "$part" "crypt_part"
+    done
+
+    mkfs.btrfs -f -L ROOT "${crypt_parts[@]}"
+else
+    mkfs.btrfs -f -L ROOT "${all_parts[@]}"
+fi
 
 # Subvolumes
 
@@ -67,7 +80,11 @@ pacstrap /mnt linux linux-firmware base "$microcode" vim dracut
 
 # Fstab
 
-genfstab -U /mnt > /mnt/etc/fstab
+genfstab -U /mnt >> /mnt/etc/fstab
+
+# Crypttab
+
+echo "$crypttab" >> /mnt/etc/crypttab
 
 # Pacman hooks
 

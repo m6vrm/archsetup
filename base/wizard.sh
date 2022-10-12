@@ -3,7 +3,7 @@ set -euf -o pipefail
 
 # Defaults
 
-kernel_options="root=LABEL=ROOT rootflags=subvol=@ rw"
+kernel_options="root=LABEL=ROOT rootflags=subvol=@ ro"
 
 timezone=$(curl -s http://ip-api.com/line?fields=timezone)
 
@@ -75,7 +75,7 @@ dialog_pool_devices() {
             --checklist "$message" 0 0 0)
         selected_devices=$("${command[@]}" "${device_checklist[@]}")
 
-        for selected_device in ${selected_devices[@]}; do
+        for selected_device in "${selected_devices[@]}"; do
             pool_devices+=("${filtered_device_names[$((selected_device-1))]}")
         done
     fi
@@ -87,6 +87,7 @@ dialog_hostname() {
     command=(dialog --stdout \
         --clear \
         --no-collapse \
+        --title "Machine" \
         --inputbox "Enter hostname:" 0 0 "arch")
     hostname=$("${command[@]}")
 
@@ -97,12 +98,41 @@ dialog_hostname() {
     fi
 }
 
+dialog_encryption() {
+    local command confirmation
+
+    command=(dialog --stdout \
+        --clear \
+        --no-collapse \
+        --title "Encryption" \
+        --passwordbox "Enter passphrase (or leave empty to skip encryption):" 0 0 "")
+    passphrase=$("${command[@]}")
+
+    if [[ -z "$passphrase" ]]; then
+        return 0
+    fi
+
+    command=(dialog --stdout \
+        --clear \
+        --no-collapse \
+        --title "Encryption" \
+        --passwordbox "Confirm passphrase:" 0 0 "")
+    confirmation=$("${command[@]}")
+
+    if [[ "$passphrase" != "$confirmation" ]]; then
+        dialog_error "Passphrases don't match."
+        dialog_encryption
+        return 0
+    fi
+}
+
 dialog_username() {
     local command
 
     command=(dialog --stdout \
         --clear \
         --no-collapse \
+        --title "User" \
         --inputbox "Enter username:" 0 0 "")
     username=$("${command[@]}")
 
@@ -119,6 +149,7 @@ dialog_password() {
     command=(dialog --stdout \
         --clear \
         --no-collapse \
+        --title "User" \
         --passwordbox "Enter password:" 0 0 "")
     password=$("${command[@]}")
 
@@ -131,6 +162,7 @@ dialog_password() {
     command=(dialog --stdout \
         --clear \
         --no-collapse \
+        --title "User" \
         --passwordbox "Confirm password:" 0 0 "")
     confirmation=$("${command[@]}")
 
@@ -142,21 +174,24 @@ dialog_password() {
 }
 
 dialog_confirm() {
-    local i fields message width
+    local i fields message width encryption
+
+    [[ -z "$passphrase" ]] && encryption="Disabled" || encryption="Enabled"
 
     width=50
 
     i=1
     fields=()
-    fields+=("Hostname:          " "$i" 1 "$hostname"       "$i" 21 "$width" 0 2); let ++i
     fields+=("User:              " "$i" 1 "$username"       "$i" 21 "$width" 0 2); let ++i
+    fields+=("Encryption:        " "$i" 1 "$encryption"     "$i" 21 "$width" 0 2); let ++i
+    fields+=("Hostname:          " "$i" 1 "$hostname"       "$i" 21 "$width" 0 2); let ++i
     fields+=("CPU microcode:     " "$i" 1 "$microcode"      "$i" 21 "$width" 0 2); let ++i
     fields+=("Time zone:         " "$i" 1 "$timezone"       "$i" 21 "$width" 0 2); let ++i
     fields+=("Kernel options:    " "$i" 1 "$kernel_options" "$i" 21 "$width" 0 2); let ++i
     fields+=("Root device:       " "$i" 1 "$root_device"    "$i" 21 "$width" 0 2); let ++i
     fields+=("BTRFS pool devices:" "$i" 1 "$root_device"    "$i" 21 "$width" 0 2); let ++i
 
-    for device in ${pool_devices[@]}; do
+    for device in "${pool_devices[@]}"; do
         fields+=("                   " "$i" 1 "$device" "$i" 21 "$width" 0 2); let ++i
     done
 
@@ -174,6 +209,7 @@ dialog_confirm() {
 dialog_root_device
 dialog_pool_devices
 dialog_hostname
+dialog_encryption
 dialog_username
 dialog_password
 dialog_confirm

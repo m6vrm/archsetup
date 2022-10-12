@@ -65,7 +65,6 @@ EOF
 
 echo "$kernel_options" > /etc/kernel/cmdline
 pacman -S --noconfirm linux
-rm /etc/kernel/cmdline
 
 # User
 

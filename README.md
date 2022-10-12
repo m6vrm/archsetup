@@ -27,12 +27,14 @@ Keywords: `dracut` `systemd-boot` `btrfs`
 
 ## Extras (TODO)
 
+- man
 - linux lts
 - pacman tweaks
 - reflector
 - journalctl
 - swapfile with low swappiness
 - zram
+- spellcheck
 ## DE (TODO)
 
 - realtime privileges
