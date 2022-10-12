@@ -52,7 +52,7 @@ if [[ -n "$passphrase" ]]; then
         crypt_parts+=("$crypt_part")
         crypttab+=$"${crypt_part}\tUUID=${uuid}\tnone\tdiscard\n"
         echo -n "$passphrase" | cryptsetup luksFormat "$part"
-        echo -n "$passphrase" | cryptsetup open "$part" "crypt_part"
+        echo -n "$passphrase" | cryptsetup open "$part" "$crypt_part"
     done
 
     mkfs.btrfs -f -L ROOT "${crypt_parts[@]}"
