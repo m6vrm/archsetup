@@ -72,7 +72,7 @@ compress="zstd"
 reproducible="yes"
 EOF
 
-# Trigger initrd and bootloader entries generation
+# Trigger initramfs and bootloader entries generation
 
 echo "$kernel_options" > /etc/kernel/cmdline
 pacman -S --noconfirm linux

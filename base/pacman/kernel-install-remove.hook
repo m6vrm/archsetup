@@ -4,7 +4,7 @@ Type = Path
 Target = usr/lib/modules/*/vmlinuz
 
 [Action]
-Description = Removing kernel and initrd from $BOOT (kernel-install)
+Description = Removing kernel and initramfs from $BOOT (kernel-install)
 When = PreTransaction
 Exec = /usr/local/bin/kernel-install-remove-hook.sh
 NeedsTargets

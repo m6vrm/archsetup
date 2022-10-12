@@ -15,7 +15,7 @@ Target = intel-ucode
 Target = amd-ucode
 
 [Action]
-Description = Installing kernel and initrd to $BOOT (kernel-install)
+Description = Installing kernel and initramfs to $BOOT (kernel-install)
 When = PostTransaction
 Exec = /usr/local/bin/kernel-install-add-hook.sh
 NeedsTargets
