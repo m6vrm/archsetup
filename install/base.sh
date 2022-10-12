@@ -7,7 +7,6 @@ pacman -Sy --noconfirm dialog
 
 # Includes
 
-. "$(dirname "$0")/scripts/config.sh"
 . "$(dirname "$0")/wizards/base.sh"
 
 # Unmount /mnt

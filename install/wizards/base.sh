@@ -1,10 +1,21 @@
 #!/usr/bin/env bash
 set -euf -o pipefail
 
-device() { grep -P "/dev/(sd|nvme|vd)"; }
+# Defaults
 
-timezone=${timezone:-"Europe/Moscow"}
-microcode=${microcode:-"intel-ucode"}
+kernel_options="root=LABEL=ROOT rootflags=subvol=@ rw"
+
+timezone=$(curl -s http://ip-api.com/line?fields=timezone)
+
+if [[ "$(grep vendor_id /proc/cpuinfo)" == *"AuthenticAMD"* ]]; then
+    microcode="amd-ucode"
+else
+    microcode="intel-ucode"
+fi
+
+# Dialogs
+
+device() { grep -P "/dev/(sd|nvme|vd)"; }
 
 device_names=($(lsblk -dpn -o NAME | device ))
 readarray -t device_table < <(lsblk -dpn -o NAME,MODEL,SIZE | device | awk -F '\t' '{printf "%s %-10s %s\n", $1, $2, $3}')
