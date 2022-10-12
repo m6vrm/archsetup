@@ -4,9 +4,18 @@ Operation = Upgrade
 Type = Path
 Target = usr/lib/modules/*/vmlinuz
 
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Type = Package
+Target = systemd
+Target = dracut
+Target = intel-ucode
+Target = amd-ucode
+
 [Action]
 Description = Installing kernel and initrd to $BOOT (kernel-install)
-Depends = systemd
 When = PostTransaction
-Exec = /usr/local/bin/kernel-install-hook.sh add
+Exec = /usr/local/bin/kernel-install-add-hook.sh
 NeedsTargets

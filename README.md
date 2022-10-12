@@ -9,6 +9,8 @@ Keywords: `dracut` `systemd-boot` `btrfs`
 ```sh
 ./archsetup/install/base.sh
 ```
+- review suvolumes scheme
+- optional encryption
 
 - Create BTRFS pool with simple subvolumes scheme from multiple devices.
 - Mount options are suitable for SSD/NVME: `noatime,compress=zstd:1,space_cache=v2,discard=async`.

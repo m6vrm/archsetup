@@ -16,7 +16,7 @@ umount -R /mnt || /bin/true
 
 # Sync time
 
-timedatectl set-timezone $timezone
+timedatectl set-timezone "$timezone"
 timedatectl set-ntp true
 
 # Partitioning
@@ -47,7 +47,7 @@ done
 
 umount /mnt
 
-# Mounting
+# Subvolumes
 
 mount "$root_part" /mnt
 btrfs subvolume create /mnt/@
@@ -70,14 +70,16 @@ pacstrap /mnt linux linux-firmware base "$microcode" vim dracut
 
 genfstab -U /mnt >> /mnt/etc/fstab
 
-# Copy pacman hooks
+# Pacman hooks
 
 mkdir -p /mnt/etc/pacman.d/hooks
 mkdir -p /mnt/usr/local/bin
 
 cp "$(dirname "$0")/pacman/kernel-install-add.hook" /mnt/etc/pacman.d/hooks/90-kernel-install-add.hook
+cp "$(dirname "$0")/pacman/kernel-install-add-hook.sh" /mnt/usr/local/bin/kernel-install-add-hook.sh
+
 cp "$(dirname "$0")/pacman/kernel-install-remove.hook" /mnt/etc/pacman.d/hooks/60-kernel-install-remove.hook
-cp "$(dirname "$0")/pacman/kernel-install-hook.sh" /mnt/usr/local/bin/kernel-install-hook.sh
+cp "$(dirname "$0")/pacman/kernel-install-remove-hook.sh" /mnt/usr/local/bin/kernel-install-remove-hook.sh
 
 # Chroot
 
