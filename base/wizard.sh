@@ -104,6 +104,7 @@ dialog_encryption() {
     command=(dialog --stdout \
         --clear \
         --no-collapse \
+        --insecure \
         --title "Encryption" \
         --passwordbox "Enter passphrase (or leave empty to skip encryption):" 0 0 "")
     passphrase=$("${command[@]}")
@@ -115,6 +116,7 @@ dialog_encryption() {
     command=(dialog --stdout \
         --clear \
         --no-collapse \
+        --insecure \
         --title "Encryption" \
         --passwordbox "Confirm passphrase:" 0 0 "")
     confirmation=$("${command[@]}")
@@ -149,6 +151,7 @@ dialog_password() {
     command=(dialog --stdout \
         --clear \
         --no-collapse \
+        --insecure \
         --title "User" \
         --passwordbox "Enter password:" 0 0 "")
     password=$("${command[@]}")
@@ -162,6 +165,7 @@ dialog_password() {
     command=(dialog --stdout \
         --clear \
         --no-collapse \
+        --insecure \
         --title "User" \
         --passwordbox "Confirm password:" 0 0 "")
     confirmation=$("${command[@]}")
