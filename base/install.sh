@@ -67,7 +67,7 @@ pacstrap /mnt linux linux-firmware base "$microcode" vim dracut
 
 # Fstab
 
-genfstab -U /mnt >> /mnt/etc/fstab
+genfstab -U /mnt > /mnt/etc/fstab
 
 # Pacman hooks
 

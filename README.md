@@ -9,10 +9,10 @@ Keywords: `dracut` `systemd-boot` `btrfs`
 ```sh
 ./base/install.sh
 ```
-- review suvolumes scheme
+- review suvolume layout
 - optional encryption
 
-- Create BTRFS pool with simple subvolumes scheme from multiple devices.
+- Create BTRFS pool with simple subvolume layout from multiple devices.
 - Mount options are suitable for SSD/NVME: `noatime,compress=zstd:1,space_cache=v2,discard=async`.
 - Set time zone using http://ip-api.com/line?fields=timezone.
 - Set default locale to `en_US.UTF-8`.
