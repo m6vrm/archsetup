@@ -2,13 +2,12 @@
 set -eu -o pipefail
 
 kernel_versions=()
-
 while read -r line; do
     if [[ "$line" == "usr/lib/modules/"+([^/])"/vmlinuz" ]]; then
         kernel_versions+=("$(basename "$(dirname "$line")")")
     else
         for kernel in /usr/lib/modules/*/vmlinuz; do
-            kernel_version+=("$(basename "$(dirname "$kernel")")")
+            kernel_versions+=("$(basename "$(dirname "$kernel")")")
         done
 
         break

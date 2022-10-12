@@ -31,5 +31,5 @@ To change kernel boot parameters edit `/etc/kernel/cmdline` and reinstall kernel
 
 ```sh
 vim /etc/kernel/cmdline
-kernel-install add "$(uname r)" "/usr/lib/modules/$(uname -r)/vmlinuz" # or pacman -S linux
+kernel-install add "$(uname r)" "/usr/lib/modules/$(uname -r)/vmlinuz" # or just pacman -S linux
 ```
