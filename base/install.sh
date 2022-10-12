@@ -17,7 +17,7 @@ timedatectl set-ntp true
 
 # Partitioning
 
-partname() { [[ $1 == *[0-9] ]] && echo -n "${$1}p${2}" || echo -n "${$1}${2}"; }
+partname() { [[ $1 == *[0-9] ]] && echo -n "${1}p${2}" || echo -n "${1}${2}"; }
 
 umount -A "$root_device" || :
 sgdisk --clear \
