@@ -56,10 +56,8 @@ if [[ -n "$passphrase" ]]; then
         crypt_parts+=("$crypt_part")
         crypttab+="${crypt_name}\tUUID=${uuid}\tnone\tdiscard\n"
 
-        echo -n "$passphrase" | cryptsetup luksFormat "$part"
+        echo -n "$passphrase" | cryptsetup luksFormat --uuid "$uuid" "$part"
         echo -n "$passphrase" | cryptsetup open "$part" "$crypt_name"
-
-        mkfs.btrfs -f -U "$uuid" "$crypt_part"
     done
 
     root_part=${crypt_parts[0]}
@@ -78,8 +76,10 @@ umount /mnt
 # Mounting
 
 mount -o noatime,compress=zstd:1,space_cache=v2,discard=async,subvol=@ "$root_part" /mnt
+
 mkdir /mnt/home
 mount -o noatime,compress=zstd:1,space_cache=v2,discard=async,subvol=@home "$root_part" /mnt/home
+
 mkdir /mnt/boot
 mount "$efi_part" /mnt/boot
 
