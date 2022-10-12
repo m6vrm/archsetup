@@ -53,6 +53,7 @@ if [[ -n "$passphrase" ]]; then
         crypt_parts+=("$crypt_part")
         crypttab+=$"${crypt_name}\tUUID=${uuid}\tnone\tdiscard\n"
 
+        cryptsetup close "$crypt_name" || :
         echo -n "$passphrase" | cryptsetup luksFormat "$part"
         echo -n "$passphrase" | cryptsetup open "$part" "$crypt_name"
     done
