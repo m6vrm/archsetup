@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -x
 set -euf -o pipefail
 
 username=$1
