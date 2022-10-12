@@ -57,9 +57,9 @@ echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 bootctl install
 
 cat > /boot/loader/loader.conf <<EOF
-timeout 3
+timeout 2
 console-mode auto
-editor yes
+editor no
 EOF
 
 # Dracut
