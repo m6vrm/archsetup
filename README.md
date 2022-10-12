@@ -12,6 +12,9 @@ To install run:
 ./base/install.sh
 ```
 
+- See `install.sh` to review partitioning and ecryption.
+- See `chroot.sh` to review installation in `chroot`.
+
 Installation steps:
 
 - Create encrypted BTRFS pool with simple subvolume layout.
