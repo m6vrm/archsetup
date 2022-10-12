@@ -48,11 +48,9 @@ done
 
 crypttab=""
 if [[ -n "$passphrase" ]]; then
-    uuid=$(uuidgen)
-    root_uuid=$uuid
-
     crypt_parts=()
     for part in "${all_parts[@]}"; do
+        uuid=$(uuidgen)
         crypt_name="luks-${uuid}"
         crypt_part="/dev/mapper/${crypt_name}"
         crypt_parts+=("$crypt_part")
@@ -61,11 +59,11 @@ if [[ -n "$passphrase" ]]; then
         echo -n "$passphrase" | cryptsetup luksFormat "$part"
         echo -n "$passphrase" | cryptsetup open "$part" "$crypt_name"
 
-        uuid=$(uuidgen)
+        mkfs.btrfs -f -U "$uuid" "$crypt_part"
     done
 
     root_part=${crypt_parts[0]}
-    mkfs.btrfs -f -L ROOT -U "$root_uuid" "${crypt_parts[@]}"
+    mkfs.btrfs -f -L ROOT "${crypt_parts[@]}"
 else
     mkfs.btrfs -f -L ROOT "${all_parts[@]}"
 fi
