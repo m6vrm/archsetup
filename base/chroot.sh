@@ -44,7 +44,6 @@ systemctl mask NetworkManager-wait-online
 # Bootloader
 
 bootctl install
-bootctl set-default @saved
 
 cat > /boot/loader/loader.conf <<EOF
 timeout 2

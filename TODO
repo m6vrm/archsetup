@@ -8,6 +8,7 @@
 - swapfile with low swappiness
 - zram
 - spellcheck
+- bootctl set-default @saved
 
 ## DE
 
