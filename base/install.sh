@@ -2,11 +2,11 @@
 set -x
 set -euf -o pipefail
 
-# Installer dependencies
+# Dependencies
 
 pacman -Sy --noconfirm dialog
 
-# Installation wizard
+# Wizard
 
 . "$(dirname "$0")/wizard.sh"
 
@@ -54,7 +54,6 @@ if [[ -n "$passphrase" ]]; then
         crypt_parts+=("$crypt_part")
         crypttab+="${crypt_name}\tUUID=${uuid}\tnone\tdiscard\n"
 
-        cryptsetup close "$crypt_name" || :
         echo -n "$passphrase" | cryptsetup luksFormat "$part"
         echo -n "$passphrase" | cryptsetup open "$part" "$crypt_name"
     done
@@ -84,12 +83,9 @@ mount "$efi_part" /mnt/boot
 
 pacstrap /mnt linux linux-firmware base "$microcode" vim dracut
 
-# Fstab
+# Tables
 
 genfstab -U /mnt >> /mnt/etc/fstab
-
-# Crypttab
-
 printf "$crypttab" >> /mnt/etc/crypttab
 
 # Pacman hooks
