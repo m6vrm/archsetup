@@ -41,6 +41,7 @@ mkfs.fat -F 32 -n EFI "$efi_part"
 # BTRFS pool
 
 root_part=$(partname "$root_device" 2)
+
 all_parts=("$root_part")
 for device in "${pool_devices[@]}"; do
     all_parts+=("$(partname "$device" 1)")
@@ -52,19 +53,19 @@ if [[ -n "$passphrase" ]]; then
     for part in "${all_parts[@]}"; do
         uuid=$(uuidgen)
         crypt_name="luks-${uuid}"
-        crypt_part="/dev/mapper/${crypt_name}"
-        crypt_parts+=("$crypt_part")
-        crypttab+="${crypt_name}\tUUID=${uuid}\tnone\tdiscard\n"
 
         echo -n "$passphrase" | cryptsetup luksFormat --uuid "$uuid" "$part"
         echo -n "$passphrase" | cryptsetup open "$part" "$crypt_name"
+
+        crypttab+="${crypt_name}\tUUID=${uuid}\tnone\tdiscard\n"
+        crypt_parts+=("/dev/mapper/${crypt_name}")
     done
 
     root_part=${crypt_parts[0]}
-    mkfs.btrfs -f -L ROOT "${crypt_parts[@]}"
-else
-    mkfs.btrfs -f -L ROOT "${all_parts[@]}"
+    all_parts=("${crypt_parts[@]}")
 fi
+
+mkfs.btrfs -f -L ROOT "${all_parts[@]}"
 
 # Subvolumes
 
@@ -87,7 +88,7 @@ mount "$efi_part" /mnt/boot
 
 pacstrap /mnt linux linux-firmware base "$microcode" vim dracut
 
-# Tables
+# FS tables
 
 genfstab -U /mnt >> /mnt/etc/fstab
 printf "$crypttab" >> /mnt/etc/crypttab
