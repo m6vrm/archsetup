@@ -7,7 +7,7 @@ Yet another Arch Linux installation script.
 Keywords: `dracut` `systemd-boot` `btrfs`
 
 ```sh
-./archsetup/install/base.sh
+./base/install.sh
 ```
 - review suvolumes scheme
 - optional encryption

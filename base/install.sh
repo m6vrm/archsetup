@@ -5,9 +5,9 @@ set -euf -o pipefail
 
 pacman -Sy --noconfirm dialog
 
-# Includes
+# Installation wizard
 
-. "$(dirname "$0")/wizards/base.sh"
+. "$(dirname "$0")/wizard.sh"
 
 # Unmount /mnt
 
@@ -82,7 +82,7 @@ cp "$(dirname "$0")/pacman/kernel-install-remove-hook.sh" /mnt/usr/local/bin/ker
 
 # Chroot
 
-cp "$(dirname "$0")/scripts/chroot.sh" /mnt/chroot.sh
+cp "$(dirname "$0")/chroot.sh" /mnt/chroot.sh
 
 arch-chroot /mnt ./chroot.sh \
     "$username" \
