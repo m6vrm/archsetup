@@ -17,6 +17,8 @@ timedatectl set-ntp true
 
 # Partitioning
 
+partname() { [[ $1 == *[0-9] ]] && echo -n "${$1}p${2}" || echo -n "${$1}${2}" }
+
 umount -A "$root_device" || :
 sgdisk --clear \
     --new=1:0:+1G   --typecode=1:ef00 \
@@ -30,15 +32,15 @@ done
 
 # EFI
 
-efi_part=$(lsblk -lnp -o NAME | grep "^${root_device}" | sed -n 2p)
+efi_part=$(partname "$root_device" 1)
 mkfs.fat -F 32 -n EFI "$efi_part"
 
 # BTRFS pool
 
-root_part=$(lsblk -lnp -o NAME | grep "^${root_device}" | sed -n 3p)
+root_part=$(partname "$root_device" 2)
 all_parts=("$root_part")
 for device in "${pool_devices[@]}"; do
-    all_parts+=("$(lsblk -lnp -o NAME | grep "^${device}" | sed -n 2p)")
+    all_parts+=("$(partname "$device" 1)")
 done
 
 crypttab=""
@@ -55,6 +57,7 @@ if [[ -n "$passphrase" ]]; then
         echo -n "$passphrase" | cryptsetup open "$part" "$crypt_name"
     done
 
+    root_part=${crypt_parts[0]}
     mkfs.btrfs -f -L ROOT "${crypt_parts[@]}"
 else
     mkfs.btrfs -f -L ROOT "${all_parts[@]}"
