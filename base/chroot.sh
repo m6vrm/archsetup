@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -x
 set -euf -o pipefail
 
 username=$1
@@ -45,6 +44,7 @@ systemctl mask NetworkManager-wait-online
 # Bootloader
 
 bootctl install
+bootctl set-default @saved
 
 cat > /boot/loader/loader.conf <<EOF
 timeout 2
