@@ -7,10 +7,6 @@ hostname=$3
 timezone=$4
 kernel_options=$5
 
-# Disable root
-
-passwd -l root
-
 # Locale
 
 sed -i "s/#en_US.UTF-8/en_US.UTF-8/" /etc/locale.gen
@@ -45,13 +41,6 @@ systemctl enable systemd-boot-update
 systemctl enable NetworkManager
 systemctl mask NetworkManager-wait-online
 
-# User
-
-useradd -m -G wheel "$username"
-echo "${username}:${password}" | chpasswd
-
-echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
-
 # Bootloader
 
 bootctl install
@@ -77,6 +66,17 @@ EOF
 echo "$kernel_options" > /etc/kernel/cmdline
 pacman -S --noconfirm linux
 rm /etc/kernel/cmdline
+
+# User
+
+useradd -m -G wheel "$username"
+echo "${username}:${password}" | chpasswd
+
+echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
+
+# Disable root
+
+passwd -l root
 
 # Remove this script
 
