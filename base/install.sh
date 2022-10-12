@@ -17,16 +17,17 @@ timedatectl set-ntp true
 
 # Partitioning
 
+umount -A --recursive /mnt || :
+dmsetup remove_all -f
+
 partname() { [[ $1 == *[0-9] ]] && echo -n "${1}p${2}" || echo -n "${1}${2}"; }
 
-umount -A "$root_device" || :
 sgdisk --clear \
     --new=1:0:+1G   --typecode=1:ef00 \
     --new=2:0:0     --typecode=2:8300 \
     "$root_device"
 
 for device in "${pool_devices[@]}"; do
-    umount -A "$device" || :
     sgdisk --clear --new=1:0:0 --typecode=1:8300 "$device"
 done
 
@@ -51,7 +52,7 @@ if [[ -n "$passphrase" ]]; then
         crypt_name="luks-${uuid}"
         crypt_part="/dev/mapper/${crypt_name}"
         crypt_parts+=("$crypt_part")
-        crypttab+=$"${crypt_name}\tUUID=${uuid}\tnone\tdiscard\n"
+        crypttab+="${crypt_name}\tUUID=${uuid}\tnone\tdiscard\n"
 
         cryptsetup close "$crypt_name" || :
         echo -n "$passphrase" | cryptsetup luksFormat "$part"
@@ -89,7 +90,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 
 # Crypttab
 
-echo "$crypttab" >> /mnt/etc/crypttab
+printf "$crypttab" >> /mnt/etc/crypttab
 
 # Pacman hooks
 
