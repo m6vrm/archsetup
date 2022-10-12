@@ -48,11 +48,12 @@ if [[ -n "$passphrase" ]]; then
     crypt_parts=()
     for part in "${all_parts[@]}"; do
         uuid=$(blkid -o value -s UUID "$part")
-        crypt_part="luks-${uuid}"
+        crypt_name="luks-${uuid}"
+        crypt_part="/dev/mapper/${crypt_name}"
         crypt_parts+=("$crypt_part")
-        crypttab+=$"${crypt_part}\tUUID=${uuid}\tnone\tdiscard\n"
+        crypttab+=$"${crypt_name}\tUUID=${uuid}\tnone\tdiscard\n"
         echo -n "$passphrase" | cryptsetup luksFormat "$part"
-        echo -n "$passphrase" | cryptsetup open "$part" "$crypt_part"
+        echo -n "$passphrase" | cryptsetup open "$part" "$crypt_name"
     done
 
     mkfs.btrfs -f -L ROOT "${crypt_parts[@]}"
