@@ -53,8 +53,8 @@ if [[ -n "$passphrase" ]]; then
         uuid=$(uuidgen)
         crypt_name="luks-${uuid}"
 
-        echo -n "$passphrase" | cryptsetup luksFormat --uuid "$uuid" "$part"
-        echo -n "$passphrase" | cryptsetup open "$part" "$crypt_name"
+        echo -n "$passphrase" | cryptsetup luksFormat -v --uuid "$uuid" "$part"
+        echo -n "$passphrase" | cryptsetup open -v "$part" "$crypt_name"
 
         crypttab+="${crypt_name}\tUUID=${uuid}\tnone\tdiscard\n"
         crypt_parts+=("/dev/mapper/${crypt_name}")

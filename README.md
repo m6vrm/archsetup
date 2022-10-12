@@ -21,8 +21,8 @@ Installation steps:
 - Install microcode for detected CPU.
 - Install packages `base linux linux-firmware {amd|intel}-ucode vim dracut btrfs-progs sudo networkmanager`.
 - Start services `systemd-boot-update NetworkManager`.
-- Use `dracut` to generate `initramfs`.
 - Use `systemd-boot` bootloader.
+- Use `dracut` to generate `initramfs`.
 - Use `kernel-install` for automatic `initramfs` and bootloader management.
 - Create one user with `sudo` rights.
 - Disabe `root` account.
