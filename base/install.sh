@@ -17,14 +17,14 @@ timedatectl set-ntp true
 
 # Partitioning
 
-umount -A "$root_device"
+umount -A "$root_device" || :
 sgdisk --clear \
     --new=1:0:+1G   --typecode=1:ef00 \
     --new=2:0:0     --typecode=2:8300 \
     "$root_device"
 
 for device in "${pool_devices[@]}"; do
-    umount -A "$device"
+    umount -A "$device" || :
     sgdisk --clear --new=1:0:0 --typecode=1:8300 "$device"
 done
 
