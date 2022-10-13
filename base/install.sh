@@ -113,3 +113,13 @@ arch-chroot /mnt ./chroot.sh \
     "$hostname" \
     "$timezone" \
     "$kernel_options"
+
+rm /mnt/chroot.sh
+
+# Last but not least step
+
+echo
+echo "##########################"
+echo "# Installation complete! #"
+echo "##########################"
+echo

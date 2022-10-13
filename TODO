@@ -1,5 +1,6 @@
 ## Extras
 
+- secure boot
 - man
 - linux lts
 - pacman tweaks
@@ -20,6 +21,7 @@
 - konsole
 - kate
 - kwrite
+- flatpak
 
 - nvidia nvidia-settings settings hook
 - ipv6.disable

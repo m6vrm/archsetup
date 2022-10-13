@@ -76,15 +76,3 @@ echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 # Disable root
 
 passwd -l root
-
-# Remove this script
-
-rm -- "$0"
-
-# Last but not least step
-
-echo
-echo "##########################"
-echo "# Installation complete! #"
-echo "##########################"
-echo
