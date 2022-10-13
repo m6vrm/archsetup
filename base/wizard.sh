@@ -3,7 +3,7 @@ set -euf -o pipefail
 
 # Defaults
 
-kernel_options="root=LABEL=ROOT rootflags=subvol=@ ro"
+kernel_options="root=LABEL=ROOT rootflags=subvol=@ rw"
 
 timezone=$(curl -s http://ip-api.com/line?fields=timezone)
 
