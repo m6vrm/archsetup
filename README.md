@@ -12,8 +12,9 @@ To install run:
 ./base/install.sh
 ```
 
+- See the beginning of `wizard.sh` to review default installation parameters.
 - See `install.sh` to review partitioning and ecryption.
-- See `chroot.sh` to review installation in `chroot`.
+- See `chroot.sh` to review installation after `chroot`.
 
 Installation steps:
 
