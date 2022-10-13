@@ -30,7 +30,7 @@ Installation steps:
 - Create one user with `sudo` rights.
 - Disabe `root` account.
 
-To change kernel boot parameters edit `/etc/kernel/cmdline` and reinstall kernel:
+To change kernel boot parameters you can either edit `/etc/kernel/cmdline` and *reinstall the kernel* or remove `/etc/kernel/cmdline` and edit the bootloader entries directly.
 
 ```sh
 vim /etc/kernel/cmdline

@@ -6,7 +6,7 @@ set -euf -o pipefail
 umount -A --recursive /mnt || :
 dmsetup remove_all -f
 
-# Dependencies
+# Installer dependencies
 
 pacman -Sy --noconfirm dialog
 
@@ -37,7 +37,7 @@ done
 efi_part=$(partname "$root_device" 1)
 mkfs.fat -F 32 -n EFI "$efi_part"
 
-# BTRFS pool
+# BTRFS pool and ecnryption
 
 root_part=$(partname "$root_device" 2)
 
@@ -85,7 +85,7 @@ mount "$efi_part" /mnt/boot
 
 # Pacstrap
 
-pacstrap /mnt linux linux-firmware base "$microcode" vim dracut
+pacstrap -K /mnt linux linux-firmware base "$microcode" vim dracut
 
 # FS tables
 
