@@ -95,7 +95,7 @@ printf "$crypttab" >> /mnt/etc/crypttab
 # Pacman hooks
 
 mkdir -p /mnt/etc/pacman.d/hooks
-mkdir -p /mnt/usr/local/bin
+mkdir -p /mnt/etc/pacman.d/scripts
 
 cp "$(dirname "$0")/pacman/kernel-install-add.hook" /mnt/etc/pacman.d/hooks/90-kernel-install-add.hook
 cp "$(dirname "$0")/pacman/kernel-install-add-hook.sh" /mnt/usr/local/bin/kernel-install-add-hook.sh
