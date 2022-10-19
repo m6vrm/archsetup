@@ -1,19 +1,26 @@
-#!/usr/bin/env bash
+#!/bin/bash
 set -euf -o pipefail
 
 username=$1
 password=$2
-hostname=$3
-timezone=$4
-kernel_options=$5
+
+locale=$3
+keymap=$4
+timezone=$5
+hostname=$6
+
+kernels=$7
+kernel_options=$8
+
+pacman -Sy
 
 # Locale
 
-sed -i "/en_US.UTF-8/s/^#//g" /etc/locale.gen
+sed -i "/${locale}/s/^#//" /etc/locale.gen
 locale-gen
 
-echo "LANG=en_US.UTF-8" >> /etc/locale.conf
-echo "KEYMAP=us" >> /etc/vconsole.conf
+echo "LANG=${locale}" > /etc/locale.conf
+echo "KEYMAP=${keymap}" > /etc/vconsole.conf
 
 # System time
 
@@ -22,24 +29,24 @@ hwclock --systohc
 
 # Host
 
-echo "$hostname" >> /etc/hostname
+echo "$hostname" > /etc/hostname
 
-cat >> /etc/hosts <<EOF
+grep -qF "127.0.1.1	${hostname}" /etc/hosts || cat >> /etc/hosts <<EOF
 127.0.0.1	localhost
-::1			localhost
+::1		localhost
 127.0.1.1	${hostname}
 EOF
 
 # Packages
 
-pacman -Sy --noconfirm btrfs-progs sudo networkmanager
+pacman -S --noconfirm btrfs-progs sudo networkmanager
 
 # Services
 
-systemctl enable systemd-boot-update
+systemctl enable systemd-boot-update.service
+systemctl enable NetworkManager.service
 
-systemctl enable NetworkManager
-systemctl mask NetworkManager-wait-online
+systemctl mask NetworkManager-wait-online.service
 
 # Bootloader
 
@@ -48,7 +55,7 @@ bootctl install
 cat > /boot/loader/loader.conf <<EOF
 timeout 2
 console-mode auto
-editor yes
+editor no
 EOF
 
 # Dracut
@@ -64,15 +71,24 @@ EOF
 # Trigger initramfs and bootloader entries generation
 
 echo "$kernel_options" > /etc/kernel/cmdline
-pacman -S --noconfirm linux
+
+pacman -S --noconfirm $kernels
 
 # User
 
 useradd -m -G wheel "$username"
 echo "${username}:${password}" | chpasswd
 
-echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
+echo "%wheel ALL=(ALL) ALL" > /etc/sudoers.d/90-wheel-all
 
 # Disable root
 
 passwd -l root
+
+# End
+
+echo
+echo "###############################"
+echo "# Base installation complete! #"
+echo "###############################"
+echo
