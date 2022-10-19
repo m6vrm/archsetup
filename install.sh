@@ -1,6 +1,5 @@
 #!/bin/bash
 set -uf -o pipefail
-set -x
 
 archsetup_dir=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
 
