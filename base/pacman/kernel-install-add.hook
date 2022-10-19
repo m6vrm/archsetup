@@ -13,9 +13,10 @@ Target = systemd
 Target = dracut
 Target = intel-ucode
 Target = amd-ucode
+Target = *-dkms
 
 [Action]
 Description = Installing kernel and initramfs to $BOOT (kernel-install)
 When = PostTransaction
-Exec = /usr/local/bin/kernel-install-add-hook.sh
+Exec = /etc/pacman.d/scripts/kernel-install-add-hook.sh
 NeedsTargets

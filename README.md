@@ -2,38 +2,47 @@
 
 Yet another Arch Linux installation script.
 
+## Usage
+
+1. Boot into Arch Linux ISO.
+2. Connect to the internet.
+3. Install git: `pacman -Sy git`
+4. Clone this repository: `git clone https://gitlab.com/madyanov/archsetup`
+5. Run installer: `./archsetup/install.sh`
+6. Reboot after installation.
+
+> Run following command if installation fails with memory error: `mount -o remount,size=2G /run/archiso/cowspace`
+
 ## Base
 
-Keywords: `dracut` `systemd-boot` `btrfs` `encryption`
+Installs base system as if installed according to the [ArchWiki installation guide](https://wiki.archlinux.org/title/installation_guide).
 
-To install run:
+|                           |                                                                                               |
+| -                         | -                                                                                             |
+| **Partitions**            | Encrypted BTRFS pool from selected devices with simple subvolume layout (`@` and `@home`)     |
+| **Mount options**         | `noatime,compress=zstd:1,discard=async` (suitable for SSD/NVME)                               |
+| **Recovery options**      | - Recovery bootloader entry (latest Arch Linux ISO downloaded via BitTorrent)<br>- BTRFS snapshots after installation (saved to the `/.snapshots` directory) |
+| **Time zone**             | Detected automatically using http://ip-api.com/line?fields=timezone                           |
+| **Locale**                | `en_US.UTF-8`                                                                                 |
+| **Bootloader**            | `systemd-boot`                                                                                |
+| **Initramfs generator**   | `dracut`                                                                                      |
+| **Packages**              | `base linux-* linux-*-headers linux-firmware {amd,intel}-ucode vim dracut btrfs-progs sudo networkmanager` |
+| **Pacman hooks**          | `kernel-install` hook for automatic `initramfs` and bootloader entries generation             |
+| **Users**                 | - One user with `sudo` rights<br>- *`root` account disabled*                                  |
 
-```sh
-./base/install.sh
-```
+### Maintenance
 
-- See the beginning of `wizard.sh` to review default installation parameters.
-- See `install.sh` to review partitioning and ecryption.
-- See `chroot.sh` to review installation after `chroot`.
+**Kernel boot parameters**
 
-Installation steps:
-
-- Create encrypted BTRFS pool with simple subvolume layout.
-- Mount options are suitable for SSD/NVME: `noatime,compress=zstd:1,space_cache=v2,discard=async`.
-- Set time zone using http://ip-api.com/line?fields=timezone.
-- Set default locale to `en_US.UTF-8`.
-- Install microcode for detected CPU.
-- Install packages `base linux linux-firmware {amd|intel}-ucode vim dracut btrfs-progs sudo networkmanager`.
-- Start services `systemd-boot-update NetworkManager`.
-- Use `systemd-boot` bootloader.
-- Use `dracut` to generate `initramfs`.
-- Use `kernel-install` for automatic `initramfs` and bootloader management.
-- Create one user with `sudo` rights.
-- Disabe `root` account.
-
-To change kernel boot parameters you can either edit `/etc/kernel/cmdline` and *reinstall the kernel* or remove `/etc/kernel/cmdline` and edit the bootloader entries directly.
+Either edit bootloader entries in `/boot/loader/entries/` or edit the `/etc/kernel/cmdline` and *reinstall the kernel* to trigger `initramfs` and bootloader entries generation:
 
 ```sh
 vim /etc/kernel/cmdline
-kernel-install add "$(uname r)" "/usr/lib/modules/$(uname -r)/vmlinuz" # or just pacman -S linux
+kernel-install add "$(uname r)" "/usr/lib/modules/$(uname -r)/vmlinuz" # or just `pacman -S <kernel-package>`
 ```
+
+**Update recovery image**
+
+1. Download the [latest Arch Linux ISO](https://archlinux.org/download/) and place it at `/boot/recovery/archlinux.iso`.
+2. Check boot into recovery mode.
+3. If boot failed, mount downloaded `archlinux.iso` and copy `vmlinuz-linux` and `initramfs-linux.img` to `/bood/recovery/`.
