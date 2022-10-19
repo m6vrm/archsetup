@@ -1,18 +1,18 @@
-#!/usr/bin/env bash
+#!/bin/bash
 set -euf -o pipefail
+
+# Recovery helpers
+
+. "${archsetup_dir}/base/recovery.sh"
 
 # Cleanup
 
 umount -A --recursive /mnt || :
 dmsetup remove_all -f
 
-# Installer dependencies
-
-pacman -Sy --noconfirm dialog
-
 # Wizard
 
-. "$(dirname "$0")/wizard.sh"
+. "${archsetup_dir}/base/wizard.sh"
 
 # Sync time
 
@@ -21,23 +21,25 @@ timedatectl set-ntp true
 
 # Partitioning
 
-partname() { [[ $1 == *[0-9] ]] && echo -n "${1}p${2}" || echo -n "${1}${2}"; }
+partname() { [[ "$1" = *[0-9] ]] && echo -n "${1}p${2}" || echo -n "${1}${2}"; }
+
+[ "$recovery" = "0" ] && efi_size="$config_min_efi_size" || efi_size="$config_max_efi_size"
 
 sgdisk --clear \
-    --new=1:0:+1G   --typecode=1:ef00 \
-    --new=2:0:0     --typecode=2:8300 \
+    --new=1:0:+${efi_size}  --typecode=1:ef00 \
+    --new=2:0:0             --typecode=2:8300 \
     "$root_device"
 
-for device in "${pool_devices[@]}"; do
+for device in ${pool_devices[@]}; do
     sgdisk --clear --new=1:0:0 --typecode=1:8300 "$device"
 done
 
 # EFI
 
 efi_part=$(partname "$root_device" 1)
-mkfs.fat -F 32 -n EFI "$efi_part"
+mkfs.fat -F 32 -n "${config_efi_label}" "$efi_part"
 
-# BTRFS pool and ecnryption
+# Encrypted BTRFS pool
 
 root_part=$(partname "$root_device" 2)
 
@@ -47,16 +49,17 @@ for device in "${pool_devices[@]}"; do
 done
 
 crypttab=""
-if [[ -n "$passphrase" ]]; then
+if [ -n "$passphrase" ]; then
     crypt_parts=()
-    for part in "${all_parts[@]}"; do
+    for part in ${all_parts[@]}; do
         uuid=$(uuidgen)
         crypt_name="luks-${uuid}"
 
-        echo -n "$passphrase" | cryptsetup luksFormat -v --uuid "$uuid" "$part"
-        echo -n "$passphrase" | cryptsetup open -v "$part" "$crypt_name"
+        echo "Encrypting partition ${part}"
+        echo -n "$passphrase" | cryptsetup luksFormat --uuid "$uuid" "$part"
+        echo -n "$passphrase" | cryptsetup open "$part" "$crypt_name"
 
-        crypttab+="${crypt_name}\tUUID=${uuid}\tnone\tdiscard\n"
+        crypttab+="${crypt_name}	UUID=${uuid}	none	${config_crypttab_options}\n"
         crypt_parts+=("/dev/mapper/${crypt_name}")
     done
 
@@ -64,62 +67,79 @@ if [[ -n "$passphrase" ]]; then
     all_parts=("${crypt_parts[@]}")
 fi
 
-mkfs.btrfs -f -L ROOT "${all_parts[@]}"
+root_uuid=$(uuidgen)
+mkfs.btrfs -f -U "$root_uuid" -L "$config_root_label" "${all_parts[@]}"
 
 # Subvolumes
 
 mount "$root_part" /mnt
-btrfs subvolume create /mnt/@
-btrfs subvolume create /mnt/@home
+btrfs subvolume create "/mnt/${config_root_subvolume}"
+btrfs subvolume create "/mnt/${config_home_subvolume}"
 umount /mnt
 
 # Mounting
 
-mount -o noatime,compress=zstd:1,space_cache=v2,discard=async,subvol=@ "$root_part" /mnt
+mount -o "${config_fstab_options},subvol=${config_root_subvolume}" "$root_part" /mnt
 
 mkdir /mnt/home
-mount -o noatime,compress=zstd:1,space_cache=v2,discard=async,subvol=@home "$root_part" /mnt/home
+mount -o "${config_fstab_options},subvol=${config_home_subvolume}" "$root_part" /mnt/home
 
 mkdir /mnt/boot
 mount "$efi_part" /mnt/boot
 
 # Pacstrap
 
-pacstrap -K /mnt linux linux-firmware base "$microcode" vim dracut
+pacstrap -K /mnt \
+    base \
+    "${kernels[@]}" "${kernel_headers[@]}" \
+    linux-firmware \
+    "$microcode" \
+    vim \
+    dracut
 
 # FS tables
 
 genfstab -U /mnt >> /mnt/etc/fstab
 printf "$crypttab" >> /mnt/etc/crypttab
 
+# Recovery
+
+if (( recovery & recovery_entry )); then
+    create_recovery_entry "$efi_part" /mnt
+fi
+
 # Pacman hooks
 
 mkdir -p /mnt/etc/pacman.d/hooks
-mkdir -p /mnt/usr/local/bin
+mkdir -p /mnt/etc/pacman.d/scripts
 
-cp "$(dirname "$0")/pacman/kernel-install-add.hook" /mnt/etc/pacman.d/hooks/90-kernel-install-add.hook
-cp "$(dirname "$0")/pacman/kernel-install-add-hook.sh" /mnt/usr/local/bin/kernel-install-add-hook.sh
+cp "${archsetup_dir}/base/pacman/kernel-install-add.hook"       /mnt/etc/pacman.d/hooks/90-kernel-install-add.hook
+cp "${archsetup_dir}/base/pacman/kernel-install-add-hook.sh"    /mnt/etc/pacman.d/scripts/kernel-install-add-hook.sh
 
-cp "$(dirname "$0")/pacman/kernel-install-remove.hook" /mnt/etc/pacman.d/hooks/60-kernel-install-remove.hook
-cp "$(dirname "$0")/pacman/kernel-install-remove-hook.sh" /mnt/usr/local/bin/kernel-install-remove-hook.sh
+cp "${archsetup_dir}/base/pacman/kernel-install-remove.hook"    /mnt/etc/pacman.d/hooks/60-kernel-install-remove.hook
+cp "${archsetup_dir}/base/pacman/kernel-install-remove-hook.sh" /mnt/etc/pacman.d/scripts/kernel-install-remove-hook.sh
 
 # Chroot
 
-cp "$(dirname "$0")/chroot.sh" /mnt/chroot.sh
+cp "${archsetup_dir}/base/chroot.sh" /mnt/chroot.sh
 
 arch-chroot /mnt ./chroot.sh \
     "$username" \
     "$password" \
-    "$hostname" \
+    \
+    "$locale" \
+    "$keymap" \
     "$timezone" \
-    "$kernel_options"
+    "$hostname" \
+    \
+    "${kernels[*]}" \
+    "root=UUID=${root_uuid} rootflags=subvol=${config_root_subvolume} rw"
 
 rm /mnt/chroot.sh
 
-# Last but not least step
+# BTRFS snapshot
 
-echo
-echo "##########################"
-echo "# Installation complete! #"
-echo "##########################"
-echo
+if (( recovery & recovery_snapshot )); then
+    mkdir -p "/mnt${config_snapshots_directory}"
+    btrfs subvolume snapshot -r /mnt "/mnt${config_snapshots_directory}/${config_base_snapshot}"
+fi
