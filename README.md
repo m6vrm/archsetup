@@ -1,6 +1,6 @@
 # archsetup
 
-Yet another Arch Linux installation script.
+Yet another Arch Linux installer.
 
 ## Usage
 

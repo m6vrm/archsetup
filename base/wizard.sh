@@ -67,22 +67,25 @@ dialog_pool_devices() {
     done
 
     pool_devices=()
-    if [ "$j" -gt "0" ]; then
-        message="Single root volume will be created from all selected devices (including the root device).\n"
-        message+="All data on the selected devices will be destroyed during installation."
 
-        command=(dialog --stdout \
-            --clear \
-            --no-collapse \
-            --title "Select BTRFS pool devices" \
-            --checklist "$message" 0 0 0)
-        selected_devices=$("${command[@]}" "${device_checklist[@]}")
-        [ "$?" != "0" ] && exit
-
-        for selected_device in ${selected_devices[@]}; do
-            pool_devices+=("${filtered_device_names[$((selected_device-1))]}")
-        done
+    if [ "$j" = "0" ]; then
+        return 0
     fi
+
+    message="Single root volume will be created from all selected devices (including the root device).\n"
+    message+="All data on the selected devices will be destroyed during installation."
+
+    command=(dialog --stdout \
+        --clear \
+        --no-collapse \
+        --title "Select BTRFS pool devices" \
+        --checklist "$message" 0 0 0)
+    selected_devices=$("${command[@]}" "${device_checklist[@]}")
+    [ "$?" != "0" ] && exit
+
+    for selected_device in ${selected_devices[@]}; do
+        pool_devices+=("${filtered_device_names[$((selected_device-1))]}")
+    done
 }
 
 dialog_encryption() {
