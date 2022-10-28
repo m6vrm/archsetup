@@ -14,11 +14,12 @@ feature_firewall=$(( 1 << ++i ))
 feature_autologin=$(( 1 << ++i ))
 feature_nobeep=$(( 1 << ++i ))
 feature_man=$(( 1 << ++i ))
+feature_zsh=$(( 1 << ++i ))
 feature_paru=$(( 1 << ++i ))
 feature_nvidia=$(( 1 << ++i ))
 feature_vbox=$(( 1 << ++i ))
 
-i=0
+i=-1 # de_none should be = 0
 de_none=$(( ++i ))
 de_plasma=$(( ++i ))
 
@@ -29,6 +30,7 @@ apps_htop=$(( 1 << ++i ))
 apps_mc=$(( 1 << ++i ))
 apps_ripgrep=$(( 1 << ++i ))
 apps_flatpak=$(( 1 << ++i ))
+apps_chrome=$(( 1 << ++i ))
 apps_firefox=$(( 1 << ++i ))
 apps_steam=$(( 1 << ++i ))
 apps_kitty=$(( 1 << ++i ))
@@ -113,6 +115,17 @@ if (( features & feature_man )); then
     pacman -S --noconfirm man-pages man-db texinfo
 fi
 
+# Zsh
+
+if (( features & feature_zsh )); then
+    pacman -S --noconfirm zsh
+    chsh -s "$(which zsh)" "$username"
+    rm -f "/home/${username}/.bash_history"
+    rm -f "/home/${username}/.bash_logout"
+    rm -f "/home/${username}/.bash_profile"
+    rm -f "/home/${username}/.bashrc"
+fi
+
 # Zram
 
 if (( features & feature_zram )); then
@@ -136,9 +149,10 @@ if (( features & feature_paru )); then
     chgrp nobody paru
     chmod g+w paru
 
-    echo "nobody ALL=(root) NOPASSWD: $(which pacman)" > /etc/sudoers.d/10-nobody-pacman
+    sudoers=/etc/sudoers.d/90-nobody-pacman
+    echo "nobody ALL=(root) NOPASSWD: $(which pacman)" > "$sudoers"
     (cd paru && sudo -u nobody makepkg -fsri --noconfirm)
-    rm /etc/sudoers.d/10-nobody-pacman
+    rm -f "$sudoers"
 
     rm -rf paru
 fi
@@ -205,6 +219,15 @@ fi
 if (( apps & apps_flatpak )); then
     pacman -S --noconfirm flatpak
     flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+fi
+
+# Chrome
+
+if (( features & feature_paru )) && (( apps & apps_chrome )); then
+    sudoers=/etc/sudoers.d/90-user-pacman
+    echo "${username} ALL=(root) NOPASSWD: $(which pacman)" > "$sudoers"
+    su - "$username" -c "paru -S --noconfirm google-chrome"
+    rm -f "$sudoers"
 fi
 
 # Apps

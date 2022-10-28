@@ -20,6 +20,7 @@ dialog_features() {
     feature_list+=("$(( ++i ))" "Autologin if root filesystem is encrypted" "on")
     feature_list+=("$(( ++i ))" "Disable PC speaker (beep)" "on")
     feature_list+=("$(( ++i ))" "Man pages" "on")
+    feature_list+=("$(( ++i ))" "Zsh" "on")
     feature_list+=("$(( ++i ))" "Paru AUR helper" "on")
     [ "$nvidia" = "on" ] && feature_list+=("$(( ++i ))" "NVIDIA drivers" "$nvidia") || let ++i
     [ "$vbox" = "on" ] && feature_list+=("$(( ++i ))" "VirtualBox guest additions" "$vbox") || let ++i
@@ -52,7 +53,8 @@ dialog_de() {
         --menu "Select desktop environment." 0 0 0)
     de=$("${command[@]}" "${de_list[@]}")
     [ "$?" != "0" ] && exit
-    :
+
+    let --de || :
 }
 
 dialog_apps() {
@@ -66,6 +68,7 @@ dialog_apps() {
     app_list+=("$(( ++i ))" "Midnight Commander" "on")
     app_list+=("$(( ++i ))" "Ripgrep" "on")
     [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Flatpak" "on") || let ++i
+    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Google Chrome" "on") || let ++i
     [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Firefox" "on") || let ++i
     [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Steam" "on") || let ++i
     [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Kitty" "on") || let ++i

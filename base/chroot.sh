@@ -79,7 +79,7 @@ pacman -S --noconfirm $kernels
 useradd -m -G wheel "$username"
 echo "${username}:${password}" | chpasswd
 
-echo "%wheel ALL=(ALL) ALL" > /etc/sudoers.d/90-wheel-all
+echo "%wheel ALL=(ALL) ALL" > /etc/sudoers.d/40-wheel-all
 
 # Disable root
 
