@@ -60,16 +60,16 @@ dialog_apps() {
 
     i=0
     app_list=()
-    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Flatpak" "on") || let ++i
-    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Firefox" "on") || let ++i
-    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Steam" "on") || let ++i
-    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Kitty" "on") || let ++i
-    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "VS Code" "on") || let ++i
     app_list+=("$(( ++i ))" "Neovim" "on")
     app_list+=("$(( ++i ))" "Tmux" "on")
     app_list+=("$(( ++i ))" "Htop" "on")
     app_list+=("$(( ++i ))" "Midnight Commander" "on")
     app_list+=("$(( ++i ))" "Ripgrep" "on")
+    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Flatpak" "on") || let ++i
+    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Firefox" "on") || let ++i
+    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Steam" "on") || let ++i
+    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Kitty" "on") || let ++i
+    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "VS Code" "on") || let ++i
 
     command=(dialog --stdout \
         --clear \
