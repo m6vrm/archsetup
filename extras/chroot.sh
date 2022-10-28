@@ -7,6 +7,7 @@ apps="$3"
 
 i=0
 feature_reflector=$(( 1 << ++i ))
+feature_paccache=$(( 1 << ++i ))
 feature_multilib=$(( 1 << ++i ))
 feature_zram=$(( 1 << ++i ))
 feature_firewall=$(( 1 << ++i ))
@@ -14,7 +15,6 @@ feature_autologin=$(( 1 << ++i ))
 feature_nobeep=$(( 1 << ++i ))
 feature_man=$(( 1 << ++i ))
 feature_paru=$(( 1 << ++i ))
-feature_paccache=$(( 1 << ++i ))
 feature_nvidia=$(( 1 << ++i ))
 feature_vbox=$(( 1 << ++i ))
 
@@ -98,6 +98,13 @@ if (( features & feature_reflector )); then
     systemctl enable reflector.timer
 fi
 
+# Paccahe
+
+if (( features & feature_paccache )); then
+    pacman -S --noconfirm pacman-contrib
+    systemctl enable paccache.timer
+fi
+
 # Man pages
 
 if (( features & feature_man )); then
@@ -133,14 +140,6 @@ if (( features & feature_paru )); then
 
     rm -rf paru
 fi
-
-# Paccahe
-
-if (( features & feature_paccache )); then
-    pacman -S --noconfirm pacman-contrib
-    systemctl enable paccache.timer
-fi
-
 
 # NVIDIA drivers
 
@@ -211,6 +210,10 @@ fi
 (( apps & apps_htop ))    && pacman -S --noconfirm htop
 (( apps & apps_mc ))      && pacman -S --noconfirm mc
 (( apps & apps_ripgrep )) && pacman -S --noconfirm ripgrep
+
+# Cleanup
+
+pacman -Sc --noconfirm
 
 # End
 

@@ -13,6 +13,7 @@ dialog_features() {
     i=0
     feature_list=()
     feature_list+=("$(( ++i ))" "Reflector to retrieve fastest pacman mirrors" "on")
+    feature_list+=("$(( ++i ))" "Paccache to automatically clean pacman cache" "on")
     feature_list+=("$(( ++i ))" "Multilib repository with 32-bit software (wine, steam)" "on")
     feature_list+=("$(( ++i ))" "Zram for swap" "on")
     feature_list+=("$(( ++i ))" "Firewalld with home zone as default" "on")
@@ -20,7 +21,6 @@ dialog_features() {
     feature_list+=("$(( ++i ))" "Disable PC speaker (beep)" "on")
     feature_list+=("$(( ++i ))" "Man pages" "on")
     feature_list+=("$(( ++i ))" "Paru AUR helper" "on")
-    feature_list+=("$(( ++i ))" "Paccache to automatically clean pacman cache" "on")
     [ "$nvidia" = "on" ] && feature_list+=("$(( ++i ))" "NVIDIA drivers" "$nvidia") || let ++i
     [ "$vbox" = "on" ] && feature_list+=("$(( ++i ))" "VirtualBox guest additions" "$vbox") || let ++i
 
