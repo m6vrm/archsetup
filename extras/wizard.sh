@@ -56,17 +56,11 @@ dialog_de() {
 dialog_apps() {
     local i app_list command selected_apps
 
-    apps=0
-
-    if [ "$de" = "0" ]; then
-        return 0
-    fi
-
     i=0
     app_list=()
-    app_list+=("$(( ++i ))" "Flatpak" "on")
-    app_list+=("$(( ++i ))" "Steam" "on")
-    app_list+=("$(( ++i ))" "Kitty" "on")
+    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Flatpak" "on") || let ++i
+    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Steam" "on") || let ++i
+    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Kitty" "on") || let ++i
     app_list+=("$(( ++i ))" "Neovim" "on")
     app_list+=("$(( ++i ))" "Tmux" "on")
     app_list+=("$(( ++i ))" "Htop" "on")
@@ -80,6 +74,7 @@ dialog_apps() {
     selected_apps=$("${command[@]}" "${app_list[@]}")
     [ "$?" != "0" ] && exit
 
+    apps=0
     for app in ${selected_apps[@]}; do
         apps=$(( apps + ( 1<<app ) ))
     done
