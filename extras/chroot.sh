@@ -3,6 +3,7 @@ set -euf -o pipefail
 
 features="$1"
 de="$2"
+apps="$3"
 
 i=0
 feature_reflector=$(( 1 << ++i ))
