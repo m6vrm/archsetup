@@ -14,6 +14,7 @@ feature_autologin=$(( 1 << ++i ))
 feature_nobeep=$(( 1 << ++i ))
 feature_man=$(( 1 << ++i ))
 feature_paru=$(( 1 << ++i ))
+feature_paccache=$(( 1 << ++i ))
 feature_nvidia=$(( 1 << ++i ))
 feature_vbox=$(( 1 << ++i ))
 
@@ -133,6 +134,14 @@ if (( features & feature_paru )); then
     rm -rf paru
 fi
 
+# Paccahe
+
+if (( features & feature_paccache )); then
+    pacman -S --noconfirm pacman-contrib
+    systemctl enable paccache.timer
+fi
+
+
 # NVIDIA drivers
 
 if (( features & feature_nvidia )); then
@@ -189,7 +198,7 @@ fi
 # Flatpak
 
 if (( apps & apps_flatpak )); then
-    pacman -S flatpak
+    pacman -S --noconfirm flatpak
     flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 fi
 
