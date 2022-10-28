@@ -27,6 +27,7 @@ apps_flatpak=$(( 1 << ++i ))
 apps_firefox=$(( 1 << ++i ))
 apps_steam=$(( 1 << ++i ))
 apps_kitty=$(( 1 << ++i ))
+apps_vscode=$(( 1 << ++i ))
 apps_neovim=$(( 1 << ++i ))
 apps_tmux=$(( 1 << ++i ))
 apps_htop=$(( 1 << ++i ))
@@ -207,6 +208,7 @@ fi
 (( apps & apps_firefox )) && pacman -S --noconfirm firefox
 (( apps & apps_steam ))   && pacman -S --noconfirm steam
 (( apps & apps_kitty ))   && pacman -S --noconfirm kitty
+(( apps & apps_vscode ))  && pacman -S --noconfirm code
 (( apps & apps_neovim ))  && pacman -S --noconfirm neovim
 (( apps & apps_tmux ))    && pacman -S --noconfirm tmux
 (( apps & apps_htop ))    && pacman -S --noconfirm htop
