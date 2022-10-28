@@ -184,6 +184,10 @@ if [ "$de" = "$de_plasma" ]; then
 
     systemctl enable sddm.service
 
+    balooctl suspend
+    balooctl disable
+    balooctl purge
+
     if (( features & feature_autologin )) && [ "$root_encrypted" != "0" ]; then
         mkdir /etc/sddm.conf.d
 
