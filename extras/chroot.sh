@@ -22,14 +22,14 @@ de_none=$(( ++i ))
 de_plasma=$(( ++i ))
 
 i=0
-apps_flatpak=$(( ++i ))
-apps_steam=$(( ++i ))
-apps_kitty=$(( ++i ))
-apps_neovim=$(( ++i ))
-apps_tmux=$(( ++i ))
-apps_htop=$(( ++i ))
-apps_mc=$(( ++i ))
-apps_ripgrep=$(( ++i ))
+apps_flatpak=$(( 1 << ++i ))
+apps_steam=$(( 1 << ++i ))
+apps_kitty=$(( 1 << ++i ))
+apps_neovim=$(( 1 << ++i ))
+apps_tmux=$(( 1 << ++i ))
+apps_htop=$(( 1 << ++i ))
+apps_mc=$(( 1 << ++i ))
+apps_ripgrep=$(( 1 << ++i ))
 
 # Environment
 
