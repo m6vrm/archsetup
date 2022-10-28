@@ -24,6 +24,7 @@ de_plasma=$(( ++i ))
 
 i=0
 apps_flatpak=$(( 1 << ++i ))
+apps_firefox=$(( 1 << ++i ))
 apps_steam=$(( 1 << ++i ))
 apps_kitty=$(( 1 << ++i ))
 apps_neovim=$(( 1 << ++i ))
@@ -203,6 +204,7 @@ fi
 
 # Apps
 
+(( apps & apps_firefox )) && pacman -S --noconfirm firefox
 (( apps & apps_steam ))   && pacman -S --noconfirm steam
 (( apps & apps_kitty ))   && pacman -S --noconfirm kitty
 (( apps & apps_neovim ))  && pacman -S --noconfirm neovim

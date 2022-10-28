@@ -61,6 +61,7 @@ dialog_apps() {
     i=0
     app_list=()
     [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Flatpak" "on") || let ++i
+    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Firefox" "on") || let ++i
     [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Steam" "on") || let ++i
     [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Kitty" "on") || let ++i
     app_list+=("$(( ++i ))" "Neovim" "on")
