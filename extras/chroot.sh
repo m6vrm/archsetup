@@ -175,6 +175,8 @@ if [ "$de" = "$de_plasma" ]; then
     systemctl enable sddm.service
 
     if (( features & feature_autologin )) && [ "$root_encrypted" != "0" ]; then
+        mkdir /etc/sddm.conf.d
+
         cat > /etc/sddm.conf.d/autologin.conf <<EOF
 [Autologin]
 User=${username}
