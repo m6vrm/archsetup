@@ -23,8 +23,13 @@ de_plasma=$(( ++i ))
 
 i=0
 apps_flatpak=$(( ++i ))
-apps_chrome=$(( ++i ))
 apps_steam=$(( ++i ))
+apps_kitty=$(( ++i ))
+apps_neovim=$(( ++i ))
+apps_tmux=$(( ++i ))
+apps_htop=$(( ++i ))
+apps_mc=$(( ++i ))
+apps_ripgrep=$(( ++i ))
 
 # Environment
 
@@ -186,19 +191,15 @@ if (( apps & apps_flatpak )); then
     flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 fi
 
-# Chrome
+# Apps
 
-if (( features && feature_paru )) && (( apps & apps_chrome )); then
-    echo "nobody ALL=(root) NOPASSWD: $(which pacman)" > /etc/sudoers.d/10-nobody-pacman
-    sudo -u nobody paru -S --noconfirm google-chrome
-    rm /etc/sudoers.d/10-nobody-pacman
-fi
-
-# Steam
-
-if (( apps & apps_steam )); then
-    pacman -S steam
-fi
+(( apps & apps_steam ))   && pacman -S --noconfirm steam
+(( apps & apps_kitty ))   && pacman -S --noconfirm kitty
+(( apps & apps_neovim ))  && pacman -S --noconfirm neovim
+(( apps & apps_tmux ))    && pacman -S --noconfirm tmux
+(( apps & apps_htop ))    && pacman -S --noconfirm htop
+(( apps & apps_mc ))      && pacman -S --noconfirm mc
+(( apps & apps_ripgrep )) && pacman -S --noconfirm ripgrep
 
 # End
 

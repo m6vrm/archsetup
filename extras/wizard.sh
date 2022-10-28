@@ -67,11 +67,13 @@ dialog_apps() {
     i=0
     app_list=()
     app_list+=("$(( ++i ))" "Flatpak" "on")
-    app_list+=("$(( ++i ))" "Google Chrome" "on")
     app_list+=("$(( ++i ))" "Steam" "on")
     app_list+=("$(( ++i ))" "Kitty" "on")
     app_list+=("$(( ++i ))" "Neovim" "on")
     app_list+=("$(( ++i ))" "Tmux" "on")
+    app_list+=("$(( ++i ))" "Htop" "on")
+    app_list+=("$(( ++i ))" "Midnight Commander" "on")
+    app_list+=("$(( ++i ))" "Ripgrep" "on")
 
     command=(dialog --stdout \
         --clear \
