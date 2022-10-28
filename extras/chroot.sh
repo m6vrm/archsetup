@@ -118,7 +118,8 @@ fi
 # Zsh
 
 if (( features & feature_zsh )); then
-    pacman -S --noconfirm zsh
+    pacman -S --noconfirm --needed base-devel zsh
+
     chsh -s "$(which zsh)" "$username"
     rm -f "/home/${username}/.bash_history"
     rm -f "/home/${username}/.bash_logout"

@@ -20,7 +20,7 @@ dialog_features() {
     feature_list+=("$(( ++i ))" "Autologin if root filesystem is encrypted" "on")
     feature_list+=("$(( ++i ))" "Disable PC speaker (beep)" "on")
     feature_list+=("$(( ++i ))" "Man pages" "on")
-    feature_list+=("$(( ++i ))" "Zsh" "on")
+    feature_list+=("$(( ++i ))" "Zsh as default login shell" "on")
     feature_list+=("$(( ++i ))" "Paru AUR helper" "on")
     [ "$nvidia" = "on" ] && feature_list+=("$(( ++i ))" "NVIDIA drivers" "$nvidia") || let ++i
     [ "$vbox" = "on" ] && feature_list+=("$(( ++i ))" "VirtualBox guest additions" "$vbox") || let ++i
