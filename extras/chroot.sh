@@ -150,6 +150,9 @@ fi
 
 # Plasma DE
 
+echo "$de"
+echo "$de_plasma"
+exit 1
 if [ "$de" = "$de_plasma" ]; then
     pacman -S --noconfirm --asdeps \
         wireplumber \
