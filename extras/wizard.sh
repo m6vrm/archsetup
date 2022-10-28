@@ -69,6 +69,9 @@ dialog_apps() {
     app_list+=("$(( ++i ))" "Flatpak" "on")
     app_list+=("$(( ++i ))" "Google Chrome" "on")
     app_list+=("$(( ++i ))" "Steam" "on")
+    app_list+=("$(( ++i ))" "Kitty" "on")
+    app_list+=("$(( ++i ))" "Neovim" "on")
+    app_list+=("$(( ++i ))" "Tmux" "on")
 
     command=(dialog --stdout \
         --clear \

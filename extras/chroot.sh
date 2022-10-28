@@ -188,8 +188,10 @@ fi
 
 # Chrome
 
-if (( apps & apps_chrome )); then
-    paru -S google-chrome
+if (( features && feature_paru) && (( apps & apps_chrome )); then
+    echo "nobody ALL=(root) NOPASSWD: $(which pacman)" > /etc/sudoers.d/10-nobody-pacman
+    sudo -u nobody paru -S google-chrome
+    rm /etc/sudoers.d/10-nobody-pacman
 fi
 
 # Steam
