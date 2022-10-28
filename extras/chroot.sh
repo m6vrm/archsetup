@@ -189,7 +189,7 @@ if [ "$de" = "$de_plasma" ]; then
         cat > /etc/sddm.conf.d/autologin.conf <<EOF
 [Autologin]
 User=${username}
-Session=plasma
+Session=plasmawayland
 EOF
 
     fi
