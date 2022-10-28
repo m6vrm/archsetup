@@ -188,7 +188,7 @@ fi
 
 # Chrome
 
-if (( features && feature_paru) && (( apps & apps_chrome )); then
+if (( features && feature_paru )) && (( apps & apps_chrome )); then
     echo "nobody ALL=(root) NOPASSWD: $(which pacman)" > /etc/sudoers.d/10-nobody-pacman
     sudo -u nobody paru -S --noconfirm google-chrome
     rm /etc/sudoers.d/10-nobody-pacman
