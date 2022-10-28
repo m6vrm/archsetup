@@ -20,6 +20,11 @@ i=0
 de_none=$(( ++i ))
 de_plasma=$(( ++i ))
 
+i=0
+apps_flatpak=$(( ++i ))
+apps_chrome=$(( ++i ))
+apps_steam=$(( ++i ))
+
 # Environment
 
 username=$(getent passwd | awk -F ':' '$6 == "/home/"$1 {print $1}' | head -n 1)
@@ -37,6 +42,7 @@ if (( features & feature_autologin )) && [ "$root_encrypted" != "0" ]; then
 ExecStart=
 ExecStart=-/sbin/agetty -o '-p -f -- \\\u' --noclear --autologin ${username} %I \$TERM
 EOF
+
 fi
 
 # Pacman
@@ -101,6 +107,7 @@ if (( features & feature_zram )); then
 zram-size = min(ram, 8192)
 compression-algorithm = zstd
 EOF
+
 fi
 
 # Paru
@@ -123,7 +130,8 @@ fi
 # NVIDIA drivers
 
 if (( features & feature_nvidia )); then
-    grep -qF "nvidia_drm.modeset=1" /etc/kernel/cmdline || echo -n " nvidia_drm.modeset=1" >> /etc/kernel/cmdline
+    grep -qF "nvidia_drm.modeset=1" /etc/kernel/cmdline || \
+        echo -n " nvidia_drm.modeset=1" >> /etc/kernel/cmdline
 
     pacman -S --noconfirm nvidia-dkms nvidia-settings
 fi
@@ -140,7 +148,7 @@ if [ "$de" = "$de_plasma" ]; then
     pacman -S --noconfirm --asdeps \
         wireplumber \
         pipewire-jack \
-        phonon-qt5-vlc
+        phonon-qt5-gstreamer
 
     pacman -S --noconfirm \
         ttf-iosevka-nerd \
@@ -166,7 +174,27 @@ if [ "$de" = "$de_plasma" ]; then
 User=${username}
 Session=plasma
 EOF
+
     fi
+fi
+
+# Flatpak
+
+if (( apps & apps_flatpak )); then
+    pacman -S flatpak
+    flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+fi
+
+# Chrome
+
+if (( apps & apps_chrome )); then
+    paru -S google-chrome
+fi
+
+# Steam
+
+if (( apps & apps_steam )); then
+    pacman -S steam
 fi
 
 # End

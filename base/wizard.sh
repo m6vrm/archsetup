@@ -50,7 +50,7 @@ dialog_root_device() {
     selected_device=$("${command[@]}" "${device_menu[@]}")
     [ "$?" != "0" ] && exit
 
-    root_device="${device_names[$((selected_device-1))]}"
+    root_device="${device_names[$(( selected_device - 1 ))]}"
 }
 
 dialog_pool_devices() {
@@ -72,7 +72,7 @@ dialog_pool_devices() {
         return 0
     fi
 
-    message="Single root volume will be created from all selected devices (including the root device).\n"
+    message="Single root volume will be created from all selected devices including the root device.\n"
     message+="All data on the selected devices will be destroyed during installation."
 
     command=(dialog --stdout \
@@ -84,7 +84,7 @@ dialog_pool_devices() {
     [ "$?" != "0" ] && exit
 
     for selected_device in ${selected_devices[@]}; do
-        pool_devices+=("${filtered_device_names[$((selected_device-1))]}")
+        pool_devices+=("${filtered_device_names[$(( selected_device - 1))]}")
     done
 }
 
@@ -95,7 +95,7 @@ dialog_encryption() {
         --clear \
         --insecure \
         --title "Disk encryption" \
-        --passwordbox "Enter encryption passphrase (or leave empty to skip encryption):" 0 0 "")
+        --passwordbox "Enter encryption passphrase or leave empty to skip encryption:" 0 0 "")
     passphrase=$("${command[@]}")
     [ "$?" != "0" ] && exit
 
@@ -241,7 +241,7 @@ dialog_recovery() {
 
     recovery=0
     for option in ${selected_options[@]}; do
-        recovery=$(( recovery + (1 << option) ))
+        recovery=$(( recovery + ( 1<<option ) ))
     done
 }
 

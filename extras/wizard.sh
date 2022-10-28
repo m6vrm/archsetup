@@ -32,11 +32,11 @@ dialog_features() {
 
     features=0
     for feature in ${selected_features[@]}; do
-        features=$(( features + (1 << feature) ))
+        features=$(( features + ( 1<<feature ) ))
     done
 }
 
-dialog_des() {
+dialog_de() {
     local i de_list command
 
     i=0
@@ -48,12 +48,40 @@ dialog_des() {
         --clear \
         --default-item "2" \
         --title "Desktop environment" \
-        --menu "Select desktop environments." 0 0 0)
+        --menu "Select desktop environment." 0 0 0)
     de=$("${command[@]}" "${de_list[@]}")
     [ "$?" != "0" ] && exit
 
     let --de || :
 }
 
+dialog_apps() {
+    local i app_list command selected_apps
+
+    apps=0
+
+    if [ "$de" = "0" ]; then
+        return 0
+    fi
+
+    i=0
+    app_list=()
+    app_list+=("$(( ++i ))" "Flatpak" "on")
+    app_list+=("$(( ++i ))" "Google Chrome" "on")
+    app_list+=("$(( ++i ))" "Steam" "on")
+
+    command=(dialog --stdout \
+        --clear \
+        --title "Applications" \
+        --checklist "Select additional applications." 0 0 0)
+    selected_apps=$("${command[@]}" "${app_list[@]}")
+    [ "$?" != "0" ] && exit
+
+    for app in ${selected_apps[@]}; do
+        apps=$(( apps + ( 1<<app ) ))
+    done
+}
+
 dialog_features
-dialog_des
+dialog_de
+dialog_apps
