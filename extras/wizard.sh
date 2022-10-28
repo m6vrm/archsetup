@@ -51,6 +51,7 @@ dialog_de() {
         --menu "Select desktop environment." 0 0 0)
     de=$("${command[@]}" "${de_list[@]}")
     [ "$?" != "0" ] && exit
+    :
 }
 
 dialog_apps() {
