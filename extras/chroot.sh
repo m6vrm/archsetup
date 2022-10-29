@@ -153,7 +153,7 @@ if (( features & feature_paru )); then
     sudoers=/etc/sudoers.d/90-nobody-pacman
     echo "nobody ALL=(root) NOPASSWD: $(which pacman)" > "$sudoers"
     (cd paru && sudo -u nobody makepkg -fsri --noconfirm)
-    rm -f "$sudoers"
+    rm "$sudoers"
 
     rm -rf paru
 fi
@@ -199,6 +199,7 @@ if [ "$de" = "$de_plasma" ]; then
 
     systemctl enable sddm.service
 
+    # Disable baloo
     su - "$username" -c "balooctl suspend"
     su - "$username" -c "balooctl disable"
     su - "$username" -c "balooctl purge"
@@ -228,7 +229,7 @@ if (( features & feature_paru )) && (( apps & apps_chrome )); then
     sudoers=/etc/sudoers.d/90-user-pacman
     echo "${username} ALL=(root) NOPASSWD: $(which pacman)" > "$sudoers"
     su - "$username" -c "paru -S --noconfirm google-chrome"
-    rm -f "$sudoers"
+    rm "$sudoers"
 fi
 
 # Apps
