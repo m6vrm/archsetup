@@ -90,6 +90,15 @@ fi
 if (( features & feature_reflector )); then
     pacman -S --noconfirm reflector
 
+    cat > /etc/xdg/reflector/reflector.conf <<EOF
+--download-timeout 2
+--save /etc/pacman.d/mirrorlist
+--protocol https
+--fastest 20
+--age 12
+--sort age
+EOF
+
     sed -i "/--latest/s/[0-9]\+/20/" /etc/xdg/reflector/reflector.conf
     sed -i "/--sort/s/ .\+/ rate/" /etc/xdg/reflector/reflector.conf
 
