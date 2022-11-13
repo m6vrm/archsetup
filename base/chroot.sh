@@ -55,7 +55,7 @@ bootctl install
 cat > /boot/loader/loader.conf <<EOF
 timeout 2
 console-mode auto
-editor no
+editor yes
 EOF
 
 # Dracut
