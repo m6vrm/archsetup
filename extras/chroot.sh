@@ -93,13 +93,6 @@ if (( features & feature_reflector )); then
     sed -i "/--latest/s/[0-9]\+/20/" /etc/xdg/reflector/reflector.conf
     sed -i "/--sort/s/ .\+/ rate/" /etc/xdg/reflector/reflector.conf
 
-    echo "Retrieving fastest pacman mirrors, it may take a few minutes..."
-    reflector \
-        --save /etc/pacman.d/mirrorlist \
-        --protocol https \
-        --latest 20 \
-        --sort rate
-
     systemctl enable reflector.timer
 fi
 

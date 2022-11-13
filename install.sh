@@ -11,7 +11,8 @@ echo "Retrieving fastest pacman mirrors, it may take a few minutes..."
 reflector \
     --save /etc/pacman.d/mirrorlist \
     --protocol https \
-    --latest 20 \
+    --fastest 20 \
+    --age 12 \
     --sort rate
 
 dialog_variant() {
