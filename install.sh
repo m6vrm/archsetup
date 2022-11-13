@@ -13,7 +13,7 @@ reflector \
     --protocol https \
     --fastest 20 \
     --age 12 \
-    --sort rate
+    --sort age
 
 dialog_variant() {
     local variants command
