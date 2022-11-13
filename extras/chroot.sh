@@ -91,11 +91,11 @@ if (( features & feature_reflector )); then
     pacman -S --noconfirm reflector
 
     cat > /etc/xdg/reflector/reflector.conf <<EOF
---download-timeout 2
+--download-timeout 3
 --save /etc/pacman.d/mirrorlist
 --protocol https
 --fastest 20
---age 1
+--age 6
 --sort age
 EOF
 
