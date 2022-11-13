@@ -24,6 +24,7 @@ de_none=$(( ++i ))
 de_plasma=$(( ++i ))
 
 i=0
+apps_devtools=$(( 1 << ++i ))
 apps_neovim=$(( 1 << ++i ))
 apps_tmux=$(( 1 << ++i ))
 apps_htop=$(( 1 << ++i ))
@@ -98,9 +99,6 @@ if (( features & feature_reflector )); then
 --age 6
 --sort age
 EOF
-
-    sed -i "/--latest/s/[0-9]\+/20/" /etc/xdg/reflector/reflector.conf
-    sed -i "/--sort/s/ .\+/ rate/" /etc/xdg/reflector/reflector.conf
 
     systemctl enable reflector.timer
 fi
@@ -181,6 +179,7 @@ fi
 
 if [ "$de" = "$de_plasma" ]; then
     pacman -S --noconfirm --asdeps \
+        pipewire-pulse \
         wireplumber \
         pipewire-jack \
         phonon-qt5-gstreamer
@@ -202,6 +201,11 @@ if [ "$de" = "$de_plasma" ]; then
         kdeconnect
 
     systemctl enable sddm.service
+
+    # Allow kdeconnect in firewall
+    if (( features & feature_firewall )); then
+        firewall-cmd --zone=home --add-service=kdeconnect --permanent
+    fi
 
     # Disable baloo
     su - "$username" -c "balooctl suspend"
@@ -239,16 +243,17 @@ fi
 
 # Apps
 
-(( apps & apps_neovim ))  && pacman -S --noconfirm neovim
-(( apps & apps_tmux ))    && pacman -S --noconfirm tmux
-(( apps & apps_htop ))    && pacman -S --noconfirm htop
-(( apps & apps_mc ))      && pacman -S --noconfirm mc
-(( apps & apps_ripgrep )) && pacman -S --noconfirm ripgrep
-(( apps & apps_fzf ))     && pacman -S --noconfirm fzf
-(( apps & apps_firefox )) && pacman -S --noconfirm firefox
-(( apps & apps_kitty ))   && pacman -S --noconfirm kitty
-(( apps & apps_vscode ))  && pacman -S --noconfirm code
-(( apps & apps_steam ))   && pacman -S --noconfirm steam
+(( apps & apps_devtools )) && pacman -S --noconfirm devtools
+(( apps & apps_neovim ))   && pacman -S --noconfirm neovim xclip # xclip for system clipboard
+(( apps & apps_tmux ))     && pacman -S --noconfirm tmux
+(( apps & apps_htop ))     && pacman -S --noconfirm htop
+(( apps & apps_mc ))       && pacman -S --noconfirm mc
+(( apps & apps_ripgrep ))  && pacman -S --noconfirm ripgrep
+(( apps & apps_fzf ))      && pacman -S --noconfirm fzf
+(( apps & apps_firefox ))  && pacman -S --noconfirm firefox
+(( apps & apps_kitty ))    && pacman -S --noconfirm kitty
+(( apps & apps_vscode ))   && pacman -S --noconfirm code
+(( apps & apps_steam ))    && pacman -S --noconfirm steam
 
 # Cleanup
 
