@@ -14,7 +14,7 @@ reflector \
     --save /etc/pacman.d/mirrorlist \
     --protocol https \
     --fastest 20 \
-    --age 12 \
+    --age 1 \
     --sort age
 
 dialog_variant() {
