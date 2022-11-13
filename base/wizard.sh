@@ -95,7 +95,7 @@ dialog_encryption() {
         --clear \
         --insecure \
         --title "Disk encryption" \
-        --passwordbox "Enter encryption passphrase or leave empty to skip encryption:" 0 0 "")
+        --passwordbox "Enter encryption passphrase or leave empty to skip disk encryption:" 0 0 "")
     passphrase=$("${command[@]}")
     [ "$?" != "0" ] && exit
 
@@ -230,7 +230,7 @@ dialog_recovery() {
     i=0
     option_list=()
     option_list+=("$(( ++i ))" "Recovery bootloader entry" "on")
-    option_list+=("$(( ++i ))" "BTRFS snapshot after installation" "on")
+    option_list+=("$(( ++i ))" "BTRFS snapshots after installation" "on")
 
     command=(dialog --stdout \
         --clear \

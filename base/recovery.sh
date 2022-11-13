@@ -45,4 +45,5 @@ initrd /recovery/amd-ucode.img
 initrd /recovery/initramfs-linux.img
 options img_dev=${efi_part} img_loop=/recovery/archlinux.iso copytoram ${config_recovery_kernel_options}
 EOF
+
 }

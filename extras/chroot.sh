@@ -19,7 +19,7 @@ feature_paru=$(( 1 << ++i ))
 feature_nvidia=$(( 1 << ++i ))
 feature_vbox=$(( 1 << ++i ))
 
-i=-1 # de_none should be = 0
+i=-1 # de_none should be == 0
 de_none=$(( ++i ))
 de_plasma=$(( ++i ))
 
@@ -29,12 +29,13 @@ apps_tmux=$(( 1 << ++i ))
 apps_htop=$(( 1 << ++i ))
 apps_mc=$(( 1 << ++i ))
 apps_ripgrep=$(( 1 << ++i ))
+apps_fzf=$(( 1 << ++i ))
 apps_flatpak=$(( 1 << ++i ))
 apps_chrome=$(( 1 << ++i ))
 apps_firefox=$(( 1 << ++i ))
-apps_steam=$(( 1 << ++i ))
 apps_kitty=$(( 1 << ++i ))
 apps_vscode=$(( 1 << ++i ))
+apps_steam=$(( 1 << ++i ))
 
 # Environment
 
@@ -121,6 +122,7 @@ if (( features & feature_zsh )); then
     pacman -S --noconfirm --needed base-devel zsh
 
     chsh -s "$(which zsh)" "$username"
+
     rm -f "/home/${username}/.bash_history"
     rm -f "/home/${username}/.bash_logout"
     rm -f "/home/${username}/.bash_profile"
@@ -204,6 +206,7 @@ if [ "$de" = "$de_plasma" ]; then
     su - "$username" -c "balooctl disable"
     su - "$username" -c "balooctl purge"
 
+    # SDDM autologin
     if (( features & feature_autologin )) && [ "$root_encrypted" != "0" ]; then
         mkdir /etc/sddm.conf.d
 
@@ -239,14 +242,17 @@ fi
 (( apps & apps_htop ))    && pacman -S --noconfirm htop
 (( apps & apps_mc ))      && pacman -S --noconfirm mc
 (( apps & apps_ripgrep )) && pacman -S --noconfirm ripgrep
+(( apps & apps_fzf ))     && pacman -S --noconfirm fzf
 (( apps & apps_firefox )) && pacman -S --noconfirm firefox
-(( apps & apps_steam ))   && pacman -S --noconfirm steam
 (( apps & apps_kitty ))   && pacman -S --noconfirm kitty
 (( apps & apps_vscode ))  && pacman -S --noconfirm code
+(( apps & apps_steam ))   && pacman -S --noconfirm steam
 
 # Cleanup
 
 pacman -Sc --noconfirm
+
+# TODO: here we should check that /etc/sudoers.d contains only one file for current user
 
 # End
 

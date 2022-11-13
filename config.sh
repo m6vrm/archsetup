@@ -10,7 +10,7 @@ config_keymap="us"
 # Partitions
 
 config_min_efi_size="1G"
-config_max_efi_size="2G"
+config_max_efi_size="2G" # used for recovery boot entry
 
 config_efi_label="EFI"
 config_root_label="ROOT"
