@@ -7,6 +7,12 @@ archsetup_dir=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
 
 pacman -Sy --noconfirm --needed dialog aria2 2> /dev/null
 
+reflector \
+    --save /etc/pacman.d/mirrorlist \
+    --protocol https \
+    --latest 20 \
+    --sort rate
+
 dialog_variant() {
     local variants command
 
