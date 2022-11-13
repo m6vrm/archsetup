@@ -4,6 +4,8 @@ set -euf -o pipefail
 create_recovery_entry() {
     local efi_part root archiso_urls archiso_url archiso
 
+    echo "Downloading archlinux.iso to create recovery boot entry..."
+
     efi_part=$1
     root="${2:-""}"
 
