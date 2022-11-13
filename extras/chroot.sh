@@ -31,7 +31,7 @@ apps_mc=$(( 1 << ++i ))
 apps_ripgrep=$(( 1 << ++i ))
 apps_fzf=$(( 1 << ++i ))
 apps_flatpak=$(( 1 << ++i ))
-apps_chrome=$(( 1 << ++i ))
+# apps_chrome=$(( 1 << ++i ))
 apps_firefox=$(( 1 << ++i ))
 apps_kitty=$(( 1 << ++i ))
 apps_vscode=$(( 1 << ++i ))
@@ -228,12 +228,12 @@ fi
 
 # Chrome
 
-if (( features & feature_paru )) && (( apps & apps_chrome )); then
-    sudoers=/etc/sudoers.d/90-user-pacman
-    echo "${username} ALL=(root) NOPASSWD: $(which pacman)" > "$sudoers"
-    su - "$username" -c "paru -S --noconfirm google-chrome"
-    rm "$sudoers"
-fi
+# if (( features & feature_paru )) && (( apps & apps_chrome )); then
+#     sudoers=/etc/sudoers.d/90-user-pacman
+#     echo "${username} ALL=(root) NOPASSWD: $(which pacman)" > "$sudoers"
+#     su - "$username" -c "paru -S --noconfirm google-chrome"
+#     rm "$sudoers"
+# fi
 
 # Apps
 
