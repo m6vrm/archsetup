@@ -9,6 +9,7 @@ pacman -Sy --noconfirm --needed dialog aria2 2> /dev/null
 
 echo "Retrieving fastest pacman mirrors, it may take a few minutes..."
 reflector \
+    --verbose \
     --save /etc/pacman.d/mirrorlist \
     --protocol https \
     --fastest 20 \
