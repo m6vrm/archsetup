@@ -7,16 +7,6 @@ archsetup_dir=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
 
 pacman -Sy --noconfirm --needed dialog aria2 2> /dev/null
 
-# echo "Retrieving fastest pacman mirrors, it may take a few minutes..."
-# reflector \
-#     --verbose \
-#     --download-timeout 2 \
-#     --save /etc/pacman.d/mirrorlist \
-#     --protocol https \
-#     --fastest 20 \
-#     --age 1 \
-#     --sort age
-
 dialog_variant() {
     local variants command
 
