@@ -203,7 +203,7 @@ if [ "$de" = "$de_plasma" ]; then
 
     # Allow kdeconnect in firewall
     if (( features & feature_firewall )); then
-        firewall-offline-cmd --zone=home --add-service=kdeconnect --permanent
+        firewall-offline-cmd --zone=home --add-service=kdeconnect
     fi
 
     # Disable baloo
