@@ -81,7 +81,7 @@ fi
 if (( features & feature_firewall )); then
     pacman -S --noconfirm firewalld
 
-    sed -i "/DefaultZone=/s/=.\+/=home/" /etc/firewalld/firewalld.conf
+    firewall-offline-cmd --set-default-zone=home
 
     systemctl enable firewalld.service
 fi
@@ -203,7 +203,7 @@ if [ "$de" = "$de_plasma" ]; then
 
     # Allow kdeconnect in firewall
     if (( features & feature_firewall )); then
-        firewall-cmd --zone=home --add-service=kdeconnect --permanent
+        firewall-offline-cmd --zone=home --add-service=kdeconnect --permanent
     fi
 
     # Disable baloo
