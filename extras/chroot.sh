@@ -185,7 +185,6 @@ if [ "$de" = "$de_plasma" ]; then
         phonon-qt5-gstreamer
 
     pacman -S --noconfirm \
-        ttf-iosevka-nerd \
         ttf-liberation \
         $(pacman -Ssq noto-fonts) \
         ttf-hack \
