@@ -257,11 +257,14 @@ if [ "$de" = "$de_xfce" ]; then
 
     # LightDM autologin
     if (( features & feature_autologin )) && [ "$root_encrypted" != "0" ]; then
+        groupadd -r autologin
+        usermod -aG autologin "$username"
+
         mkdir -p /etc/lightdm/lightdm.conf.d
 
         cat > /etc/lightdm/lightdm.conf.d/10-autologin.conf <<EOF
-[SeatDefaults]
-autologin-user={$username}
+[Seat:*]
+autologin-user=${username}
 EOF
 
     fi
