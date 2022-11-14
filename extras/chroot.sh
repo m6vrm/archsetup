@@ -6,15 +6,15 @@ de="$2"
 apps="$3"
 
 i=0
+feature_nobeep=$(( 1 << ++i ))
+feature_zsh=$(( 1 << ++i ))
+feature_zram=$(( 1 << ++i ))
+feature_multilib=$(( 1 << ++i ))
+feature_autologin=$(( 1 << ++i ))
 feature_reflector=$(( 1 << ++i ))
 feature_paccache=$(( 1 << ++i ))
-feature_multilib=$(( 1 << ++i ))
-feature_zram=$(( 1 << ++i ))
 feature_firewall=$(( 1 << ++i ))
-feature_autologin=$(( 1 << ++i ))
-feature_nobeep=$(( 1 << ++i ))
 feature_man=$(( 1 << ++i ))
-feature_zsh=$(( 1 << ++i ))
 feature_paru=$(( 1 << ++i ))
 feature_nvidia=$(( 1 << ++i ))
 feature_vbox=$(( 1 << ++i ))
@@ -22,6 +22,7 @@ feature_vbox=$(( 1 << ++i ))
 i=-1 # de_none should be == 0
 de_none=$(( ++i ))
 de_plasma=$(( ++i ))
+de_xfce=$(( ++i ))
 
 i=0
 apps_devtools=$(( 1 << ++i ))
@@ -29,8 +30,8 @@ apps_neovim=$(( 1 << ++i ))
 apps_tmux=$(( 1 << ++i ))
 apps_htop=$(( 1 << ++i ))
 apps_mc=$(( 1 << ++i ))
-apps_ripgrep=$(( 1 << ++i ))
 apps_fzf=$(( 1 << ++i ))
+apps_ripgrep=$(( 1 << ++i ))
 apps_flatpak=$(( 1 << ++i ))
 # apps_chrome=$(( 1 << ++i ))
 apps_firefox=$(( 1 << ++i ))
@@ -178,10 +179,11 @@ fi
 # Plasma DE
 
 if [ "$de" = "$de_plasma" ]; then
-    pacman -S --noconfirm --asdeps \
+    pacman -S --noconfirm \
+        pipewire \
         pipewire-pulse \
-        wireplumber \
         pipewire-jack \
+        wireplumber \
         phonon-qt5-gstreamer
 
     pacman -S --noconfirm \
@@ -218,12 +220,47 @@ if [ "$de" = "$de_plasma" ]; then
 
     # SDDM autologin
     if (( features & feature_autologin )) && [ "$root_encrypted" != "0" ]; then
-        mkdir /etc/sddm.conf.d
+        mkdir -p /etc/sddm.conf.d
 
-        cat > /etc/sddm.conf.d/autologin.conf <<EOF
+        cat > /etc/sddm.conf.d/10-autologin.conf <<EOF
 [Autologin]
 User=${username}
 Session=plasmawayland
+EOF
+
+    fi
+fi
+
+# Xfce
+
+if [ "$de" = "$de_xfce" ]; then
+    pacman -S --noconfirm \
+        pipewire \
+        pipewire-pulse \
+        pipewire-jack \
+        wireplumber
+
+    pacman -S --noconfirm \
+        ttf-liberation \
+        $(pacman -Ssq noto-fonts) \
+        ttf-hack \
+        lightdm \
+        lightdm-gtk-greeter \
+        xfce4 \
+        xfce4-goodies
+
+    pacman -S --noconfirm \
+        ffmpegthumbnailer
+
+    systemctl enable lightdm.service
+
+    # LightDM autologin
+    if (( features & feature_autologin )) && [ "$root_encrypted" != "0" ]; then
+        mkdir -p /etc/lightdm/lightdm.conf.d
+
+        cat > /etc/lightdm/lightdm.conf.d/10-autologin.conf <<EOF
+[SeatDefaults]
+autologin-user={$username}
 EOF
 
     fi

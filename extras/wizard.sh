@@ -12,15 +12,15 @@ dialog_features() {
 
     i=0
     feature_list=()
+    feature_list+=("$(( ++i ))" "Disable PC speaker (beep)" "on")
+    feature_list+=("$(( ++i ))" "Zsh as default login shell" "on")
+    feature_list+=("$(( ++i ))" "Zram for swap" "on")
+    feature_list+=("$(( ++i ))" "Multilib repository with 32-bit software (wine, steam)" "on")
+    feature_list+=("$(( ++i ))" "Autologin if root filesystem is encrypted" "on")
     feature_list+=("$(( ++i ))" "Reflector to retrieve fastest pacman mirrors" "on")
     feature_list+=("$(( ++i ))" "Paccache to automatically clean pacman cache" "on")
-    feature_list+=("$(( ++i ))" "Multilib repository with 32-bit software (wine, steam)" "on")
-    feature_list+=("$(( ++i ))" "Zram for swap" "on")
     feature_list+=("$(( ++i ))" "Firewalld with home zone as default" "on")
-    feature_list+=("$(( ++i ))" "Autologin if root filesystem is encrypted" "on")
-    feature_list+=("$(( ++i ))" "Disable PC speaker (beep)" "on")
     feature_list+=("$(( ++i ))" "Man pages" "on")
-    feature_list+=("$(( ++i ))" "Zsh as default login shell" "on")
     feature_list+=("$(( ++i ))" "Paru AUR helper" "on")
     [ "$nvidia" = "on" ] && feature_list+=("$(( ++i ))" "NVIDIA drivers" "$nvidia") || let ++i
     [ "$vbox" = "on" ] && feature_list+=("$(( ++i ))" "VirtualBox guest additions" "$vbox") || let ++i
@@ -45,10 +45,11 @@ dialog_de() {
     de_list=()
     de_list+=("$(( ++i ))" "None")
     de_list+=("$(( ++i ))" "Plasma")
+    de_list+=("$(( ++i ))" "Xfce")
 
     command=(dialog --stdout \
         --clear \
-        --default-item "2" \
+        --default-item "3" \
         --title "Desktop environment" \
         --menu "Select desktop environment." 0 0 0)
     de=$("${command[@]}" "${de_list[@]}")
@@ -67,8 +68,8 @@ dialog_apps() {
     app_list+=("$(( ++i ))" "Tmux" "on")
     app_list+=("$(( ++i ))" "Htop" "on")
     app_list+=("$(( ++i ))" "Midnight Commander" "on")
-    app_list+=("$(( ++i ))" "Ripgrep" "on")
     app_list+=("$(( ++i ))" "Fzf" "on")
+    app_list+=("$(( ++i ))" "Ripgrep" "on")
     [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Flatpak" "on") || let ++i
     # [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Google Chrome" "on") || let ++i
     [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Firefox" "on") || let ++i
