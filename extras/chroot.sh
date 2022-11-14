@@ -198,6 +198,7 @@ if [ "$de" = "$de_plasma" ]; then
         dolphin \
         konsole \
         kate \
+        kcalc \
         kdeconnect
 
     pacman -S --noconfirm \
