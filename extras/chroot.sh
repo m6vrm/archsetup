@@ -193,11 +193,16 @@ if [ "$de" = "$de_plasma" ]; then
         plasma-meta
 
     pacman -S --noconfirm \
-        kdegraphics-thumbnailers ffmpegthumbs \
         dolphin \
         konsole \
         kate \
         kdeconnect
+
+    pacman -S --noconfirm \
+        kdegraphics-thumbnailers ffmpegthumbs \
+        gwenview \
+        okular \
+        spectacle
 
     systemctl enable sddm.service
 
