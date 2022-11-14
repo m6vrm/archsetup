@@ -265,6 +265,7 @@ if [ "$de" = "$de_xfce" ]; then
         cat > /etc/lightdm/lightdm.conf.d/10-autologin.conf <<EOF
 [Seat:*]
 autologin-user=${username}
+autologin-session=xfce
 EOF
 
     fi
