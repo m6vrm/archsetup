@@ -38,6 +38,7 @@ apps_firefox=$(( 1 << ++i ))
 apps_kitty=$(( 1 << ++i ))
 apps_vscode=$(( 1 << ++i ))
 apps_steam=$(( 1 << ++i ))
+apps_libreoffice=$(( 1 << ++i ))
 
 # Environment
 
@@ -291,17 +292,18 @@ fi
 
 # Apps
 
-(( apps & apps_devtools )) && pacman -S --noconfirm devtools
-(( apps & apps_neovim ))   && pacman -S --noconfirm neovim xclip # xclip for system clipboard
-(( apps & apps_tmux ))     && pacman -S --noconfirm tmux
-(( apps & apps_htop ))     && pacman -S --noconfirm htop
-(( apps & apps_mc ))       && pacman -S --noconfirm mc
-(( apps & apps_ripgrep ))  && pacman -S --noconfirm ripgrep
-(( apps & apps_fzf ))      && pacman -S --noconfirm fzf
-(( apps & apps_firefox ))  && pacman -S --noconfirm firefox
-(( apps & apps_kitty ))    && pacman -S --noconfirm kitty
-(( apps & apps_vscode ))   && pacman -S --noconfirm code
-(( apps & apps_steam ))    && pacman -S --noconfirm steam
+(( apps & apps_devtools ))    && pacman -S --noconfirm devtools
+(( apps & apps_neovim ))      && pacman -S --noconfirm neovim xclip # xclip for system clipboard
+(( apps & apps_tmux ))        && pacman -S --noconfirm tmux
+(( apps & apps_htop ))        && pacman -S --noconfirm htop
+(( apps & apps_mc ))          && pacman -S --noconfirm mc
+(( apps & apps_ripgrep ))     && pacman -S --noconfirm ripgrep
+(( apps & apps_fzf ))         && pacman -S --noconfirm fzf
+(( apps & apps_firefox ))     && pacman -S --noconfirm firefox
+(( apps & apps_kitty ))       && pacman -S --noconfirm kitty
+(( apps & apps_vscode ))      && pacman -S --noconfirm code
+(( apps & apps_steam ))       && pacman -S --noconfirm steam
+(( apps & apps_libreoffice )) && pacman -S --noconfirm libreoffice-fresh
 
 # Cleanup
 

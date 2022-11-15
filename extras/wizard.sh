@@ -49,7 +49,7 @@ dialog_de() {
 
     command=(dialog --stdout \
         --clear \
-        --default-item "3" \
+        --default-item "1" \
         --title "Desktop environment" \
         --menu "Select desktop environment." 0 0 0)
     de=$("${command[@]}" "${de_list[@]}")
@@ -74,8 +74,9 @@ dialog_apps() {
     # [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Google Chrome" "on") || let ++i
     [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Firefox" "on") || let ++i
     [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Kitty" "on") || let ++i
-    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "VS Code" "on") || let ++i
+    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "VS Code - OSS" "on") || let ++i
     [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Steam" "on") || let ++i
+    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "LibreOffice" "on") || let ++i
 
     command=(dialog --stdout \
         --clear \
