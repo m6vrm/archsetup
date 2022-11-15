@@ -198,6 +198,7 @@ if [ "$de" = "$de_plasma" ]; then
         dolphin \
         konsole \
         kate \
+        krunner \
         kcalc \
         kdeconnect
 
@@ -205,6 +206,7 @@ if [ "$de" = "$de_plasma" ]; then
         kdegraphics-thumbnailers ffmpegthumbs \
         gwenview \
         okular \
+        ark \
         spectacle
 
     systemctl enable sddm.service
