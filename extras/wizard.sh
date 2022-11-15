@@ -64,6 +64,7 @@ dialog_apps() {
     i=0
     app_list=()
     app_list+=("$(( ++i ))" "Devtools (git, ssh, rsync, etc)" "on")
+    app_list+=("$(( ++i ))" "Pass" "on")
     app_list+=("$(( ++i ))" "Neovim" "on")
     app_list+=("$(( ++i ))" "Tmux" "on")
     app_list+=("$(( ++i ))" "Htop" "on")
