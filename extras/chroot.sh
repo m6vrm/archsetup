@@ -123,7 +123,7 @@ fi
 # Zsh
 
 if (( features & feature_zsh )); then
-    pacman -S --noconfirm --needed base-devel zsh
+    pacman -S --noconfirm --needed zsh
 
     chsh -s "$(which zsh)" "$username"
 
@@ -149,7 +149,7 @@ fi
 # Paru
 
 if (( features & feature_paru )); then
-    pacman -S --noconfirm --needed git base-devel
+    pacman -S --noconfirm --needed git
 
     git clone https://aur.archlinux.org/paru-bin.git paru
 
@@ -295,7 +295,7 @@ fi
 # Apps
 
 (( apps & apps_devtools ))    && pacman -S --noconfirm devtools
-(( apps & apps_cpp ))         && pacman -S --noconfirm clang cmake ninja llvm cppcheck make
+(( apps & apps_cpp ))         && pacman -S --noconfirm clang cmake ninja llvm cppcheck
 (( apps & apps_pass ))        && pacman -S --noconfirm pass
 (( apps & apps_neovim ))      && pacman -S --noconfirm neovim xclip # xclip for system clipboard
 (( apps & apps_tmux ))        && pacman -S --noconfirm tmux

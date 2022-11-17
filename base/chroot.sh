@@ -39,7 +39,7 @@ EOF
 
 # Packages
 
-pacman -S --noconfirm btrfs-progs sudo networkmanager
+pacman -S --noconfirm base-devel btrfs-progs networkmanager
 
 # Services
 
