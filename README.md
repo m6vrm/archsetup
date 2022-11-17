@@ -1,5 +1,3 @@
-# archsetup
-
 Yet another Arch Linux installer.
 
 ## Usage
