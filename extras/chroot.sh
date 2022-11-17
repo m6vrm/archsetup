@@ -26,6 +26,7 @@ de_xfce=$(( ++i ))
 
 i=0
 apps_devtools=$(( 1 << ++i ))
+apps_cpp=$(( 1 << ++i ))
 apps_pass=$(( 1 << ++i ))
 apps_neovim=$(( 1 << ++i ))
 apps_tmux=$(( 1 << ++i ))
@@ -294,6 +295,7 @@ fi
 # Apps
 
 (( apps & apps_devtools ))    && pacman -S --noconfirm devtools
+(( apps & apps_cpp ))         && pacman -S --noconfirm clang cmake ninja llvm cppcheck make
 (( apps & apps_pass ))        && pacman -S --noconfirm pass
 (( apps & apps_neovim ))      && pacman -S --noconfirm neovim xclip # xclip for system clipboard
 (( apps & apps_tmux ))        && pacman -S --noconfirm tmux
