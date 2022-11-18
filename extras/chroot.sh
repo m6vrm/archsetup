@@ -41,6 +41,7 @@ apps_firefox=$(( 1 << ++i ))
 apps_kitty=$(( 1 << ++i ))
 apps_vscode=$(( 1 << ++i ))
 apps_steam=$(( 1 << ++i ))
+apps_lutris=$(( 1 << ++i ))
 apps_libreoffice=$(( 1 << ++i ))
 
 # Environment
@@ -315,6 +316,7 @@ fi
 (( apps & apps_kitty ))       && pacman -S --noconfirm kitty
 (( apps & apps_vscode ))      && pacman -S --noconfirm code
 (( apps & apps_steam ))       && pacman -S --noconfirm steam
+(( apps & apps_lutris ))      && pacman -S --noconfirm wine-staging winetricks lutris
 (( apps & apps_libreoffice )) && pacman -S --noconfirm libreoffice-fresh
 
 # Cleanup
