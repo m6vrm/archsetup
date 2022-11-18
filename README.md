@@ -24,7 +24,7 @@ Installs base system as if installed according to the [ArchWiki installation gui
 | **Locale**                | `en_US.UTF-8`                                                                                 |
 | **Bootloader**            | `systemd-boot`                                                                                |
 | **Initramfs generator**   | `dracut`                                                                                      |
-| **Packages**              | `base linux-* linux-*-headers linux-firmware {amd,intel}-ucode vim dracut btrfs-progs sudo networkmanager` |
+| **Packages**              | `base linux-* linux-*-headers linux-firmware {amd,intel}-ucode vim dracut base-devel btrfs-progs networkmanager` |
 | **Pacman hooks**          | `kernel-install` hook for automatic `initramfs` and bootloader entries generation             |
 | **Users**                 | - One user with `sudo` rights<br>- *`root` account disabled*                                  |
 
@@ -35,7 +35,7 @@ Installs base system as if installed according to the [ArchWiki installation gui
 Either edit bootloader entries in `/boot/loader/entries/` or edit the `/etc/kernel/cmdline` and *reinstall the kernel* to trigger `initramfs` and bootloader entries generation:
 
 ```sh
-vim /etc/kernel/cmdline
+sudoedit /etc/kernel/cmdline
 kernel-install add "$(uname r)" "/usr/lib/modules/$(uname -r)/vmlinuz" # or just `pacman -S <kernel-package>`
 ```
 
