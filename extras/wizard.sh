@@ -21,7 +21,6 @@ dialog_features() {
     feature_list+=("$(( ++i ))" "Paccache to automatically clean pacman cache" "on")
     feature_list+=("$(( ++i ))" "Firewalld with home zone as default" "on")
     feature_list+=("$(( ++i ))" "Man pages" "on")
-    feature_list+=("$(( ++i ))" "Disable IPv6" "on")
     feature_list+=("$(( ++i ))" "Paru AUR helper" "on")
     [ "$nvidia" = "on" ] && feature_list+=("$(( ++i ))" "NVIDIA drivers" "$nvidia") || let ++i
     [ "$vbox" = "on" ] && feature_list+=("$(( ++i ))" "VirtualBox guest additions" "$vbox") || let ++i

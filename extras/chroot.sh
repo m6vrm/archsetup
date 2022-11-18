@@ -15,7 +15,6 @@ feature_reflector=$(( 1 << ++i ))
 feature_paccache=$(( 1 << ++i ))
 feature_firewall=$(( 1 << ++i ))
 feature_man=$(( 1 << ++i ))
-feature_ipv6=$(( 1 << ++i ))
 feature_paru=$(( 1 << ++i ))
 feature_nvidia=$(( 1 << ++i ))
 feature_vbox=$(( 1 << ++i ))
@@ -168,13 +167,6 @@ fi
 
 # NVIDIA drivers
 
-if (( features & feature_ipv6 )); then
-    grep -qF "ipv6.disable=1" /etc/kernel/cmdline || \
-        echo "ipv6.disable=1" >> /etc/kernel/cmdline
-fi
-
-# NVIDIA drivers
-
 if (( features & feature_nvidia )); then
     grep -qF "nvidia_drm.modeset=1" /etc/kernel/cmdline || \
         echo "nvidia_drm.modeset=1" >> /etc/kernel/cmdline
@@ -316,7 +308,7 @@ fi
 (( apps & apps_kitty ))       && pacman -S --noconfirm kitty
 (( apps & apps_vscode ))      && pacman -S --noconfirm code
 (( apps & apps_steam ))       && pacman -S --noconfirm steam
-(( apps & apps_lutris ))      && pacman -S --noconfirm wine-staging winetricks lutris
+(( apps & apps_lutris ))      && pacman -S --noconfirm wine-staging winetricks lutris lib32-gnutls
 (( apps & apps_libreoffice )) && pacman -S --noconfirm libreoffice-fresh
 
 # Cleanup
