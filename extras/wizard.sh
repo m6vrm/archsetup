@@ -80,6 +80,7 @@ dialog_apps() {
     [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Steam" "on") || let ++i
     [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Lutris" "on") || let ++i
     [ "$de" != "0" ] && app_list+=("$(( ++i ))" "LibreOffice" "on") || let ++i
+    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Qt Creator" "on") || let ++i
 
     command=(dialog --stdout \
         --clear \

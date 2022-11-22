@@ -42,6 +42,7 @@ apps_vscode=$(( 1 << ++i ))
 apps_steam=$(( 1 << ++i ))
 apps_lutris=$(( 1 << ++i ))
 apps_libreoffice=$(( 1 << ++i ))
+apps_qtcreator=$(( 1 << ++i ))
 
 # Environment
 
@@ -310,6 +311,7 @@ fi
 (( apps & apps_steam ))       && pacman -S --noconfirm steam
 (( apps & apps_lutris ))      && pacman -S --noconfirm wine-staging winetricks lutris lib32-gnutls
 (( apps & apps_libreoffice )) && pacman -S --noconfirm libreoffice-fresh
+(( apps & apps_qtcreator ))   && pacman -S --noconfirm qtcreator
 
 # Cleanup
 
