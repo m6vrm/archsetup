@@ -1,6 +1,11 @@
 #!/bin/bash
 set -uf -o pipefail
 
+i=-1 # de_none should be == 0
+de_none=$(( ++i ))
+de_plasma=$(( ++i ))
+de_xfce=$(( ++i ))
+
 dialog_features() {
     local i feature_list command selected_features gpu dmi nvidia vbox
 
@@ -72,15 +77,27 @@ dialog_apps() {
     app_list+=("$(( ++i ))" "Midnight Commander" "on")
     app_list+=("$(( ++i ))" "Fzf" "on")
     app_list+=("$(( ++i ))" "Ripgrep" "on")
-    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Flatpak" "on") || let ++i
-    # [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Google Chrome" "on") || let ++i
-    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Firefox" "on") || let ++i
-    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Kitty" "on") || let ++i
-    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "VS Code - OSS" "on") || let ++i
-    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Steam" "on") || let ++i
-    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Lutris" "on") || let ++i
-    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "LibreOffice" "on") || let ++i
-    [ "$de" != "0" ] && app_list+=("$(( ++i ))" "Qt Creator" "on") || let ++i
+    [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Flatpak" "on") || let ++i
+    [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Firefox" "on") || let ++i
+    [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Kitty" "on") || let ++i
+    [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "VS Code - OSS" "on") || let ++i
+    [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Steam" "on") || let ++i
+    [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Lutris" "on") || let ++i
+    [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "LibreOffice" "on") || let ++i
+    [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Qt Creator" "on") || let ++i
+
+    # KDE apps
+    [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Dolphin (file manager)" "on") || let ++i
+    [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Konsole (terminal emulator)" "on") || let ++i
+    [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Kate (text editor)" "on") || let ++i
+    [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Krunner (launcher)" "on") || let ++i
+    [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "KCalc (calculator)" "on") || let ++i
+    [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "KDE Connect (wireless file sharing)" "on") || let ++i
+    [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Gwenview (image viewer)" "on") || let ++i
+    [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Okular (document viewer)" "on") || let ++i
+    [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Ark (file archiver)" "on") || let ++i
+    [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Spectacle (screenshot capture)" "on") || let ++i
+    [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "KDiff3 (diff tool)" "on") || let ++i
 
     command=(dialog --stdout \
         --clear \
