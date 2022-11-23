@@ -297,7 +297,7 @@ fi
 # Apps
 
 (( apps & apps_devtools ))    && pacman -S --noconfirm devtools
-(( apps & apps_cpp ))         && pacman -S --noconfirm clang cmake ninja llvm cppcheck universal-ctags
+(( apps & apps_cpp ))         && pacman -S --noconfirm clang cmake ninja llvm cppcheck valgrind universal-ctags
 (( apps & apps_pass ))        && pacman -S --noconfirm pass
 (( apps & apps_neovim ))      && pacman -S --noconfirm neovim xclip # xclip for system clipboard
 (( apps & apps_tmux ))        && pacman -S --noconfirm tmux
