@@ -25,24 +25,36 @@ de_plasma=$(( ++i ))
 de_xfce=$(( ++i ))
 
 i=0
-apps_devtools=$(( 1 << ++i ))
-apps_cpp=$(( 1 << ++i ))
-apps_pass=$(( 1 << ++i ))
-apps_neovim=$(( 1 << ++i ))
-apps_tmux=$(( 1 << ++i ))
-apps_htop=$(( 1 << ++i ))
-apps_mc=$(( 1 << ++i ))
-apps_fzf=$(( 1 << ++i ))
-apps_ripgrep=$(( 1 << ++i ))
-apps_flatpak=$(( 1 << ++i ))
-# apps_chrome=$(( 1 << ++i ))
-apps_firefox=$(( 1 << ++i ))
-apps_kitty=$(( 1 << ++i ))
-apps_vscode=$(( 1 << ++i ))
-apps_steam=$(( 1 << ++i ))
-apps_lutris=$(( 1 << ++i ))
-apps_libreoffice=$(( 1 << ++i ))
-apps_qtcreator=$(( 1 << ++i ))
+app_devtools=$(( 1 << ++i ))
+app_cpp=$(( 1 << ++i ))
+app_pass=$(( 1 << ++i ))
+app_neovim=$(( 1 << ++i ))
+app_tmux=$(( 1 << ++i ))
+app_htop=$(( 1 << ++i ))
+app_mc=$(( 1 << ++i ))
+app_fzf=$(( 1 << ++i ))
+app_ripgrep=$(( 1 << ++i ))
+app_flatpak=$(( 1 << ++i ))
+app_firefox=$(( 1 << ++i ))
+app_kitty=$(( 1 << ++i ))
+app_vscode=$(( 1 << ++i ))
+app_steam=$(( 1 << ++i ))
+app_lutris=$(( 1 << ++i ))
+app_libreoffice=$(( 1 << ++i ))
+app_qtcreator=$(( 1 << ++i ))
+
+# KDE apps
+app_dolphin=$(( 1 << ++i ))
+app_konsole=$(( 1 << ++i ))
+app_kate=$(( 1 << ++i ))
+app_krunner=$(( 1 << ++i ))
+app_kcalc=$(( 1 << ++i ))
+app_kdeconnect=$(( 1 << ++i ))
+app_gwenview=$(( 1 << ++i ))
+app_okular=$(( 1 << ++i ))
+app_ark=$(( 1 << ++i ))
+app_spectacle=$(( 1 << ++i ))
+app_kdiff3=$(( 1 << ++i ))
 
 # Environment
 
@@ -200,19 +212,7 @@ if [ "$de" = "$de_plasma" ]; then
         plasma-meta
 
     pacman -S --noconfirm \
-        dolphin \
-        konsole \
-        kate \
-        krunner \
-        kcalc \
-        kdeconnect
-
-    pacman -S --noconfirm \
-        kdegraphics-thumbnailers ffmpegthumbs \
-        gwenview \
-        okular \
-        ark \
-        spectacle
+        kdegraphics-thumbnailers ffmpegthumbs
 
     systemctl enable sddm.service
 
@@ -280,44 +280,45 @@ fi
 
 # Flatpak
 
-if (( apps & apps_flatpak )); then
+if (( apps & app_flatpak )); then
     pacman -S --noconfirm flatpak
     flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 fi
 
-# Chrome
-
-# if (( features & feature_paru )) && (( apps & apps_chrome )); then
-#     sudoers=/etc/sudoers.d/90-user-pacman
-#     echo "${username} ALL=(root) NOPASSWD: $(which pacman)" > "$sudoers"
-#     su - "$username" -c "paru -S --noconfirm google-chrome"
-#     rm "$sudoers"
-# fi
-
 # Apps
 
-(( apps & apps_devtools ))    && pacman -S --noconfirm devtools
-(( apps & apps_cpp ))         && pacman -S --noconfirm clang cmake ninja llvm cppcheck valgrind universal-ctags
-(( apps & apps_pass ))        && pacman -S --noconfirm pass
-(( apps & apps_neovim ))      && pacman -S --noconfirm neovim xclip # xclip for system clipboard
-(( apps & apps_tmux ))        && pacman -S --noconfirm tmux
-(( apps & apps_htop ))        && pacman -S --noconfirm htop
-(( apps & apps_mc ))          && pacman -S --noconfirm mc
-(( apps & apps_ripgrep ))     && pacman -S --noconfirm ripgrep
-(( apps & apps_fzf ))         && pacman -S --noconfirm fzf
-(( apps & apps_firefox ))     && pacman -S --noconfirm firefox
-(( apps & apps_kitty ))       && pacman -S --noconfirm kitty
-(( apps & apps_vscode ))      && pacman -S --noconfirm code
-(( apps & apps_steam ))       && pacman -S --noconfirm steam
-(( apps & apps_lutris ))      && pacman -S --noconfirm wine-staging winetricks lutris lib32-gnutls
-(( apps & apps_libreoffice )) && pacman -S --noconfirm libreoffice-fresh
-(( apps & apps_qtcreator ))   && pacman -S --noconfirm qtcreator
+(( apps & app_devtools ))    && pacman -S --noconfirm devtools
+(( apps & app_cpp ))         && pacman -S --noconfirm clang cmake ninja llvm cppcheck valgrind universal-ctags
+(( apps & app_pass ))        && pacman -S --noconfirm pass
+(( apps & app_neovim ))      && pacman -S --noconfirm neovim xclip # xclip for system clipboard
+(( apps & app_tmux ))        && pacman -S --noconfirm tmux
+(( apps & app_htop ))        && pacman -S --noconfirm htop
+(( apps & app_mc ))          && pacman -S --noconfirm mc
+(( apps & app_ripgrep ))     && pacman -S --noconfirm ripgrep
+(( apps & app_fzf ))         && pacman -S --noconfirm fzf
+(( apps & app_firefox ))     && pacman -S --noconfirm firefox
+(( apps & app_kitty ))       && pacman -S --noconfirm kitty
+(( apps & app_vscode ))      && pacman -S --noconfirm code
+(( apps & app_steam ))       && pacman -S --noconfirm steam
+(( apps & app_lutris ))      && pacman -S --noconfirm wine-staging winetricks lutris lib32-gnutls
+(( apps & app_libreoffice )) && pacman -S --noconfirm libreoffice-fresh
+(( apps & app_qtcreator ))   && pacman -S --noconfirm qtcreator
+
+# KDE apps
+(( apps & app_dolphin ))   && pacman -S --noconfirm dolphin
+(( apps & app_konsole ))   && pacman -S --noconfirm konsole
+(( apps & app_kate ))      && pacman -S --noconfirm kate
+(( apps & app_krunner ))   && pacman -S --noconfirm krunner
+(( apps & app_kcalc ))     && pacman -S --noconfirm kcalc
+(( apps & app_gwenview ))  && pacman -S --noconfirm gwenview
+(( apps & app_okular ))    && pacman -S --noconfirm okular
+(( apps & app_ark ))       && pacman -S --noconfirm ark
+(( apps & app_spectacle )) && pacman -S --noconfirm spectacle
+(( apps & app_kdiff3 ))    && pacman -S --noconfirm kdiff3
 
 # Cleanup
 
 pacman -Sc --noconfirm
-
-# TODO: here we should check that /etc/sudoers.d contains only one file for current user
 
 # End
 
