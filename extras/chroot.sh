@@ -34,6 +34,8 @@ app_htop=$(( 1 << ++i ))
 app_mc=$(( 1 << ++i ))
 app_fzf=$(( 1 << ++i ))
 app_ripgrep=$(( 1 << ++i ))
+app_ffmpeg=$(( 1 << ++i ))
+
 app_flatpak=$(( 1 << ++i ))
 app_firefox=$(( 1 << ++i ))
 app_kitty=$(( 1 << ++i ))
@@ -294,8 +296,10 @@ fi
 (( apps & app_tmux ))        && pacman -S --noconfirm tmux
 (( apps & app_htop ))        && pacman -S --noconfirm htop
 (( apps & app_mc ))          && pacman -S --noconfirm mc
-(( apps & app_ripgrep ))     && pacman -S --noconfirm ripgrep
 (( apps & app_fzf ))         && pacman -S --noconfirm fzf
+(( apps & app_ripgrep ))     && pacman -S --noconfirm ripgrep
+(( apps & app_ffmpeg ))      && pacman -S --noconfirm ffmpeg gifsicle
+
 (( apps & app_firefox ))     && pacman -S --noconfirm firefox
 (( apps & app_kitty ))       && pacman -S --noconfirm kitty
 (( apps & app_vscode ))      && pacman -S --noconfirm code

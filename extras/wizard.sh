@@ -77,6 +77,9 @@ dialog_apps() {
     app_list+=("$(( ++i ))" "Midnight Commander" "on")
     app_list+=("$(( ++i ))" "Fzf" "on")
     app_list+=("$(( ++i ))" "Ripgrep" "on")
+    app_list+=("$(( ++i ))" "Ffmpeg" "on")
+
+    # DE apps
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Flatpak" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Firefox" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Kitty" "on") || let ++i
