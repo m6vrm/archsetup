@@ -292,7 +292,7 @@ fi
 
 (( apps & app_devtools ))    && pacman -S --noconfirm devtools
 (( apps & app_cpp ))         && pacman -S --noconfirm clang cmake ninja llvm cppcheck valgrind universal-ctags
-(( apps & app_golang ))      && pacman -S --noconfirm go
+(( apps & app_golang ))      && pacman -S --noconfirm go delve
 (( apps & app_pass ))        && pacman -S --noconfirm pass
 (( apps & app_neovim ))      && pacman -S --noconfirm neovim xclip # xclip for system clipboard
 (( apps & app_tmux ))        && pacman -S --noconfirm tmux
