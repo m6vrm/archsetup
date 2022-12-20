@@ -45,6 +45,7 @@ app_steam=$(( 1 << ++i ))
 app_lutris=$(( 1 << ++i ))
 app_libreoffice=$(( 1 << ++i ))
 app_qtcreator=$(( 1 << ++i ))
+app_qbittorrent=$(( 1 << ++i ))
 
 # KDE apps
 app_dolphin=$(( 1 << ++i ))
@@ -309,6 +310,7 @@ fi
 (( apps & app_lutris ))      && pacman -S --noconfirm wine-staging winetricks lutris lib32-gnutls
 (( apps & app_libreoffice )) && pacman -S --noconfirm libreoffice-fresh
 (( apps & app_qtcreator ))   && pacman -S --noconfirm qtcreator
+(( apps & app_qbittorrent )) && pacman -S --noconfirm qbittorrent
 
 # KDE apps
 (( apps & app_dolphin ))   && pacman -S --noconfirm dolphin
