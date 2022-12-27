@@ -42,8 +42,8 @@ kernel-install add "$(uname r)" "/usr/lib/modules/$(uname -r)/vmlinuz" # or just
 **Update recovery image**
 
 1. Download the [latest Arch Linux ISO](https://archlinux.org/download/) and place it at `/boot/recovery/archlinux.iso`.
-2. Check boot into recovery mode.
-3. If boot failed, mount downloaded `archlinux.iso` and copy `vmlinuz-linux` and `initramfs-linux.img` to `/bood/recovery/`.
+2. Check booting into recovery mode.
+3. If boot failed, mount downloaded `archlinux.iso` and copy `vmlinuz-linux` and `initramfs-linux.img` to `/boot/recovery/`.
 
 ## Installation example
 
