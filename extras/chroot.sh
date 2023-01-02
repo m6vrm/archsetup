@@ -291,7 +291,13 @@ fi
 
 # Apps
 
-(( apps & app_devtools ))    && pacman -S --noconfirm devtools
+if (( apps & app_devtools )); then
+    pacman -S --noconfirm devtools
+
+    # Disable SSH password authentication
+    sed -i -E 's/#?PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+fi
+
 (( apps & app_cpp ))         && pacman -S --noconfirm clang cmake ninja llvm cppcheck valgrind universal-ctags doxygen
 (( apps & app_golang ))      && pacman -S --noconfirm go delve staticcheck
 (( apps & app_pass ))        && pacman -S --noconfirm pass
