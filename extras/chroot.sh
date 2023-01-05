@@ -234,7 +234,7 @@ if [ "$de" = "$de_plasma" ]; then
     if (( features & feature_autologin )) && [ "$root_encrypted" != "0" ]; then
         mkdir -p /etc/sddm.conf.d
 
-        cat > /etc/sddm.conf.d/10-autologin.conf <<EOF
+        cat > /etc/sddm.conf.d/autologin.conf <<EOF
 [Autologin]
 User=${username}
 Session=plasma
