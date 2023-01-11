@@ -37,7 +37,6 @@ app_fzf=$(( 1 << ++i ))
 app_ripgrep=$(( 1 << ++i ))
 app_ffmpeg=$(( 1 << ++i ))
 
-app_flatpak=$(( 1 << ++i ))
 app_firefox=$(( 1 << ++i ))
 app_kitty=$(( 1 << ++i ))
 app_vscode=$(( 1 << ++i ))
@@ -280,13 +279,6 @@ autologin-session=xfce
 EOF
 
     fi
-fi
-
-# Flatpak
-
-if (( apps & app_flatpak )); then
-    pacman -S --noconfirm flatpak
-    flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 fi
 
 # Apps

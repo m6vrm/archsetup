@@ -81,7 +81,6 @@ dialog_apps() {
     app_list+=("$(( ++i ))" "Ffmpeg" "on")
 
     # DE apps
-    [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Flatpak" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Firefox" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Kitty" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "VS Code - OSS" "on") || let ++i
