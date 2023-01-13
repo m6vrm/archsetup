@@ -209,7 +209,7 @@ if [ "$de" = "$de_plasma" ]; then
     pacman -S --noconfirm \
         ttf-liberation \
         $(pacman -Ssq noto-fonts) \
-        ttf-hack ttf-hack-nerd \
+        ttf-hack \
         plasma-wayland-session \
         sddm \
         plasma-meta
