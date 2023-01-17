@@ -290,7 +290,19 @@ if (( apps & app_devtools )); then
     sed -i -E 's/#?PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
 fi
 
-(( apps & app_cpp ))         && pacman -S --noconfirm clang cmake ninja llvm cppcheck valgrind universal-ctags doxygen
+if (( apps & app_cpp )); then
+    pacman -S --noconfirm \
+        clang \
+        cmake \
+        ninja \
+        llvm \
+        cppcheck \
+        valgrind \
+        universal-ctags \
+        doxygen \
+        lcov
+fi
+
 (( apps & app_golang ))      && pacman -S --noconfirm go delve staticcheck
 (( apps & app_pass ))        && pacman -S --noconfirm pass
 (( apps & app_neovim ))      && pacman -S --noconfirm neovim xclip # xclip for system clipboard
