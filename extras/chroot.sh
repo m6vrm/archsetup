@@ -27,7 +27,6 @@ de_xfce=$(( ++i ))
 i=0
 app_devtools=$(( 1 << ++i ))
 app_cpp=$(( 1 << ++i ))
-app_golang=$(( 1 << ++i ))
 app_pass=$(( 1 << ++i ))
 app_neovim=$(( 1 << ++i ))
 app_tmux=$(( 1 << ++i ))
@@ -300,10 +299,10 @@ if (( apps & app_cpp )); then
         valgrind \
         universal-ctags \
         doxygen \
-        lcov
+        lcov \
+        codespell
 fi
 
-(( apps & app_golang ))      && pacman -S --noconfirm go delve staticcheck
 (( apps & app_pass ))        && pacman -S --noconfirm pass
 (( apps & app_neovim ))      && pacman -S --noconfirm neovim xclip # xclip for system clipboard
 (( apps & app_tmux ))        && pacman -S --noconfirm tmux

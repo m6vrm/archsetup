@@ -70,7 +70,6 @@ dialog_apps() {
     app_list=()
     app_list+=("$(( ++i ))" "Unix Devtools (git, ssh, rsync, etc)" "on")
     app_list+=("$(( ++i ))" "C++ Devtools (cmake, clang, ninja, etc)" "on")
-    app_list+=("$(( ++i ))" "Golang Devtools (go, delve, etc)" "on")
     app_list+=("$(( ++i ))" "Pass" "on")
     app_list+=("$(( ++i ))" "Neovim" "on")
     app_list+=("$(( ++i ))" "Tmux" "on")
