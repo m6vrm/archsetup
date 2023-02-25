@@ -315,7 +315,7 @@ fi
 (( apps & app_firefox ))     && pacman -S --noconfirm firefox
 (( apps & app_kitty ))       && pacman -S --noconfirm kitty
 (( apps & app_vscode ))      && pacman -S --noconfirm code
-(( apps & app_steam ))       && pacman -S --noconfirm steam
+(( apps & app_steam ))       && pacman -S --noconfirm steam gamemode lib32-gamemode
 (( apps & app_lutris ))      && pacman -S --noconfirm wine-staging winetricks lutris lib32-gnutls
 (( apps & app_libreoffice )) && pacman -S --noconfirm libreoffice-fresh
 (( apps & app_qtcreator ))   && pacman -S --noconfirm qtcreator
