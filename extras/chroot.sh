@@ -52,6 +52,7 @@ app_kate=$(( 1 << ++i ))
 app_krunner=$(( 1 << ++i ))
 app_kcalc=$(( 1 << ++i ))
 app_kdeconnect=$(( 1 << ++i ))
+app_printing=$(( 1 << ++i ))
 app_gwenview=$(( 1 << ++i ))
 app_okular=$(( 1 << ++i ))
 app_ark=$(( 1 << ++i ))
@@ -322,16 +323,18 @@ fi
 (( apps & app_qbittorrent )) && pacman -S --noconfirm qbittorrent
 
 # KDE apps
-(( apps & app_dolphin ))   && pacman -S --noconfirm dolphin
-(( apps & app_konsole ))   && pacman -S --noconfirm konsole
-(( apps & app_kate ))      && pacman -S --noconfirm kate
-(( apps & app_krunner ))   && pacman -S --noconfirm krunner
-(( apps & app_kcalc ))     && pacman -S --noconfirm kcalc
-(( apps & app_gwenview ))  && pacman -S --noconfirm gwenview
-(( apps & app_okular ))    && pacman -S --noconfirm okular
-(( apps & app_ark ))       && pacman -S --noconfirm ark
-(( apps & app_spectacle )) && pacman -S --noconfirm spectacle
-(( apps & app_kdiff3 ))    && pacman -S --noconfirm kdiff3
+(( apps & app_dolphin ))    && pacman -S --noconfirm dolphin
+(( apps & app_konsole ))    && pacman -S --noconfirm konsole
+(( apps & app_kate ))       && pacman -S --noconfirm kate
+(( apps & app_krunner ))    && pacman -S --noconfirm krunner
+(( apps & app_kcalc ))      && pacman -S --noconfirm kcalc
+(( apps & app_kdeconnect )) && pacman -S --noconfirm kdeconnect
+(( apps & app_printing ))   && pacman -S --noconfirm cups print-manager system-config-printer
+(( apps & app_gwenview ))   && pacman -S --noconfirm gwenview
+(( apps & app_okular ))     && pacman -S --noconfirm okular
+(( apps & app_ark ))        && pacman -S --noconfirm ark
+(( apps & app_spectacle ))  && pacman -S --noconfirm spectacle
+(( apps & app_kdiff3 ))     && pacman -S --noconfirm kdiff3
 
 # Cleanup
 

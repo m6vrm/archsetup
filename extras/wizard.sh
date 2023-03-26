@@ -96,6 +96,7 @@ dialog_apps() {
     [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Krunner (launcher)" "on") || let ++i
     [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "KCalc (calculator)" "on") || let ++i
     [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "KDE Connect (wireless file sharing)" "on") || let ++i
+    [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Printing (cups)" "on") || let ++i
     [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Gwenview (image viewer)" "on") || let ++i
     [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Okular (document viewer)" "on") || let ++i
     [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Ark (file archiver)" "on") || let ++i
