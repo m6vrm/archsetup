@@ -15,6 +15,7 @@ feature_reflector=$(( 1 << ++i ))
 feature_paccache=$(( 1 << ++i ))
 feature_firewall=$(( 1 << ++i ))
 feature_man=$(( 1 << ++i ))
+feature_printing=$(( 1 << ++i ))
 feature_paru=$(( 1 << ++i ))
 feature_nvidia=$(( 1 << ++i ))
 feature_vbox=$(( 1 << ++i ))
@@ -22,7 +23,6 @@ feature_vbox=$(( 1 << ++i ))
 i=-1 # de_none should be == 0
 de_none=$(( ++i ))
 de_plasma=$(( ++i ))
-de_xfce=$(( ++i ))
 
 i=0
 app_devtools=$(( 1 << ++i ))
@@ -35,6 +35,7 @@ app_mc=$(( 1 << ++i ))
 app_fzf=$(( 1 << ++i ))
 app_ripgrep=$(( 1 << ++i ))
 app_ffmpeg=$(( 1 << ++i ))
+app_ncdu=$(( 1 << ++i ))
 
 app_firefox=$(( 1 << ++i ))
 app_kitty=$(( 1 << ++i ))
@@ -52,7 +53,6 @@ app_kate=$(( 1 << ++i ))
 app_krunner=$(( 1 << ++i ))
 app_kcalc=$(( 1 << ++i ))
 app_kdeconnect=$(( 1 << ++i ))
-app_printing=$(( 1 << ++i ))
 app_gwenview=$(( 1 << ++i ))
 app_okular=$(( 1 << ++i ))
 app_ark=$(( 1 << ++i ))
@@ -128,6 +128,7 @@ fi
 
 if (( features & feature_paccache )); then
     pacman -S --noconfirm pacman-contrib
+
     systemctl enable paccache.timer
 fi
 
@@ -140,7 +141,7 @@ fi
 # Zsh
 
 if (( features & feature_zsh )); then
-    pacman -S --noconfirm --needed zsh
+    pacman -S --noconfirm zsh
 
     chsh -s "$(which zsh)" "$username"
 
@@ -163,10 +164,18 @@ EOF
 
 fi
 
+# Printing
+
+if (( features & feature_printing )); then
+    pacman -S --noconfirm cups
+
+    systemctl enable cups.service
+fi
+
 # Paru
 
 if (( features & feature_paru )); then
-    pacman -S --noconfirm --needed git
+    pacman -S --noconfirm git
 
     git clone https://aur.archlinux.org/paru-bin.git paru
 
@@ -224,6 +233,13 @@ if [ "$de" = "$de_plasma" ]; then
         firewall-offline-cmd --zone=home --add-service=kdeconnect
     fi
 
+    # Add printer settings
+    if (( features & feature_printing )); then
+        pacman -S --noconfirm \
+            print-manager \
+            system-config-printer
+    fi
+
     # Disable baloo
     su - "$username" -c "balooctl suspend"
     su - "$username" -c "balooctl disable"
@@ -237,45 +253,6 @@ if [ "$de" = "$de_plasma" ]; then
 [Autologin]
 User=${username}
 Session=plasma
-EOF
-
-    fi
-fi
-
-# Xfce
-
-if [ "$de" = "$de_xfce" ]; then
-    pacman -S --noconfirm \
-        pipewire \
-        pipewire-pulse \
-        pipewire-jack \
-        wireplumber
-
-    pacman -S --noconfirm \
-        ttf-liberation \
-        $(pacman -Ssq noto-fonts) \
-        ttf-hack \
-        lightdm \
-        lightdm-gtk-greeter \
-        xfce4 \
-        xfce4-goodies
-
-    pacman -S --noconfirm \
-        ffmpegthumbnailer
-
-    systemctl enable lightdm.service
-
-    # LightDM autologin
-    if (( features & feature_autologin )) && [ "$root_encrypted" != "0" ]; then
-        groupadd -r autologin
-        usermod -aG autologin "$username"
-
-        mkdir -p /etc/lightdm/lightdm.conf.d
-
-        cat > /etc/lightdm/lightdm.conf.d/10-autologin.conf <<EOF
-[Seat:*]
-autologin-user=${username}
-autologin-session=xfce
 EOF
 
     fi
@@ -312,6 +289,7 @@ fi
 (( apps & app_fzf ))         && pacman -S --noconfirm fzf
 (( apps & app_ripgrep ))     && pacman -S --noconfirm ripgrep
 (( apps & app_ffmpeg ))      && pacman -S --noconfirm ffmpeg gifsicle
+(( apps & app_ncdu ))        && pacman -S --noconfirm ncdu
 
 (( apps & app_firefox ))     && pacman -S --noconfirm firefox
 (( apps & app_kitty ))       && pacman -S --noconfirm kitty
@@ -329,7 +307,6 @@ fi
 (( apps & app_krunner ))    && pacman -S --noconfirm krunner
 (( apps & app_kcalc ))      && pacman -S --noconfirm kcalc
 (( apps & app_kdeconnect )) && pacman -S --noconfirm kdeconnect
-(( apps & app_printing ))   && pacman -S --noconfirm cups print-manager system-config-printer
 (( apps & app_gwenview ))   && pacman -S --noconfirm gwenview
 (( apps & app_okular ))     && pacman -S --noconfirm okular
 (( apps & app_ark ))        && pacman -S --noconfirm ark

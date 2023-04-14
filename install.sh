@@ -5,7 +5,7 @@ archsetup_dir=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
 
 . "${archsetup_dir}/config.sh"
 
-pacman -Sy --noconfirm --needed dialog aria2 2> /dev/null
+pacman -Sy --noconfirm dialog aria2 2> /dev/null
 
 dialog_variant() {
     local variants command

@@ -4,7 +4,6 @@ set -uf -o pipefail
 i=-1 # de_none should be == 0
 de_none=$(( ++i ))
 de_plasma=$(( ++i ))
-de_xfce=$(( ++i ))
 
 dialog_features() {
     local i feature_list command selected_features gpu dmi nvidia vbox
@@ -26,6 +25,7 @@ dialog_features() {
     feature_list+=("$(( ++i ))" "Paccache to automatically clean pacman cache" "on")
     feature_list+=("$(( ++i ))" "Firewalld with home zone as default" "on")
     feature_list+=("$(( ++i ))" "Man pages and TLDR" "on")
+    feature_list+=("$(( ++i ))" "Printer support" "on")
     feature_list+=("$(( ++i ))" "Paru AUR helper" "on")
     [ "$nvidia" = "on" ] && feature_list+=("$(( ++i ))" "NVIDIA drivers" "$nvidia") || let ++i
     [ "$vbox" = "on" ] && feature_list+=("$(( ++i ))" "VirtualBox guest additions" "$vbox") || let ++i
@@ -50,7 +50,6 @@ dialog_de() {
     de_list=()
     de_list+=("$(( ++i ))" "None")
     de_list+=("$(( ++i ))" "Plasma")
-    de_list+=("$(( ++i ))" "Xfce")
 
     command=(dialog --stdout \
         --clear \
@@ -68,16 +67,17 @@ dialog_apps() {
 
     i=0
     app_list=()
-    app_list+=("$(( ++i ))" "Unix Devtools (git, ssh, rsync, etc)" "on")
-    app_list+=("$(( ++i ))" "C++ Devtools (cmake, clang, ninja, etc)" "on")
-    app_list+=("$(( ++i ))" "Pass" "on")
-    app_list+=("$(( ++i ))" "Neovim" "on")
-    app_list+=("$(( ++i ))" "Tmux" "on")
-    app_list+=("$(( ++i ))" "Htop" "on")
-    app_list+=("$(( ++i ))" "Midnight Commander" "on")
-    app_list+=("$(( ++i ))" "Fzf" "on")
-    app_list+=("$(( ++i ))" "Ripgrep" "on")
-    app_list+=("$(( ++i ))" "Ffmpeg" "on")
+    app_list+=("$(( ++i ))" "Unix devtools (git, ssh, rsync, etc)" "on")
+    app_list+=("$(( ++i ))" "C++ devtools (cmake, clang, ninja, etc)" "on")
+    app_list+=("$(( ++i ))" "pass" "on")
+    app_list+=("$(( ++i ))" "neovim" "on")
+    app_list+=("$(( ++i ))" "tmux" "on")
+    app_list+=("$(( ++i ))" "htop" "on")
+    app_list+=("$(( ++i ))" "mc" "on")
+    app_list+=("$(( ++i ))" "fzf" "on")
+    app_list+=("$(( ++i ))" "ripgrep" "on")
+    app_list+=("$(( ++i ))" "ffmpeg" "on")
+    app_list+=("$(( ++i ))" "ncdu" "on")
 
     # DE apps
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Firefox" "on") || let ++i
@@ -96,7 +96,6 @@ dialog_apps() {
     [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Krunner (launcher)" "on") || let ++i
     [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "KCalc (calculator)" "on") || let ++i
     [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "KDE Connect (wireless file sharing)" "on") || let ++i
-    [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Printing (cups)" "on") || let ++i
     [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Gwenview (image viewer)" "on") || let ++i
     [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Okular (document viewer)" "on") || let ++i
     [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Ark (file archiver)" "on") || let ++i
