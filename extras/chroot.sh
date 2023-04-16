@@ -220,6 +220,7 @@ if [ "$de" = "$de_plasma" ]; then
         $(pacman -Ssq noto-fonts) \
         ttf-hack \
         plasma-wayland-session \
+        wl-clipboard \
         sddm \
         plasma-meta
 
