@@ -78,16 +78,16 @@ dialog_apps() {
     app_list+=("$(( ++i ))" "ripgrep" "on")
     app_list+=("$(( ++i ))" "ffmpeg" "on")
     app_list+=("$(( ++i ))" "ncdu" "on")
+    app_list+=("$(( ++i ))" "podman" "on")
 
     # DE apps
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Firefox" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Kitty" "on") || let ++i
-    [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "VS Code - OSS" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Steam" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Lutris" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "LibreOffice" "on") || let ++i
-    [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Qt Creator" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "qBittorrent" "on") || let ++i
+    [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "VirtualBox" "on") || let ++i
 
     # KDE apps
     [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Dolphin (file manager)" "on") || let ++i

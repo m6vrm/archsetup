@@ -36,15 +36,15 @@ app_fzf=$(( 1 << ++i ))
 app_ripgrep=$(( 1 << ++i ))
 app_ffmpeg=$(( 1 << ++i ))
 app_ncdu=$(( 1 << ++i ))
+app_podman=$(( 1 << ++i ))
 
 app_firefox=$(( 1 << ++i ))
 app_kitty=$(( 1 << ++i ))
-app_vscode=$(( 1 << ++i ))
 app_steam=$(( 1 << ++i ))
 app_lutris=$(( 1 << ++i ))
 app_libreoffice=$(( 1 << ++i ))
-app_qtcreator=$(( 1 << ++i ))
 app_qbittorrent=$(( 1 << ++i ))
+app_vbox=$(( 1 << ++i ))
 
 # KDE apps
 app_dolphin=$(( 1 << ++i ))
@@ -113,7 +113,7 @@ if (( features & feature_reflector )); then
     pacman -S --noconfirm reflector
 
     cat > /etc/xdg/reflector/reflector.conf <<EOF
---download-timeout 3
+--download-timeout 2
 --save /etc/pacman.d/mirrorlist
 --protocol https
 --fastest 20
@@ -291,15 +291,15 @@ fi
 (( apps & app_ripgrep ))     && pacman -S --noconfirm ripgrep
 (( apps & app_ffmpeg ))      && pacman -S --noconfirm ffmpeg gifsicle
 (( apps & app_ncdu ))        && pacman -S --noconfirm ncdu
+(( apps & app_podman ))      && pacman -S --noconfirm podman
 
 (( apps & app_firefox ))     && pacman -S --noconfirm firefox
 (( apps & app_kitty ))       && pacman -S --noconfirm kitty
-(( apps & app_vscode ))      && pacman -S --noconfirm code
-(( apps & app_steam ))       && pacman -S --noconfirm steam gamemode lib32-gamemode
+(( apps & app_steam ))       && pacman -S --noconfirm steam gamemode lib32-gamemode mangohud
 (( apps & app_lutris ))      && pacman -S --noconfirm wine-staging winetricks lutris lib32-gnutls
 (( apps & app_libreoffice )) && pacman -S --noconfirm libreoffice-fresh
-(( apps & app_qtcreator ))   && pacman -S --noconfirm qtcreator
 (( apps & app_qbittorrent )) && pacman -S --noconfirm qbittorrent
+(( apps & app_vbox ))        && pacman -S --noconfirm virtualbox virtualbox-host-modules-arch virtualbox-host-dkms
 
 # KDE apps
 (( apps & app_dolphin ))    && pacman -S --noconfirm dolphin
