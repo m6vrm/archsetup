@@ -301,7 +301,7 @@ fi
 (( apps & app_lutris ))      && pacman -S --noconfirm wine-staging winetricks lutris lib32-gnutls
 (( apps & app_libreoffice )) && pacman -S --noconfirm libreoffice-fresh
 (( apps & app_qbittorrent )) && pacman -S --noconfirm qbittorrent
-(( apps & app_vbox ))        && pacman -S --noconfirm virtualbox virtualbox-host-modules-arch virtualbox-host-dkms
+(( apps & app_vbox ))        && pacman -S --noconfirm virtualbox
 
 # KDE apps
 (( apps & app_dolphin ))    && pacman -S --noconfirm dolphin
