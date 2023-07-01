@@ -46,6 +46,7 @@ app_lutris=$(( 1 << ++i ))
 app_libreoffice=$(( 1 << ++i ))
 app_qbittorrent=$(( 1 << ++i ))
 app_vbox=$(( 1 << ++i ))
+app_mpv=$(( 1 << ++i ))
 
 # KDE apps
 app_dolphin=$(( 1 << ++i ))
@@ -302,6 +303,7 @@ fi
 (( apps & app_libreoffice )) && pacman -S --noconfirm libreoffice-fresh
 (( apps & app_qbittorrent )) && pacman -S --noconfirm qbittorrent
 (( apps & app_vbox ))        && pacman -S --noconfirm virtualbox
+(( apps & app_mpv ))         && pacman -S --noconfirm mpv
 
 # KDE apps
 (( apps & app_dolphin ))    && pacman -S --noconfirm dolphin
