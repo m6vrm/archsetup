@@ -36,6 +36,7 @@ app_fzf=$(( 1 << ++i ))
 app_ripgrep=$(( 1 << ++i ))
 app_ffmpeg=$(( 1 << ++i ))
 app_ncdu=$(( 1 << ++i ))
+app_lostfiles=$(( 1 << ++i ))
 app_podman=$(( 1 << ++i ))
 
 app_firefox=$(( 1 << ++i ))
@@ -291,6 +292,7 @@ fi
 (( apps & app_ripgrep ))     && pacman -S --noconfirm ripgrep
 (( apps & app_ffmpeg ))      && pacman -S --noconfirm ffmpeg gifsicle
 (( apps & app_ncdu ))        && pacman -S --noconfirm ncdu
+(( apps & app_lostfiles ))   && pacman -S --noconfirm lostfiles
 (( apps & app_podman ))      && pacman -S --noconfirm podman
 
 (( apps & app_firefox ))     && pacman -S --noconfirm firefox

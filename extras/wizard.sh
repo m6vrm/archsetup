@@ -78,6 +78,7 @@ dialog_apps() {
     app_list+=("$(( ++i ))" "ripgrep" "on")
     app_list+=("$(( ++i ))" "ffmpeg" "on")
     app_list+=("$(( ++i ))" "ncdu" "on")
+    app_list+=("$(( ++i ))" "lostfiles" "on")
     app_list+=("$(( ++i ))" "podman" "on")
 
     # DE apps
