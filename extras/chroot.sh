@@ -294,7 +294,7 @@ fi
 (( apps & app_ffmpeg ))      && pacman -S --noconfirm ffmpeg gifsicle
 (( apps & app_ncdu ))        && pacman -S --noconfirm ncdu
 (( apps & app_lostfiles ))   && pacman -S --noconfirm lostfiles
-(( apps & app_podman ))      && pacman -S --noconfirm podman qemu-system-x86
+(( apps & app_podman ))      && pacman -S --noconfirm podman
 
 (( apps & app_firefox ))     && pacman -S --noconfirm firefox
 (( apps & app_kitty ))       && pacman -S --noconfirm kitty
