@@ -198,7 +198,7 @@ if (( features & feature_nvidia )); then
     grep -qF "nvidia_drm.modeset=1" /etc/kernel/cmdline || \
         echo "nvidia_drm.modeset=1" >> /etc/kernel/cmdline
 
-    pacman -S --noconfirm nvidia-dkms nvidia-settings
+    pacman -S --noconfirm nvidia-dkms nvidia-settings nvidia-prime
 fi
 
 # VirtualBox guest additions
