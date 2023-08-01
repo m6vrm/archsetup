@@ -6,12 +6,13 @@ de_none=$(( ++i ))
 de_plasma=$(( ++i ))
 
 dialog_features() {
-    local i feature_list command selected_features gpu dmi nvidia vbox
+    local i feature_list command selected_features gpu dmi nvidia amd vbox
 
     gpu=$(lspci | grep -P "(VGA|3D)")
     dmi=$(dmidecode -t 1)
 
     $(echo "$gpu" | grep -qiF "NVIDIA") && nvidia="on" || nvidia="off"
+    $(echo "$gpu" | grep -qiF "AMD") && amd="on" || amd="off"
     $(echo "$dmi" | grep -qiF "VirtualBox") && vbox="on" || vbox="off"
 
     i=0
@@ -28,6 +29,7 @@ dialog_features() {
     feature_list+=("$(( ++i ))" "Printer support" "on")
     feature_list+=("$(( ++i ))" "Paru AUR helper" "on")
     [ "$nvidia" = "on" ] && feature_list+=("$(( ++i ))" "NVIDIA drivers" "$nvidia") || let ++i
+    [ "$amd" = "on" ] && feature_list+=("$(( ++i ))" "AMD drivers" "$amd") || let ++i
     [ "$vbox" = "on" ] && feature_list+=("$(( ++i ))" "VirtualBox guest additions" "$vbox") || let ++i
 
     command=(dialog --stdout \

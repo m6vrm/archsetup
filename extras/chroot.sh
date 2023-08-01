@@ -18,6 +18,7 @@ feature_man=$(( 1 << ++i ))
 feature_printing=$(( 1 << ++i ))
 feature_paru=$(( 1 << ++i ))
 feature_nvidia=$(( 1 << ++i ))
+feature_amd=$(( 1 << ++i ))
 feature_vbox=$(( 1 << ++i ))
 
 i=-1 # de_none should be == 0
@@ -160,7 +161,7 @@ if (( features & feature_zram )); then
 
     cat > /etc/systemd/zram-generator.conf <<EOF
 [zram0]
-zram-size = min(ram, 8192)
+zram-size = ram / 2
 compression-algorithm = zstd
 EOF
 
@@ -203,6 +204,20 @@ if (( features & feature_nvidia )); then
         nvidia-settings \
         nvidia-prime \
         lib32-nvidia-utils
+fi
+
+# AMD drivers
+
+if (( features & feature_amd )); then
+    pacman -S --noconfirm \
+        mesa \
+        lib32-mesa \
+        xf86-video-amdgpu \
+        vulkan-radeon \
+        libva-mesa-driver \
+        lib32-libva-mesa-driver \
+        mesa-vdpau \
+        lib32-mesa-vdpau
 fi
 
 # VirtualBox guest additions
@@ -259,7 +274,7 @@ if [ "$de" = "$de_plasma" ]; then
         cat > /etc/sddm.conf.d/autologin.conf <<EOF
 [Autologin]
 User=${username}
-Session=plasma
+Session=plasmawayland
 EOF
 
     fi
@@ -302,7 +317,7 @@ fi
 
 (( apps & app_firefox ))     && pacman -S --noconfirm firefox
 (( apps & app_kitty ))       && pacman -S --noconfirm kitty
-(( apps & app_steam ))       && pacman -S --noconfirm steam gamemode lib32-gamemode mangohud
+(( apps & app_steam ))       && pacman -S --noconfirm steam
 (( apps & app_lutris ))      && pacman -S --noconfirm wine-staging winetricks lutris lib32-gnutls
 (( apps & app_libreoffice )) && pacman -S --noconfirm libreoffice-fresh
 (( apps & app_qbittorrent )) && pacman -S --noconfirm qbittorrent
