@@ -251,7 +251,8 @@ if [ "$de" = "$de_plasma" ]; then
         plasma-meta
 
     pacman -S --noconfirm \
-        kdegraphics-thumbnailers ffmpegthumbs
+        kdegraphics-thumbnailers \
+        ffmpegthumbs
 
     systemctl enable sddm.service
 
