@@ -27,6 +27,7 @@ dialog_features() {
     feature_list+=("$(( ++i ))" "Firewalld with home zone as default" "on")
     feature_list+=("$(( ++i ))" "Man pages and TLDR" "on")
     feature_list+=("$(( ++i ))" "Printer support" "on")
+    feature_list+=("$(( ++i ))" "Bluetooth support" "on")
     feature_list+=("$(( ++i ))" "Paru AUR helper" "on")
     [ "$nvidia" = "on" ] && feature_list+=("$(( ++i ))" "NVIDIA drivers" "$nvidia") || let ++i
     [ "$amd" = "on" ] && feature_list+=("$(( ++i ))" "AMD drivers" "$amd") || let ++i

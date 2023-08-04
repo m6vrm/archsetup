@@ -16,6 +16,7 @@ feature_paccache=$(( 1 << ++i ))
 feature_firewall=$(( 1 << ++i ))
 feature_man=$(( 1 << ++i ))
 feature_printing=$(( 1 << ++i ))
+feature_bluetooth=$(( 1 << ++i ))
 feature_paru=$(( 1 << ++i ))
 feature_nvidia=$(( 1 << ++i ))
 feature_amd=$(( 1 << ++i ))
@@ -178,6 +179,14 @@ if (( features & feature_printing )); then
     pacman -S --noconfirm cups
 
     systemctl enable cups.service
+fi
+
+# Bluetooth
+
+if (( features & feature_bluetooth )); then
+    pacman -S --noconfirm bluez-utils
+
+    systemctl enable bluetooth.service
 fi
 
 # Paru
