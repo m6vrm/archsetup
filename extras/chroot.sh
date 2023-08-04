@@ -26,6 +26,8 @@ de_none=$(( ++i ))
 de_plasma=$(( ++i ))
 
 i=0
+
+# Console apps
 app_devtools=$(( 1 << ++i ))
 app_cpp=$(( 1 << ++i ))
 app_pass=$(( 1 << ++i ))
@@ -33,13 +35,13 @@ app_neovim=$(( 1 << ++i ))
 app_tmux=$(( 1 << ++i ))
 app_htop=$(( 1 << ++i ))
 app_mc=$(( 1 << ++i ))
-app_fzf=$(( 1 << ++i ))
-app_ripgrep=$(( 1 << ++i ))
-app_ffmpeg=$(( 1 << ++i ))
 app_ncdu=$(( 1 << ++i ))
 app_lostfiles=$(( 1 << ++i ))
 app_podman=$(( 1 << ++i ))
+app_ffmpeg=$(( 1 << ++i ))
+app_dosfstools=$(( 1 << ++i ))
 
+# Standard apps
 app_firefox=$(( 1 << ++i ))
 app_kitty=$(( 1 << ++i ))
 app_steam=$(( 1 << ++i ))
@@ -48,6 +50,9 @@ app_libreoffice=$(( 1 << ++i ))
 app_qbittorrent=$(( 1 << ++i ))
 app_vbox=$(( 1 << ++i ))
 app_mpv=$(( 1 << ++i ))
+app_obsidian=$(( 1 << ++i ))
+app_discord=$(( 1 << ++i ))
+app_telegram=$(( 1 << ++i ))
 
 # KDE apps
 app_dolphin=$(( 1 << ++i ))
@@ -121,7 +126,7 @@ if (( features & feature_reflector )); then
 --protocol https
 --fastest 20
 --age 6
---sort age
+--sort rate
 EOF
 
     systemctl enable reflector.timer
@@ -303,18 +308,19 @@ if (( apps & app_cpp )); then
         codespell
 fi
 
+# Console apps
 (( apps & app_pass ))        && pacman -S --noconfirm pass
 (( apps & app_neovim ))      && pacman -S --noconfirm neovim xclip # xclip for system clipboard
 (( apps & app_tmux ))        && pacman -S --noconfirm tmux
 (( apps & app_htop ))        && pacman -S --noconfirm htop
 (( apps & app_mc ))          && pacman -S --noconfirm mc
-(( apps & app_fzf ))         && pacman -S --noconfirm fzf
-(( apps & app_ripgrep ))     && pacman -S --noconfirm ripgrep
-(( apps & app_ffmpeg ))      && pacman -S --noconfirm ffmpeg gifsicle
 (( apps & app_ncdu ))        && pacman -S --noconfirm ncdu
 (( apps & app_lostfiles ))   && pacman -S --noconfirm lostfiles
 (( apps & app_podman ))      && pacman -S --noconfirm podman
+(( apps & app_ffmpeg ))      && pacman -S --noconfirm ffmpeg gifsicle
+(( apps & app_dosfstools ))  && pacman -S --noconfirm dosfstools
 
+# Standard apps
 (( apps & app_firefox ))     && pacman -S --noconfirm firefox
 (( apps & app_kitty ))       && pacman -S --noconfirm kitty
 (( apps & app_steam ))       && pacman -S --noconfirm steam
@@ -323,6 +329,9 @@ fi
 (( apps & app_qbittorrent )) && pacman -S --noconfirm qbittorrent
 (( apps & app_vbox ))        && pacman -S --noconfirm virtualbox
 (( apps & app_mpv ))         && pacman -S --noconfirm mpv
+(( apps & app_obsidian ))    && pacman -S --noconfirm obsidian
+(( apps & app_discord ))     && pacman -S --noconfirm discord
+(( apps & app_telegram ))    && pacman -S --noconfirm telegram-desktop
 
 # KDE apps
 (( apps & app_dolphin ))    && pacman -S --noconfirm dolphin

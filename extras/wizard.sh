@@ -76,12 +76,11 @@ dialog_apps() {
     app_list+=("$(( ++i ))" "tmux" "on")
     app_list+=("$(( ++i ))" "htop" "on")
     app_list+=("$(( ++i ))" "mc" "on")
-    app_list+=("$(( ++i ))" "fzf" "on")
-    app_list+=("$(( ++i ))" "ripgrep" "on")
-    app_list+=("$(( ++i ))" "ffmpeg" "on")
     app_list+=("$(( ++i ))" "ncdu" "on")
     app_list+=("$(( ++i ))" "lostfiles" "on")
     app_list+=("$(( ++i ))" "podman" "on")
+    app_list+=("$(( ++i ))" "ffmpeg" "on")
+    app_list+=("$(( ++i ))" "dosfstools" "on")
 
     # DE apps
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Firefox" "on") || let ++i
@@ -92,6 +91,9 @@ dialog_apps() {
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "qBittorrent" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "VirtualBox" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "MPV" "on") || let ++i
+    [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Obsidian" "on") || let ++i
+    [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Discord" "on") || let ++i
+    [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Telegram" "on") || let ++i
 
     # KDE apps
     [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Dolphin (file manager)" "on") || let ++i
