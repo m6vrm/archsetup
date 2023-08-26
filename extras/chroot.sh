@@ -352,7 +352,7 @@ fi
 (( apps & app_kdeconnect )) && pacman -S --noconfirm kdeconnect
 (( apps & app_gwenview ))   && pacman -S --noconfirm gwenview
 (( apps & app_okular ))     && pacman -S --noconfirm okular
-(( apps & app_ark ))        && pacman -S --noconfirm ark
+(( apps & app_ark ))        && pacman -S --noconfirm ark unrar
 (( apps & app_spectacle ))  && pacman -S --noconfirm spectacle
 (( apps & app_kdiff3 ))     && pacman -S --noconfirm kdiff3
 
