@@ -257,6 +257,7 @@ if [ "$de" = "$de_plasma" ]; then
         plasma-wayland-session \
         wl-clipboard \
         sddm \
+        kwalletmanager \
         plasma-meta
 
     pacman -S --noconfirm \
