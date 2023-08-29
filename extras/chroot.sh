@@ -321,7 +321,7 @@ fi
 
 # Console apps
 (( apps & app_pass ))        && pacman -S --noconfirm pass
-(( apps & app_neovim ))      && pacman -S --noconfirm neovim xclip # xclip for system clipboard
+(( apps & app_neovim ))      && pacman -S --noconfirm neovim xclip tree-sitter-cli nodejs
 (( apps & app_tmux ))        && pacman -S --noconfirm tmux
 (( apps & app_htop ))        && pacman -S --noconfirm htop
 (( apps & app_mc ))          && pacman -S --noconfirm mc
