@@ -316,7 +316,8 @@ if (( apps & app_cpp )); then
         universal-ctags \
         doxygen \
         lcov \
-        codespell
+        codespell \
+        gperf
 fi
 
 # Console apps
