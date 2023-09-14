@@ -24,8 +24,11 @@ echo "KEYMAP=${keymap}" > /etc/vconsole.conf
 
 # System time
 
+timedatectl set-ntp true
 ln -sf "/usr/share/zoneinfo/${timezone}" /etc/localtime
 hwclock --systohc
+
+systemctl enable systemd-timesyncd.service
 
 # Host
 
