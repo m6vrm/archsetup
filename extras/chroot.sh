@@ -247,6 +247,7 @@ if [ "$de" = "$de_plasma" ]; then
         pipewire \
         pipewire-pulse \
         pipewire-jack \
+        lib32-libpulse \
         wireplumber \
         phonon-qt5-gstreamer
 
