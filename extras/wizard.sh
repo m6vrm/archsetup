@@ -87,7 +87,7 @@ dialog_apps() {
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Firefox" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Kitty" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Steam" "on") || let ++i
-    [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Lutris" "on") || let ++i
+    [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Wine" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "LibreOffice" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "qBittorrent" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "VirtualBox" "on") || let ++i

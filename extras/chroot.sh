@@ -216,8 +216,12 @@ if (( features & feature_nvidia )); then
     pacman -S --noconfirm \
         nvidia-dkms \
         nvidia-settings \
-        nvidia-prime \
-        lib32-nvidia-utils
+        nvidia-prime
+
+    if (( features & feature_multilib )); then
+        pacman -S --noconfirm \
+            lib32-nvidia-utils
+    fi
 fi
 
 # AMD drivers
@@ -225,13 +229,17 @@ fi
 if (( features & feature_amd )); then
     pacman -S --noconfirm \
         mesa \
-        lib32-mesa \
         xf86-video-amdgpu \
         vulkan-radeon \
         libva-mesa-driver \
-        lib32-libva-mesa-driver \
-        mesa-vdpau \
-        lib32-mesa-vdpau
+        mesa-vdpau
+
+    if (( features & feature_multilib )); then
+        pacman -S --noconfirm \
+            lib32-mesa \
+            lib32-libva-mesa-driver \
+            lib32-mesa-vdpau
+    fi
 fi
 
 # VirtualBox guest additions
@@ -247,9 +255,13 @@ if [ "$de" = "$de_plasma" ]; then
         pipewire \
         pipewire-pulse \
         pipewire-jack \
-        lib32-libpulse \
         wireplumber \
         phonon-qt5-gstreamer
+
+    if (( features & feature_multilib )); then
+        pacman -S --noconfirm \
+            lib32-libpulse
+    fi
 
     pacman -S --noconfirm \
         ttf-liberation \
@@ -337,7 +349,7 @@ fi
 (( apps & app_firefox ))     && pacman -S --noconfirm firefox
 (( apps & app_kitty ))       && pacman -S --noconfirm kitty
 (( apps & app_steam ))       && pacman -S --noconfirm steam
-(( apps & app_lutris ))      && pacman -S --noconfirm wine-staging winetricks lutris lib32-gnutls
+(( apps & app_wine ))        && pacman -S --noconfirm wine-staging winetricks lib32-gnutls
 (( apps & app_libreoffice )) && pacman -S --noconfirm libreoffice-fresh
 (( apps & app_qbittorrent )) && pacman -S --noconfirm qbittorrent
 (( apps & app_vbox ))        && pacman -S --noconfirm virtualbox
