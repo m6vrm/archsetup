@@ -349,7 +349,7 @@ fi
 (( apps & app_firefox ))     && pacman -S --noconfirm firefox
 (( apps & app_kitty ))       && pacman -S --noconfirm kitty
 (( apps & app_steam ))       && pacman -S --noconfirm steam
-(( apps & app_wine ))        && pacman -S --noconfirm wine-staging winetricks lib32-gnutls
+(( apps & app_wine ))        && pacman -S --noconfirm wine-staging winetricks lib32-gnutls xorg-server-xephyr
 (( apps & app_libreoffice )) && pacman -S --noconfirm libreoffice-fresh
 (( apps & app_qbittorrent )) && pacman -S --noconfirm qbittorrent
 (( apps & app_vbox ))        && pacman -S --noconfirm virtualbox
