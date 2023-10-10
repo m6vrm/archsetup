@@ -189,7 +189,7 @@ fi
 # Bluetooth
 
 if (( features & feature_bluetooth )); then
-    pacman -S --noconfirm bluez-utils
+    pacman -S --noconfirm bluez
 
     systemctl enable bluetooth.service
 fi
