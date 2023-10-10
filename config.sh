@@ -21,6 +21,7 @@ config_home_subvolume="@home"
 # FS tables
 
 config_fstab_options="noatime,compress=zstd:1,discard=async"
+config_fstab_boot_options="uid=0,gid=0,fmask=0077,dmask=0077"
 config_crypttab_options="x-initrd.attach,discard,no-read-workqueue,no-write-workqueue"
 
 # Recovery

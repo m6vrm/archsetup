@@ -85,7 +85,7 @@ mkdir /mnt/home
 mount -o "${config_fstab_options},subvol=${config_home_subvolume}" "$root_part" /mnt/home
 
 mkdir /mnt/boot
-mount -o "uid=0,gid=0,fmask=0077,dmask=0077" "$efi_part" /mnt/boot
+mount -o "${config_fstab_boot_options}" "$efi_part" /mnt/boot
 
 # Pacstrap
 

@@ -41,7 +41,11 @@ EOF
 
 # Packages
 
-pacman -S --noconfirm base-devel btrfs-progs networkmanager
+pacman -S --noconfirm \
+    base-devel \
+    btrfs-progs \
+    networkmanager \
+    python3 # Fucking systemd's kernel-install now requires python3 to work (should be fixed by #216)
 
 # Services
 
