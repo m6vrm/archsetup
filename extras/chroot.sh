@@ -31,6 +31,7 @@ i=0
 # Console apps
 app_devtools=$(( 1 << ++i ))
 app_cpp=$(( 1 << ++i ))
+app_archiving=$(( 1 << ++i ))
 app_pass=$(( 1 << ++i ))
 app_neovim=$(( 1 << ++i ))
 app_tmux=$(( 1 << ++i ))
@@ -133,7 +134,7 @@ EOF
     systemctl enable reflector.timer
 fi
 
-# Paccahe
+# Paccache
 
 if (( features & feature_paccache )); then
     pacman -S --noconfirm pacman-contrib
@@ -144,7 +145,11 @@ fi
 # Man pages
 
 if (( features & feature_man )); then
-    pacman -S --noconfirm man-pages man-db texinfo tldr
+    pacman -S --noconfirm \
+        man-pages \
+        man-db \
+        texinfo \
+        tldr
 fi
 
 # Zsh
@@ -334,8 +339,18 @@ if (( apps & app_cpp )); then
 fi
 
 # Console apps
+(( apps & app_archiving ))   && pacman -S --noconfirm \
+    zip \
+    unrar \
+    unarchiver \
+    p7zip \
+    atool
 (( apps & app_pass ))        && pacman -S --noconfirm pass
-(( apps & app_neovim ))      && pacman -S --noconfirm neovim xclip tree-sitter-cli nodejs
+(( apps & app_neovim ))      && pacman -S --noconfirm \
+    neovim \
+    xclip \
+    tree-sitter-cli \
+    nodejs
 (( apps & app_tmux ))        && pacman -S --noconfirm tmux
 (( apps & app_htop ))        && pacman -S --noconfirm htop
 (( apps & app_mc ))          && pacman -S --noconfirm mc
@@ -349,7 +364,11 @@ fi
 (( apps & app_firefox ))     && pacman -S --noconfirm firefox
 (( apps & app_kitty ))       && pacman -S --noconfirm kitty
 (( apps & app_steam ))       && pacman -S --noconfirm steam
-(( apps & app_wine ))        && pacman -S --noconfirm wine-staging winetricks lib32-gnutls xorg-server-xephyr
+(( apps & app_wine ))        && pacman -S --noconfirm \
+    wine-staging \
+    winetricks \
+    lib32-gnutls \
+    xorg-server-xephyr
 (( apps & app_libreoffice )) && pacman -S --noconfirm libreoffice-fresh
 (( apps & app_qbittorrent )) && pacman -S --noconfirm qbittorrent
 (( apps & app_vbox ))        && pacman -S --noconfirm virtualbox
@@ -367,7 +386,7 @@ fi
 (( apps & app_kdeconnect )) && pacman -S --noconfirm kdeconnect
 (( apps & app_gwenview ))   && pacman -S --noconfirm gwenview
 (( apps & app_okular ))     && pacman -S --noconfirm okular
-(( apps & app_ark ))        && pacman -S --noconfirm ark zip unrar unarchiver p7zip atool
+(( apps & app_ark ))        && pacman -S --noconfirm ark
 (( apps & app_spectacle ))  && pacman -S --noconfirm spectacle
 (( apps & app_kdiff3 ))     && pacman -S --noconfirm kdiff3
 

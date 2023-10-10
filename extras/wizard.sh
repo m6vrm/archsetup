@@ -72,8 +72,9 @@ dialog_apps() {
     app_list=()
     app_list+=("$(( ++i ))" "Unix devtools (git, ssh, rsync, etc)" "on")
     app_list+=("$(( ++i ))" "C++ devtools (cmake, clang, ninja, etc)" "on")
+    app_list+=("$(( ++i ))" "Archiving tools (zip, unrar, p7zip, atool, etc)" "on")
     app_list+=("$(( ++i ))" "pass" "on")
-    app_list+=("$(( ++i ))" "neovim" "on")
+    app_list+=("$(( ++i ))" "neovim" "off")
     app_list+=("$(( ++i ))" "tmux" "on")
     app_list+=("$(( ++i ))" "htop" "on")
     app_list+=("$(( ++i ))" "mc" "on")
@@ -98,9 +99,9 @@ dialog_apps() {
 
     # KDE apps
     [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Dolphin (file manager)" "on") || let ++i
-    [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Konsole (terminal emulator)" "on") || let ++i
+    [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Konsole (terminal emulator)" "off") || let ++i
     [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Kate (text editor)" "on") || let ++i
-    [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Krunner (launcher)" "on") || let ++i
+    [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "KRunner (launcher)" "on") || let ++i
     [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "KCalc (calculator)" "on") || let ++i
     [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "KDE Connect (wireless file sharing)" "on") || let ++i
     [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "Gwenview (image viewer)" "on") || let ++i
