@@ -274,6 +274,7 @@ if [ "$de" = "$de_plasma" ]; then
         ttf-hack \
         plasma-wayland-session \
         wl-clipboard \
+        xclip \
         sddm \
         kwalletmanager \
         plasma-meta
@@ -348,7 +349,6 @@ fi
 (( apps & app_pass ))        && pacman -S --noconfirm pass
 (( apps & app_neovim ))      && pacman -S --noconfirm \
     neovim \
-    xclip \
     tree-sitter-cli \
     nodejs
 (( apps & app_tmux ))        && pacman -S --noconfirm tmux
