@@ -83,6 +83,7 @@ dialog_apps() {
     app_list+=("$(( ++i ))" "podman" "on")
     app_list+=("$(( ++i ))" "ffmpeg" "on")
     app_list+=("$(( ++i ))" "dosfstools" "on")
+    app_list+=("$(( ++i ))" "inetutils" "on")
 
     # DE apps
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Firefox" "on") || let ++i

@@ -42,6 +42,7 @@ app_lostfiles=$(( 1 << ++i ))
 app_podman=$(( 1 << ++i ))
 app_ffmpeg=$(( 1 << ++i ))
 app_dosfstools=$(( 1 << ++i ))
+app_inetutils=$(( 1 << ++i ))
 
 # Standard apps
 app_firefox=$(( 1 << ++i ))
@@ -359,6 +360,7 @@ fi
 (( apps & app_podman ))      && pacman -S --noconfirm podman
 (( apps & app_ffmpeg ))      && pacman -S --noconfirm ffmpeg gifsicle
 (( apps & app_dosfstools ))  && pacman -S --noconfirm dosfstools
+(( apps & app_inetutils ))   && pacman -S --noconfirm inetutils
 
 # Standard apps
 (( apps & app_firefox ))     && pacman -S --noconfirm firefox
