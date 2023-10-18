@@ -20,7 +20,6 @@ dialog_features() {
     feature_list+=("$(( ++i ))" "Disable PC speaker (beep)" "on")
     feature_list+=("$(( ++i ))" "Zsh as default login shell" "on")
     feature_list+=("$(( ++i ))" "Zram for swap" "on")
-    feature_list+=("$(( ++i ))" "Multilib repository with 32-bit software (wine, steam)" "on")
     feature_list+=("$(( ++i ))" "Autologin if root filesystem is encrypted" "on")
     feature_list+=("$(( ++i ))" "Reflector to retrieve fastest pacman mirrors" "on")
     feature_list+=("$(( ++i ))" "Paccache to automatically clean pacman cache" "on")

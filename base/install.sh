@@ -94,8 +94,8 @@ pacstrap -K /mnt \
     "${kernels[@]}" "${kernel_headers[@]}" \
     linux-firmware \
     "$microcode" \
-    vim \
-    dracut
+    dracut \
+    vim
 
 # FS tables
 

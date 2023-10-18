@@ -9,7 +9,6 @@ i=0
 feature_nobeep=$(( 1 << ++i ))
 feature_zsh=$(( 1 << ++i ))
 feature_zram=$(( 1 << ++i ))
-feature_multilib=$(( 1 << ++i ))
 feature_autologin=$(( 1 << ++i ))
 feature_reflector=$(( 1 << ++i ))
 feature_paccache=$(( 1 << ++i ))
@@ -90,10 +89,8 @@ fi
 sed -i "/Color/s/#//" /etc/pacman.conf
 sed -i "/ParallelDownloads/s/#//" /etc/pacman.conf
 
-if (( features & feature_multilib )); then
-    sed -i "/\[multilib]/s/^#//" /etc/pacman.conf
-    sed -i "/\[multilib]/{N;s/\n#/\n/}" /etc/pacman.conf
-fi
+sed -i "/\[multilib]/s/^#//" /etc/pacman.conf
+sed -i "/\[multilib]/{N;s/\n#/\n/}" /etc/pacman.conf
 
 pacman -Sy
 
@@ -199,12 +196,8 @@ if (( features & feature_nvidia )); then
     pacman -S --noconfirm \
         nvidia-dkms \
         nvidia-settings \
-        nvidia-prime
-
-    if (( features & feature_multilib )); then
-        pacman -S --noconfirm \
-            lib32-nvidia-utils
-    fi
+        nvidia-prime \
+        lib32-nvidia-utils
 fi
 
 # AMD drivers
@@ -212,17 +205,13 @@ fi
 if (( features & feature_amd )); then
     pacman -S --noconfirm \
         mesa \
-        xf86-video-amdgpu \
+        mesa-vdpau \
         vulkan-radeon \
         libva-mesa-driver \
-        mesa-vdpau
-
-    if (( features & feature_multilib )); then
-        pacman -S --noconfirm \
-            lib32-mesa \
-            lib32-libva-mesa-driver \
-            lib32-mesa-vdpau
-    fi
+        xf86-video-amdgpu \
+        lib32-mesa \
+        lib32-libva-mesa-driver \
+        lib32-mesa-vdpau
 fi
 
 # VirtualBox guest additions
@@ -239,16 +228,12 @@ if [ "$de" = "$de_plasma" ]; then
         pipewire-pulse \
         pipewire-jack \
         wireplumber \
-        phonon-qt5-gstreamer
-
-    if (( features & feature_multilib )); then
-        pacman -S --noconfirm \
-            lib32-libpulse
-    fi
+        phonon-qt5-gstreamer \
+        lib32-libpulse
 
     pacman -S --noconfirm \
-        ttf-liberation \
         $(pacman -Ssq noto-fonts) \
+        ttf-liberation \
         ttf-hack \
         plasma-wayland-session \
         wl-clipboard \
@@ -293,15 +278,15 @@ fi
 if (( apps & app_cpp )); then
     pacman -S --noconfirm \
         clang \
+        llvm \
         cmake \
         ninja \
-        llvm \
         cppcheck \
+        codespell \
         valgrind \
         universal-ctags \
         doxygen \
         lcov \
-        codespell \
         gperf
 fi
 
@@ -330,8 +315,8 @@ fi
 (( apps & app_wine ))        && pacman -S --noconfirm \
     wine-staging \
     winetricks \
-    lib32-gnutls \
-    xorg-server-xephyr
+    xorg-server-xephyr \
+    lib32-gnutls
 (( apps & app_libreoffice )) && pacman -S --noconfirm libreoffice-fresh
 (( apps & app_qbittorrent )) && pacman -S --noconfirm qbittorrent
 (( apps & app_vbox ))        && pacman -S --noconfirm virtualbox
