@@ -234,7 +234,8 @@ if [ "$de" != "$de_none" ]; then
 
     # Fonts
     pacman -S --noconfirm \
-        $(pacman -Ssq noto-fonts) \
+        noto-fonts \
+        noto-fonts-emoji \
         ttf-liberation \
         ttf-hack
 
