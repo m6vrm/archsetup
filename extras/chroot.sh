@@ -287,7 +287,9 @@ if [ "$de" = "$de_xfce" ]; then
         xfce4 \
         xfce4-goodies \
         lightdm \
-        lightdm-gtk-greeter
+        lightdm-gtk-greeter \
+        gvfs-smb \
+        sshfs
 
     pacman -S --noconfirm \
         papirus-icon-theme \
