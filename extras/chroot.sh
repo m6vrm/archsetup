@@ -279,10 +279,9 @@ EOF
     fi
 fi
 
+# XFCE
 
-# Plasma DE
-
-if [ "$de" = "$de_plasma" ]; then
+if [ "$de" = "$de_xfce" ]; then
     pacman -S --noconfirm \
         xorg \
         xfce4 \
