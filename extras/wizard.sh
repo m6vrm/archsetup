@@ -50,6 +50,7 @@ dialog_de() {
     de_list=()
     de_list+=("$(( ++i ))" "None")
     de_list+=("$(( ++i ))" "Plasma")
+    de_list+=("$(( ++i ))" "XFCE")
 
     command=(dialog --stdout \
         --clear \

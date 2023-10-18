@@ -22,6 +22,7 @@ feature_vbox=$(( 1 << ++i ))
 i=-1 # de_none should be == 0
 de_none=$(( ++i ))
 de_plasma=$(( ++i ))
+de_xfce=$(( ++i ))
 
 i=0
 
@@ -220,24 +221,35 @@ if (( features & feature_vbox )); then
     pacman -S --noconfirm virtualbox-guest-utils
 fi
 
-# Plasma DE
+# Any DE
 
-if [ "$de" = "$de_plasma" ]; then
+if [ "$de" != "$de_none" ]; then
+    # Audio
     pacman -S --noconfirm \
         pipewire \
         pipewire-pulse \
         pipewire-jack \
         wireplumber \
-        phonon-qt5-gstreamer \
         lib32-libpulse
 
+    # Fonts
     pacman -S --noconfirm \
         $(pacman -Ssq noto-fonts) \
         ttf-liberation \
-        ttf-hack \
-        plasma-wayland-session \
+        ttf-hack
+
+    # Common
+    pacman -S --noconfirm \
         wl-clipboard \
-        xclip \
+        xclip
+fi
+
+# Plasma DE
+
+if [ "$de" = "$de_plasma" ]; then
+    pacman -S --noconfirm \
+        phonon-qt5-gstreamer \
+        plasma-wayland-session \
         sddm \
         kwalletmanager \
         plasma-meta
@@ -264,6 +276,20 @@ Session=plasmawayland
 EOF
 
     fi
+fi
+
+
+# Plasma DE
+
+if [ "$de" = "$de_plasma" ]; then
+    pacman -S --noconfirm \
+        xorg \
+        xfce4 \
+        xfce4-goodies \
+        lightdm \
+        lightdm-gtk-greeter
+
+    systemctl enable lightdm.service
 fi
 
 # Apps
