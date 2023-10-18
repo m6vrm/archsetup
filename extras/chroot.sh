@@ -289,6 +289,10 @@ if [ "$de" = "$de_xfce" ]; then
         lightdm \
         lightdm-gtk-greeter
 
+    pacman -S --noconfirm \
+        papirus-icon-theme \
+        arc-gkt-theme
+
     systemctl enable lightdm.service
 fi
 
