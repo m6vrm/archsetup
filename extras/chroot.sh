@@ -13,9 +13,7 @@ feature_multilib=$(( 1 << ++i ))
 feature_autologin=$(( 1 << ++i ))
 feature_reflector=$(( 1 << ++i ))
 feature_paccache=$(( 1 << ++i ))
-feature_firewall=$(( 1 << ++i ))
 feature_man=$(( 1 << ++i ))
-feature_printing=$(( 1 << ++i ))
 feature_bluetooth=$(( 1 << ++i ))
 feature_paru=$(( 1 << ++i ))
 feature_nvidia=$(( 1 << ++i ))
@@ -32,11 +30,8 @@ i=0
 app_devtools=$(( 1 << ++i ))
 app_cpp=$(( 1 << ++i ))
 app_archiving=$(( 1 << ++i ))
-app_pass=$(( 1 << ++i ))
-app_neovim=$(( 1 << ++i ))
+app_tree=$(( 1 << ++i ))
 app_tmux=$(( 1 << ++i ))
-app_htop=$(( 1 << ++i ))
-app_mc=$(( 1 << ++i ))
 app_ncdu=$(( 1 << ++i ))
 app_lostfiles=$(( 1 << ++i ))
 app_podman=$(( 1 << ++i ))
@@ -108,16 +103,6 @@ if (( features & feature_nobeep )); then
     echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
 fi
 
-# Firewall
-
-if (( features & feature_firewall )); then
-    pacman -S --noconfirm firewalld
-
-    firewall-offline-cmd --set-default-zone=home
-
-    systemctl enable firewalld.service
-fi
-
 # Reflector
 
 if (( features & feature_reflector )); then
@@ -177,14 +162,6 @@ zram-size = ram / 2
 compression-algorithm = zstd
 EOF
 
-fi
-
-# Printing
-
-if (( features & feature_printing )); then
-    pacman -S --noconfirm cups
-
-    systemctl enable cups.service
 fi
 
 # Bluetooth
@@ -286,18 +263,6 @@ if [ "$de" = "$de_plasma" ]; then
 
     systemctl enable sddm.service
 
-    # Allow kdeconnect in firewall
-    if (( features & feature_firewall )); then
-        firewall-offline-cmd --zone=home --add-service=kdeconnect
-    fi
-
-    # Add printer settings
-    if (( features & feature_printing )); then
-        pacman -S --noconfirm \
-            print-manager \
-            system-config-printer
-    fi
-
     # Disable baloo
     su - "$username" -c "balooctl suspend"
     su - "$username" -c "balooctl disable"
@@ -347,14 +312,8 @@ fi
     unarchiver \
     p7zip \
     atool
-(( apps & app_pass ))        && pacman -S --noconfirm pass
-(( apps & app_neovim ))      && pacman -S --noconfirm \
-    neovim \
-    tree-sitter-cli \
-    nodejs
+(( apps & app_tree ))        && pacman -S --noconfirm tree
 (( apps & app_tmux ))        && pacman -S --noconfirm tmux
-(( apps & app_htop ))        && pacman -S --noconfirm htop
-(( apps & app_mc ))          && pacman -S --noconfirm mc
 (( apps & app_ncdu ))        && pacman -S --noconfirm ncdu
 (( apps & app_lostfiles ))   && pacman -S --noconfirm lostfiles
 (( apps & app_podman ))      && pacman -S --noconfirm podman
@@ -363,7 +322,9 @@ fi
 (( apps & app_inetutils ))   && pacman -S --noconfirm inetutils
 
 # Standard apps
-(( apps & app_firefox ))     && pacman -S --noconfirm firefox
+(( apps & app_firefox ))     && pacman -S --noconfirm \
+    firefox \
+    speech-dispatcher
 (( apps & app_kitty ))       && pacman -S --noconfirm kitty
 (( apps & app_steam ))       && pacman -S --noconfirm steam
 (( apps & app_wine ))        && pacman -S --noconfirm \
