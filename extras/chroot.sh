@@ -348,6 +348,7 @@ fi
 (( apps & app_steam ))       && pacman -S --noconfirm steam
 (( apps & app_wine ))        && pacman -S --noconfirm \
     wine-staging \
+    wine-mono \
     winetricks \
     xorg-server-xephyr \
     lib32-gnutls
