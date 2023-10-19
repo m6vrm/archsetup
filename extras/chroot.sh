@@ -242,6 +242,7 @@ if [ "$de" != "$de_none" ]; then
 
     # Common
     pacman -S --noconfirm \
+        xdg-user-dirs \
         wl-clipboard \
         xclip
 fi
