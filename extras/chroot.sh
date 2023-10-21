@@ -295,7 +295,7 @@ if [ "$de" = "$de_xfce" ]; then
 
     pacman -S --noconfirm \
         papirus-icon-theme \
-        arc-gkt-theme
+        arc-gtk-theme
 
     systemctl enable lightdm.service
 fi
