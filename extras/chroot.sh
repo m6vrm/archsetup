@@ -298,6 +298,13 @@ if [ "$de" = "$de_xfce" ]; then
         arc-gtk-theme
 
     systemctl enable lightdm.service
+
+    if (( features & feature_autologin )) && [ "$root_encrypted" != "0" ]; then
+        sed -i "s/#?autologin-user=/autologin-user=${username}/" /etc/lightdm/lightdm.conf
+
+        groupadd -r autologin
+        gpasswd -a "$username" autologin
+    fi
 fi
 
 # Apps
