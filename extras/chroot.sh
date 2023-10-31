@@ -239,7 +239,8 @@ if [ "$de" != "$de_none" ]; then
         noto-fonts-cjk \
         noto-fonts-emoji \
         ttf-liberation \
-        ttf-hack
+        ttf-hack \
+        ttc-iosevka
 
     # Common
     pacman -S --noconfirm \
