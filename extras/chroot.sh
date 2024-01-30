@@ -27,13 +27,13 @@ de_xfce=$(( ++i ))
 i=0
 
 # Console apps
+app_archiving=$(( 1 << ++i ))
 app_devtools=$(( 1 << ++i ))
 app_cpp=$(( 1 << ++i ))
-app_archiving=$(( 1 << ++i ))
-app_tree=$(( 1 << ++i ))
 app_tmux=$(( 1 << ++i ))
-app_ncdu=$(( 1 << ++i ))
 app_lostfiles=$(( 1 << ++i ))
+app_tree=$(( 1 << ++i ))
+app_ncdu=$(( 1 << ++i ))
 app_podman=$(( 1 << ++i ))
 app_ffmpeg=$(( 1 << ++i ))
 app_dosfstools=$(( 1 << ++i ))
@@ -52,18 +52,10 @@ app_mpv=$(( 1 << ++i ))
 app_obsidian=$(( 1 << ++i ))
 app_discord=$(( 1 << ++i ))
 app_telegram=$(( 1 << ++i ))
+app_nextcloud=$(( 1 << ++i ))
 
 # KDE apps
-app_dolphin=$(( 1 << ++i ))
-app_konsole=$(( 1 << ++i ))
-app_kate=$(( 1 << ++i ))
-app_krunner=$(( 1 << ++i ))
-app_kcalc=$(( 1 << ++i ))
 app_kdeconnect=$(( 1 << ++i ))
-app_gwenview=$(( 1 << ++i ))
-app_okular=$(( 1 << ++i ))
-app_ark=$(( 1 << ++i ))
-app_spectacle=$(( 1 << ++i ))
 app_kdiff3=$(( 1 << ++i ))
 
 # Environment
@@ -263,6 +255,18 @@ if [ "$de" = "$de_plasma" ]; then
         kdegraphics-thumbnailers \
         ffmpegthumbs
 
+    # Default apps
+    pacman -S --noconfirm \
+        dolphin \
+        konsole \
+        kate \
+        krunner \
+        kcalc \
+        gwenview \
+        okular \
+        ark \
+        spectacle
+
     systemctl enable sddm.service
 
     # Disable baloo
@@ -299,8 +303,11 @@ if [ "$de" = "$de_xfce" ]; then
         papirus-icon-theme \
         arc-gtk-theme
 
+    # Defaults apps
+
     systemctl enable lightdm.service
 
+    # LightDM autologin
     if (( features & feature_autologin )) && [ "$root_encrypted" != "0" ]; then
         sed -i "s/#?autologin-user=/autologin-user=${username}/" /etc/lightdm/lightdm.conf
 
@@ -309,7 +316,7 @@ if [ "$de" = "$de_xfce" ]; then
     fi
 fi
 
-# Apps
+# Console apps
 
 if (( apps & app_devtools )); then
     pacman -S --noconfirm devtools
@@ -318,32 +325,28 @@ if (( apps & app_devtools )); then
     sed -i -E 's/#?PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
 fi
 
-if (( apps & app_cpp )); then
-    pacman -S --noconfirm \
-        clang \
-        llvm \
-        cmake \
-        ninja \
-        cppcheck \
-        codespell \
-        valgrind \
-        universal-ctags \
-        doxygen \
-        lcov \
-        gperf
-fi
-
-# Console apps
 (( apps & app_archiving ))   && pacman -S --noconfirm \
     zip \
     unrar \
     unarchiver \
     p7zip \
     atool
-(( apps & app_tree ))        && pacman -S --noconfirm tree
+(( apps & app_cpp ))         && pacman -S --noconfirm \
+    clang \
+    llvm \
+    cmake \
+    ninja \
+    cppcheck \
+    codespell \
+    valgrind \
+    universal-ctags \
+    doxygen \
+    lcov \
+    gperf
 (( apps & app_tmux ))        && pacman -S --noconfirm tmux
-(( apps & app_ncdu ))        && pacman -S --noconfirm ncdu
 (( apps & app_lostfiles ))   && pacman -S --noconfirm lostfiles
+(( apps & app_tree ))        && pacman -S --noconfirm tree
+(( apps & app_ncdu ))        && pacman -S --noconfirm ncdu
 (( apps & app_podman ))      && pacman -S --noconfirm podman
 (( apps & app_ffmpeg ))      && pacman -S --noconfirm ffmpeg gifsicle
 (( apps & app_dosfstools ))  && pacman -S --noconfirm dosfstools
@@ -369,18 +372,10 @@ fi
 (( apps & app_obsidian ))    && pacman -S --noconfirm obsidian
 (( apps & app_discord ))     && pacman -S --noconfirm discord
 (( apps & app_telegram ))    && pacman -S --noconfirm telegram-desktop
+(( apps & app_nextcloud ))   && pacman -S --noconfirm nextcloud-client
 
 # KDE apps
-(( apps & app_dolphin ))    && pacman -S --noconfirm dolphin
-(( apps & app_konsole ))    && pacman -S --noconfirm konsole
-(( apps & app_kate ))       && pacman -S --noconfirm kate
-(( apps & app_krunner ))    && pacman -S --noconfirm krunner
-(( apps & app_kcalc ))      && pacman -S --noconfirm kcalc
 (( apps & app_kdeconnect )) && pacman -S --noconfirm kdeconnect
-(( apps & app_gwenview ))   && pacman -S --noconfirm gwenview
-(( apps & app_okular ))     && pacman -S --noconfirm okular
-(( apps & app_ark ))        && pacman -S --noconfirm ark
-(( apps & app_spectacle ))  && pacman -S --noconfirm spectacle
 (( apps & app_kdiff3 ))     && pacman -S --noconfirm kdiff3
 
 # Cleanup
