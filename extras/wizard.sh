@@ -71,6 +71,7 @@ dialog_apps() {
     app_list+=("$(( ++i ))" "Archiving tools (zip, unrar, p7zip, atool, etc)" "on")
     app_list+=("$(( ++i ))" "Unix devtools (git, ssh, rsync, etc)" "on")
     app_list+=("$(( ++i ))" "C++ devtools (cmake, clang, ninja, etc)" "on")
+    app_list+=("$(( ++i ))" "Java devtools (jdk, idea, etc)" "on")
     app_list+=("$(( ++i ))" "tmux" "on")
     app_list+=("$(( ++i ))" "lostfiles" "on")
     app_list+=("$(( ++i ))" "tree" "on")
@@ -83,7 +84,7 @@ dialog_apps() {
 
     # DE apps
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Firefox" "on") || let ++i
-    [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Kitty" "on") || let ++i
+    [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Alacritty" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Steam" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Wine" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "LibreOffice" "on") || let ++i
@@ -94,10 +95,6 @@ dialog_apps() {
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Discord" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Telegram" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Nextcloud" "on") || let ++i
-
-    # KDE apps
-    [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "KDE Connect" "on") || let ++i
-    [ "$de" = "$de_plasma" ] && app_list+=("$(( ++i ))" "KDiff3" "on") || let ++i
 
     command=(dialog --stdout \
         --clear \

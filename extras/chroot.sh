@@ -30,6 +30,7 @@ i=0
 app_archiving=$(( 1 << ++i ))
 app_devtools=$(( 1 << ++i ))
 app_cpp=$(( 1 << ++i ))
+app_java=$(( 1 << ++i ))
 app_tmux=$(( 1 << ++i ))
 app_lostfiles=$(( 1 << ++i ))
 app_tree=$(( 1 << ++i ))
@@ -42,7 +43,7 @@ app_wget=$(( 1 << ++i ))
 
 # Standard apps
 app_firefox=$(( 1 << ++i ))
-app_kitty=$(( 1 << ++i ))
+app_alacritty=$(( 1 << ++i ))
 app_steam=$(( 1 << ++i ))
 app_wine=$(( 1 << ++i ))
 app_libreoffice=$(( 1 << ++i ))
@@ -53,10 +54,6 @@ app_obsidian=$(( 1 << ++i ))
 app_discord=$(( 1 << ++i ))
 app_telegram=$(( 1 << ++i ))
 app_nextcloud=$(( 1 << ++i ))
-
-# KDE apps
-app_kdeconnect=$(( 1 << ++i ))
-app_kdiff3=$(( 1 << ++i ))
 
 # Environment
 
@@ -305,6 +302,8 @@ if [ "$de" = "$de_xfce" ]; then
         arc-gtk-theme
 
     # Defaults apps
+    pacman -S --noconfirm \
+        xarchiver
 
     systemctl enable lightdm.service
 
@@ -320,7 +319,9 @@ fi
 # Console apps
 
 if (( apps & app_devtools )); then
-    pacman -S --noconfirm devtools
+    pacman -S --noconfirm \
+        devtools \
+        codespell
 
     # Disable SSH password authentication
     sed -i -E 's/#?PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
@@ -329,7 +330,6 @@ fi
 (( apps & app_archiving ))   && pacman -S --noconfirm \
     zip \
     unrar \
-    unarchiver \
     p7zip \
     atool
 (( apps & app_cpp ))         && pacman -S --noconfirm \
@@ -338,12 +338,14 @@ fi
     cmake \
     ninja \
     cppcheck \
-    codespell \
     valgrind \
     universal-ctags \
     doxygen \
     lcov \
     gperf
+(( apps & app_java ))        && pacman -S --noconfirm \
+    jdk21-openjdk \
+    intellij-idea-community-edition
 (( apps & app_tmux ))        && pacman -S --noconfirm tmux
 (( apps & app_lostfiles ))   && pacman -S --noconfirm lostfiles
 (( apps & app_tree ))        && pacman -S --noconfirm tree
@@ -358,7 +360,7 @@ fi
 (( apps & app_firefox ))     && pacman -S --noconfirm \
     firefox \
     speech-dispatcher
-(( apps & app_kitty ))       && pacman -S --noconfirm kitty
+(( apps & app_alacritty ))   && pacman -S --noconfirm alacritty
 (( apps & app_steam ))       && pacman -S --noconfirm steam
 (( apps & app_wine ))        && pacman -S --noconfirm \
     wine-staging \
@@ -374,10 +376,6 @@ fi
 (( apps & app_discord ))     && pacman -S --noconfirm discord
 (( apps & app_telegram ))    && pacman -S --noconfirm telegram-desktop
 (( apps & app_nextcloud ))   && pacman -S --noconfirm nextcloud-client
-
-# KDE apps
-(( apps & app_kdeconnect )) && pacman -S --noconfirm kdeconnect
-(( apps & app_kdiff3 ))     && pacman -S --noconfirm kdiff3
 
 # Cleanup
 
