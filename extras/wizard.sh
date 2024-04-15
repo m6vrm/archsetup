@@ -94,7 +94,6 @@ dialog_apps() {
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Obsidian" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Discord" "on") || let ++i
     [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Telegram" "on") || let ++i
-    [ "$de" != "$de_none" ] && app_list+=("$(( ++i ))" "Nextcloud" "on") || let ++i
 
     command=(dialog --stdout \
         --clear \

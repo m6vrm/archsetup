@@ -53,7 +53,6 @@ app_mpv=$(( 1 << ++i ))
 app_obsidian=$(( 1 << ++i ))
 app_discord=$(( 1 << ++i ))
 app_telegram=$(( 1 << ++i ))
-app_nextcloud=$(( 1 << ++i ))
 
 # Environment
 
@@ -375,7 +374,6 @@ fi
 (( apps & app_obsidian ))    && pacman -S --noconfirm obsidian
 (( apps & app_discord ))     && pacman -S --noconfirm discord
 (( apps & app_telegram ))    && pacman -S --noconfirm telegram-desktop
-(( apps & app_nextcloud ))   && pacman -S --noconfirm nextcloud-client
 
 # Cleanup
 
