@@ -81,7 +81,7 @@ Update recovery image
         and initramfs-linux.img to the /boot/recovery/ directory
 
 Installation example
-=======================
+====================
 
     # rmmod pcspkr
     # rfkill unblock all
