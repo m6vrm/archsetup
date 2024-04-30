@@ -1,31 +1,31 @@
 Features
 ========
 
-    *   Encrypted BTRFS pool
-    *   Recovery entry in the bootloader
-    *   BTRFS snapshots during installation
-    *   systemd-boot bootloader
-    *   dracut initramfs generator
-    *   Disabled root account
+*   Encrypted BTRFS pool
+*   Recovery entry in the bootloader
+*   BTRFS snapshots during installation
+*   systemd-boot bootloader
+*   dracut initramfs generator
+*   Disabled root account
 
 Usage
 =====
 
-    1.  Boot with Arch Linux ISO
-    2.  Connect to the internet
-    3.  Install git:
+1.  Boot with Arch Linux ISO
+2.  Connect to the internet
+3.  Install git:
 
         # pacman -Sy git
 
-    4.  Clone this repository:
+4.  Clone this repository:
 
         # git clone https://m6v.ru/git/archsetup
 
-    5.  Run installer:
+5.  Run installer:
 
         # ./archsetup/install.sh
 
-    6.  Reboot after installation.
+6.  Reboot after installation.
 
 NOTE: If installation fails due to a memory error, run following command:
 
@@ -72,11 +72,11 @@ entries generation:
 Update recovery image
 ---------------------
 
-    1.  Download latest Arch Linux ISO from https://archlinux.org/download/
-        and place it at /boot/recovery/archlinux.iso
-    2.  Check booting into recovery mode
-    3.  If boot failed, mount downloaded archlinux.iso and copy vmlinuz-linux
-        and initramfs-linux.img to the /boot/recovery/ directory
+1.  Download latest Arch Linux ISO from https://archlinux.org/download/
+    and place it at /boot/recovery/archlinux.iso
+2.  Check booting into recovery mode
+3.  If boot failed, mount downloaded archlinux.iso and copy vmlinuz-linux
+    and initramfs-linux.img to the /boot/recovery/ directory
 
 Installation example
 ====================
