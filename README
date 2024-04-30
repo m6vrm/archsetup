@@ -37,10 +37,10 @@ Base system
 Installs the base system as if it had been installed according to the ArchWiki
 installation guide:
 
-    Partitions              Encrypted BTRFS pool with simple subvolume layout (@
-                            and @home subvolumes)
-    Mount options           noatime,compress=zstd:1,discard=async (suitable for
-                            SSD/NVME)
+    Partitions              Encrypted BTRFS pool with simple subvolume layout
+                            (@ and @home subvolumes)
+    Mount options           noatime,compress=zstd:1,discard=async (suitable
+                            for SSD/NVME)
     Recovery options        Recovery entry in the bootloader
                             BTRFS snapshots during installation
     Time zone               Detected automatically using
@@ -51,8 +51,8 @@ installation guide:
     Packages                base linux-* linux-*-headers linux-firmware
                             {amd,intel}-ucode vim dracut base-devel btrfs-progs
                             networkmanager
-    Pacman hooks            kernel-install hook for automatic initramfs and
-                            bootloader entries generation
+    Pacman hooks            kernel-install hook for automatic initramfs
+                            and bootloader entries generation
     Users                   Regular user with sudo rights
                             root account disabled
 
@@ -72,8 +72,8 @@ entries generation:
 Update recovery image
 ---------------------
 
-    1.  Download latest Arch Linux ISO from https://archlinux.org/download/ and
-        place it at /boot/recovery/archlinux.iso
+    1.  Download latest Arch Linux ISO from https://archlinux.org/download/
+        and place it at /boot/recovery/archlinux.iso
     2.  Check booting into recovery mode
     3.  If boot failed, mount downloaded archlinux.iso and copy vmlinuz-linux
         and initramfs-linux.img to the /boot/recovery/ directory
