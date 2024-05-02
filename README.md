@@ -1,3 +1,5 @@
+Yet another Arch Linux installer.
+
 Features
 ========
 
