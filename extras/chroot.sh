@@ -51,7 +51,6 @@ app_qbittorrent=$(( 1 << ++i ))
 app_vbox=$(( 1 << ++i ))
 app_mpv=$(( 1 << ++i ))
 app_obsidian=$(( 1 << ++i ))
-app_discord=$(( 1 << ++i ))
 app_telegram=$(( 1 << ++i ))
 
 # Environment
@@ -350,7 +349,7 @@ fi
 (( apps & app_tree ))        && pacman -S --noconfirm tree
 (( apps & app_ncdu ))        && pacman -S --noconfirm ncdu
 (( apps & app_podman ))      && pacman -S --noconfirm podman
-(( apps & app_ffmpeg ))      && pacman -S --noconfirm ffmpeg gifsicle
+(( apps & app_ffmpeg ))      && pacman -S --noconfirm ffmpeg
 (( apps & app_dosfstools ))  && pacman -S --noconfirm dosfstools
 (( apps & app_inetutils ))   && pacman -S --noconfirm inetutils
 (( apps & app_wget ))        && pacman -S --noconfirm wget
@@ -372,7 +371,6 @@ fi
 (( apps & app_vbox ))        && pacman -S --noconfirm virtualbox
 (( apps & app_mpv ))         && pacman -S --noconfirm mpv
 (( apps & app_obsidian ))    && pacman -S --noconfirm obsidian
-(( apps & app_discord ))     && pacman -S --noconfirm discord
 (( apps & app_telegram ))    && pacman -S --noconfirm telegram-desktop
 
 # Cleanup

@@ -45,7 +45,8 @@ pacman -S --noconfirm \
     base-devel \
     btrfs-progs \
     networkmanager \
-    python3 # Fucking systemd's kernel-install now requires python3 to work (should be fixed by #216)
+    python3 # Fucking systemd's kernel-install now requires python3 to work
+            # https://salsa.debian.org/systemd-team/systemd/-/merge_requests/216
 
 # Services
 
