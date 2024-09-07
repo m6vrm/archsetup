@@ -47,7 +47,7 @@ dialog_de() {
 
     command=(dialog --stdout \
         --clear \
-        --default-item "1" \
+        --default-item "2" \
         --title "Desktop environment" \
         --menu "Select desktop environment." 0 0 0)
     de=$("${command[@]}" "${de_list[@]}")
