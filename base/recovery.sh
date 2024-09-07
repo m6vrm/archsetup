@@ -31,8 +31,6 @@ create_recovery_entry() {
     archiso=$(mktemp -d)
     mount "${root}/boot/recovery/archlinux.iso" "$archiso"
 
-    cp "${archiso}/arch/boot/intel-ucode.img"              "${root}/boot/recovery/intel-ucode.img" || :
-    cp "${archiso}/arch/boot/amd-ucode.img"                "${root}/boot/recovery/amd-ucode.img" || :
     cp "${archiso}/arch/boot/x86_64/initramfs-linux.img"   "${root}/boot/recovery/initramfs-linux.img"
     cp "${archiso}/arch/boot/x86_64/vmlinuz-linux"         "${root}/boot/recovery/vmlinuz-linux"
 
@@ -42,8 +40,6 @@ create_recovery_entry() {
     cat > "${root}/boot/loader/entries/recovery.conf" <<EOF
 title Arch Linux Recovery
 linux /recovery/vmlinuz-linux
-initrd /recovery/intel-ucode.img
-initrd /recovery/amd-ucode.img
 initrd /recovery/initramfs-linux.img
 options img_dev=${efi_part} img_loop=/recovery/archlinux.iso copytoram ${config_recovery_kernel_options}
 EOF
