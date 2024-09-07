@@ -159,16 +159,6 @@ if [ "$de" != "$de_none" ]; then
         pipewire-jack \
         wireplumber
 
-    # Fonts
-    pacman -S --noconfirm \
-        noto-fonts \
-        noto-fonts-cjk \
-        noto-fonts-emoji \
-        ttf-liberation \
-        ttf-hack \
-        ttc-iosevka \
-        terminus-font
-
     # Common
     pacman -S --noconfirm \
         xdg-user-dirs \
