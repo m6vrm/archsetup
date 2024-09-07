@@ -1,7 +1,7 @@
 #!/bin/bash
 set -uf -o pipefail
 
-i=-1
+i=0
 recovery_entry=$(( 1 << ++i ))
 recovery_snapshot=$(( 1 << ++i ))
 
