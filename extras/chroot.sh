@@ -147,6 +147,10 @@ fi
 
 if (( features & feature_vbox )); then
     pacman -S --noconfirm virtualbox-guest-utils
+
+    systemctl enable vboxservice.service
+
+    usermod -aG vboxsf "{$username}"
 fi
 
 # Any DE
