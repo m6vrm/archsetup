@@ -31,8 +31,8 @@ create_recovery_entry() {
     archiso=$(mktemp -d)
     mount "${root}/boot/recovery/archlinux.iso" "$archiso"
 
-    cp "${archiso}/arch/boot/intel-ucode.img"              "${root}/boot/recovery/intel-ucode.img"
-    cp "${archiso}/arch/boot/amd-ucode.img"                "${root}/boot/recovery/amd-ucode.img"
+    cp "${archiso}/arch/boot/intel-ucode.img"              "${root}/boot/recovery/intel-ucode.img" || :
+    cp "${archiso}/arch/boot/amd-ucode.img"                "${root}/boot/recovery/amd-ucode.img" || :
     cp "${archiso}/arch/boot/x86_64/initramfs-linux.img"   "${root}/boot/recovery/initramfs-linux.img"
     cp "${archiso}/arch/boot/x86_64/vmlinuz-linux"         "${root}/boot/recovery/vmlinuz-linux"
 
