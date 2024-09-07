@@ -44,7 +44,8 @@ EOF
 pacman -S --noconfirm \
     base-devel \
     btrfs-progs \
-    networkmanager
+    networkmanager \
+    python3
 
 # Services
 
