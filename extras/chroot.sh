@@ -3,7 +3,6 @@ set -euf -o pipefail
 
 features="$1"
 de="$2"
-apps="$3"
 
 i=0
 feature_nobeep=$(( 1 << ++i ))
@@ -15,43 +14,11 @@ feature_paccache=$(( 1 << ++i ))
 feature_man=$(( 1 << ++i ))
 feature_bluetooth=$(( 1 << ++i ))
 feature_paru=$(( 1 << ++i ))
-feature_nvidia=$(( 1 << ++i ))
-feature_amd=$(( 1 << ++i ))
 feature_vbox=$(( 1 << ++i ))
 
 i=-1 # de_none should be == 0
 de_none=$(( ++i ))
-de_plasma=$(( ++i ))
 de_xfce=$(( ++i ))
-
-i=0
-
-# Console apps
-app_archiving=$(( 1 << ++i ))
-app_devtools=$(( 1 << ++i ))
-app_cpp=$(( 1 << ++i ))
-app_java=$(( 1 << ++i ))
-app_tmux=$(( 1 << ++i ))
-app_lostfiles=$(( 1 << ++i ))
-app_tree=$(( 1 << ++i ))
-app_ncdu=$(( 1 << ++i ))
-app_podman=$(( 1 << ++i ))
-app_ffmpeg=$(( 1 << ++i ))
-app_dosfstools=$(( 1 << ++i ))
-app_inetutils=$(( 1 << ++i ))
-app_wget=$(( 1 << ++i ))
-
-# Standard apps
-app_firefox=$(( 1 << ++i ))
-app_alacritty=$(( 1 << ++i ))
-app_steam=$(( 1 << ++i ))
-app_wine=$(( 1 << ++i ))
-app_libreoffice=$(( 1 << ++i ))
-app_qbittorrent=$(( 1 << ++i ))
-app_vbox=$(( 1 << ++i ))
-app_mpv=$(( 1 << ++i ))
-app_obsidian=$(( 1 << ++i ))
-app_telegram=$(( 1 << ++i ))
 
 # Environment
 
@@ -119,9 +86,7 @@ fi
 if (( features & feature_man )); then
     pacman -S --noconfirm \
         man-pages \
-        man-db \
-        texinfo \
-        tldr
+        man-db
 fi
 
 # Zsh
@@ -153,7 +118,9 @@ fi
 # Bluetooth
 
 if (( features & feature_bluetooth )); then
-    pacman -S --noconfirm bluez
+    pacman -S --noconfirm \
+        bluez \
+        bluez-utils
 
     systemctl enable bluetooth.service
 fi
@@ -176,33 +143,6 @@ if (( features & feature_paru )); then
     rm -rf paru
 fi
 
-# NVIDIA drivers
-
-if (( features & feature_nvidia )); then
-    grep -qF "nvidia_drm.modeset=1" /etc/kernel/cmdline || \
-        echo "nvidia_drm.modeset=1" >> /etc/kernel/cmdline
-
-    pacman -S --noconfirm \
-        nvidia-dkms \
-        nvidia-settings \
-        nvidia-prime \
-        lib32-nvidia-utils
-fi
-
-# AMD drivers
-
-if (( features & feature_amd )); then
-    pacman -S --noconfirm \
-        mesa \
-        mesa-vdpau \
-        vulkan-radeon \
-        libva-mesa-driver \
-        xf86-video-amdgpu \
-        lib32-mesa \
-        lib32-libva-mesa-driver \
-        lib32-mesa-vdpau
-fi
-
 # VirtualBox guest additions
 
 if (( features & feature_vbox )); then
@@ -217,8 +157,7 @@ if [ "$de" != "$de_none" ]; then
         pipewire \
         pipewire-pulse \
         pipewire-jack \
-        wireplumber \
-        lib32-libpulse
+        wireplumber
 
     # Fonts
     pacman -S --noconfirm \
@@ -237,52 +176,6 @@ if [ "$de" != "$de_none" ]; then
         xclip
 fi
 
-# Plasma DE
-
-if [ "$de" = "$de_plasma" ]; then
-    pacman -S --noconfirm \
-        phonon-qt5-gstreamer \
-        plasma-wayland-session \
-        sddm \
-        kwalletmanager \
-        plasma-meta
-
-    pacman -S --noconfirm \
-        kdegraphics-thumbnailers \
-        ffmpegthumbs
-
-    # Default apps
-    pacman -S --noconfirm \
-        dolphin \
-        konsole \
-        kate \
-        krunner \
-        kcalc \
-        gwenview \
-        okular \
-        ark \
-        spectacle
-
-    systemctl enable sddm.service
-
-    # Disable baloo
-    su - "$username" -c "balooctl suspend"
-    su - "$username" -c "balooctl disable"
-    su - "$username" -c "balooctl purge"
-
-    # SDDM autologin
-    if (( features & feature_autologin )) && [ "$root_encrypted" != "0" ]; then
-        mkdir -p /etc/sddm.conf.d
-
-        cat > /etc/sddm.conf.d/autologin.conf <<EOF
-[Autologin]
-User=${username}
-Session=plasmawayland
-EOF
-
-    fi
-fi
-
 # XFCE
 
 if [ "$de" = "$de_xfce" ]; then
@@ -291,17 +184,11 @@ if [ "$de" = "$de_xfce" ]; then
         xfce4 \
         xfce4-goodies \
         lightdm \
-        lightdm-gtk-greeter \
-        gvfs-smb \
-        sshfs
+        lightdm-gtk-greeter
 
     pacman -S --noconfirm \
         papirus-icon-theme \
         arc-gtk-theme
-
-    # Defaults apps
-    pacman -S --noconfirm \
-        xarchiver
 
     systemctl enable lightdm.service
 
@@ -313,65 +200,6 @@ if [ "$de" = "$de_xfce" ]; then
         gpasswd -a "$username" autologin
     fi
 fi
-
-# Console apps
-
-if (( apps & app_devtools )); then
-    pacman -S --noconfirm \
-        devtools \
-        codespell
-
-    # Disable SSH password authentication
-    sed -i -E 's/#?PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
-fi
-
-(( apps & app_archiving ))   && pacman -S --noconfirm \
-    zip \
-    unrar \
-    p7zip \
-    atool
-(( apps & app_cpp ))         && pacman -S --noconfirm \
-    clang \
-    llvm \
-    cmake \
-    ninja \
-    cppcheck \
-    valgrind \
-    universal-ctags \
-    doxygen \
-    lcov \
-    gperf
-(( apps & app_java ))        && pacman -S --noconfirm \
-    jdk21-openjdk \
-    intellij-idea-community-edition
-(( apps & app_tmux ))        && pacman -S --noconfirm tmux
-(( apps & app_lostfiles ))   && pacman -S --noconfirm lostfiles
-(( apps & app_tree ))        && pacman -S --noconfirm tree
-(( apps & app_ncdu ))        && pacman -S --noconfirm ncdu
-(( apps & app_podman ))      && pacman -S --noconfirm podman
-(( apps & app_ffmpeg ))      && pacman -S --noconfirm ffmpeg
-(( apps & app_dosfstools ))  && pacman -S --noconfirm dosfstools
-(( apps & app_inetutils ))   && pacman -S --noconfirm inetutils
-(( apps & app_wget ))        && pacman -S --noconfirm wget
-
-# Standard apps
-(( apps & app_firefox ))     && pacman -S --noconfirm \
-    firefox \
-    speech-dispatcher
-(( apps & app_alacritty ))   && pacman -S --noconfirm alacritty
-(( apps & app_steam ))       && pacman -S --noconfirm steam
-(( apps & app_wine ))        && pacman -S --noconfirm \
-    wine-staging \
-    wine-mono \
-    winetricks \
-    xorg-server-xephyr \
-    lib32-gnutls
-(( apps & app_libreoffice )) && pacman -S --noconfirm libreoffice-fresh
-(( apps & app_qbittorrent )) && pacman -S --noconfirm qbittorrent
-(( apps & app_vbox ))        && pacman -S --noconfirm virtualbox
-(( apps & app_mpv ))         && pacman -S --noconfirm mpv
-(( apps & app_obsidian ))    && pacman -S --noconfirm obsidian
-(( apps & app_telegram ))    && pacman -S --noconfirm telegram-desktop
 
 # Cleanup
 

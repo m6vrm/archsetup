@@ -15,8 +15,7 @@ cp "${archsetup_dir}/extras/chroot.sh" /mnt/chroot.sh
 
 arch-chroot /mnt ./chroot.sh \
     "$features" \
-    "$de" \
-    "$apps"
+    "$de"
 
 rm /mnt/chroot.sh
 
