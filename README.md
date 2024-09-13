@@ -21,7 +21,7 @@ Usage
 
 4.  Clone this repository:
 
-        # git clone https://m6v.ru/git/archsetup
+        # git clone https://github.com/m6vrm/archsetup
 
 5.  Run installer:
 
