@@ -90,6 +90,6 @@ Installation example
         >   station wlan0 connect <SSID>
         >   exit
     # pacman -Sy git
-    # git clone https://m6v.ru/git/archsetup
+    # git clone https://github.com/m6vrm/archsetup
     # ./archsetup/install.sh
     # reboot
