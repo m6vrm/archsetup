@@ -13,7 +13,6 @@ feature_reflector=$(( 1 << ++i ))
 feature_paccache=$(( 1 << ++i ))
 feature_man=$(( 1 << ++i ))
 feature_bluetooth=$(( 1 << ++i ))
-feature_paru=$(( 1 << ++i ))
 feature_vbox=$(( 1 << ++i ))
 
 i=-1 # de_none should be == 0
@@ -123,24 +122,6 @@ if (( features & feature_bluetooth )); then
         bluez-utils
 
     systemctl enable bluetooth.service
-fi
-
-# Paru
-
-if (( features & feature_paru )); then
-    pacman -S --noconfirm git
-
-    git clone https://aur.archlinux.org/paru-bin.git paru
-
-    chgrp nobody paru
-    chmod g+w paru
-
-    sudoers=/etc/sudoers.d/90-nobody-pacman
-    echo "nobody ALL=(root) NOPASSWD: $(which pacman)" > "$sudoers"
-    (cd paru && sudo -u nobody makepkg -fsri --noconfirm)
-    rm "$sudoers"
-
-    rm -rf paru
 fi
 
 # VirtualBox guest additions

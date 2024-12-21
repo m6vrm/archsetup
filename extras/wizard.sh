@@ -21,7 +21,6 @@ dialog_features() {
     feature_list+=("$(( ++i ))" "Paccache to automatically clean pacman cache" "on")
     feature_list+=("$(( ++i ))" "Man pages" "on")
     feature_list+=("$(( ++i ))" "Bluetooth support" "on")
-    feature_list+=("$(( ++i ))" "Paru AUR helper" "on")
     [ "$vbox" = "on" ] && feature_list+=("$(( ++i ))" "VirtualBox guest additions" "$vbox") || let ++i
 
     command=(dialog --stdout \
