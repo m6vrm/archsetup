@@ -6,13 +6,12 @@ de="$2"
 
 i=0
 feature_nobeep=$(( 1 << ++i ))
+feature_man=$(( 1 << ++i ))
 feature_zsh=$(( 1 << ++i ))
 feature_zram=$(( 1 << ++i ))
 feature_autologin=$(( 1 << ++i ))
 feature_reflector=$(( 1 << ++i ))
 feature_paccache=$(( 1 << ++i ))
-feature_man=$(( 1 << ++i ))
-feature_bluetooth=$(( 1 << ++i ))
 feature_vbox=$(( 1 << ++i ))
 
 i=-1 # de_none should be == 0
@@ -112,16 +111,6 @@ zram-size = ram / 2
 compression-algorithm = zstd
 EOF
 
-fi
-
-# Bluetooth
-
-if (( features & feature_bluetooth )); then
-    pacman -S --noconfirm \
-        bluez \
-        bluez-utils
-
-    systemctl enable bluetooth.service
 fi
 
 # VirtualBox guest additions
