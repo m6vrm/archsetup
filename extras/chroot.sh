@@ -149,6 +149,12 @@ if [ "$de" != "$de_none" ]; then
         xdg-user-dirs \
         wl-clipboard \
         xclip
+
+    # Fonts
+    pacman -S --noconfirm \
+        noto-fonts \
+        noto-fonts-cjk \
+        noto-fonts-emoji
 fi
 
 # XFCE
@@ -164,6 +170,9 @@ if [ "$de" = "$de_xfce" ]; then
     pacman -S --noconfirm \
         papirus-icon-theme \
         arc-gtk-theme
+
+    pacman -S --noconfirm \
+        network-manager-applet
 
     systemctl enable lightdm.service
 
