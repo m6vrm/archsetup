@@ -60,8 +60,8 @@ EOF
 # Dracut
 
 cat > /etc/dracut.conf.d/00-options.conf <<EOF
-#hostonly="yes"
-#hostonly_cmdline="no"
+hostonly="yes"
+hostonly_cmdline="no"
 early_microcode="yes"
 compress="zstd"
 reproducible="yes"
