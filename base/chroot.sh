@@ -33,12 +33,6 @@ systemctl enable systemd-timesyncd.service
 
 echo "$hostname" > /etc/hostname
 
-grep -qF "127.0.1.1	${hostname}" /etc/hosts || cat >> /etc/hosts <<EOF
-127.0.0.1	localhost
-::1		localhost
-127.0.1.1	${hostname}
-EOF
-
 # Packages
 
 pacman -S --noconfirm \

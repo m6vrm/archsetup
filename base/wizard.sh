@@ -123,8 +123,8 @@ dialog_kernels() {
 
     i=0
     kernel_list=()
-    kernel_list+=("$(( ++i ))" "Linux Stable" "on")
-    kernel_list+=("$(( ++i ))" "Linux LTS" "off")
+    kernel_list+=("$(( ++i ))" "Linux Stable" "off")
+    kernel_list+=("$(( ++i ))" "Linux LTS" "on")
     kernel_list+=("$(( ++i ))" "Linux Zen" "off")
     kernel_list+=("$(( ++i ))" "Linux Hardened" "off")
 

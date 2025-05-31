@@ -17,21 +17,21 @@ Usage
 2.  Connect to the internet
 3.  Install git:
 
-        # pacman -Sy git
+        pacman -Sy git
 
 4.  Clone this repository:
 
-        # git clone https://github.com/m6vrm/archsetup
+        git clone https://github.com/m6vrm/archsetup
 
 5.  Run installer:
 
-        # ./archsetup/install.sh
+        ./archsetup/install.sh
 
 6.  Reboot after installation.
 
 NOTE: If installation fails due to a memory error, run following command:
 
-    # mount -o remount,size=2G /run/archiso/cowspace
+    mount -o remount,size=2G /run/archiso/cowspace
 
 Base system
 ===========
@@ -64,12 +64,12 @@ Maintenance
 Kernel boot parameters
 ----------------------
 
-Either edit bootloader entries in /boot/loader/entries/ or edit the
-/etc/kernel/cmdline and reinstall the kernel to trigger initramfs and bootloader
-entries generation:
+Either edit bootloader entries in the /boot/loader/entries/ or edit
+the /etc/kernel/cmdline and reinstall the kernel to trigger initramfs
+and bootloader entries generation:
 
-    $ sudoedit /etc/kernel/cmdline
-    $ sudo pacman -S <kernel-package>
+    sudoedit /etc/kernel/cmdline
+    sudo pacman -S <kernel-package>
 
 Update recovery image
 ---------------------
@@ -83,13 +83,13 @@ Update recovery image
 Installation example
 ====================
 
-    # rmmod pcspkr
-    # rfkill unblock all
-    # iwctl
-        >   station wlan0 get-networks
-        >   station wlan0 connect <SSID>
-        >   exit
-    # pacman -Sy git
-    # git clone https://github.com/m6vrm/archsetup
-    # ./archsetup/install.sh
-    # reboot
+    rmmod pcspkr
+    rfkill unblock all
+    iwctl
+        station wlan0 get-networks
+        station wlan0 connect <SSID>
+        exit
+    pacman -Sy git
+    git clone https://github.com/m6vrm/archsetup
+    ./archsetup/install.sh
+    reboot

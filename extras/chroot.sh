@@ -61,11 +61,11 @@ if (( features & feature_reflector )); then
 
     cat > /etc/xdg/reflector/reflector.conf <<EOF
 --download-timeout 2
---save /etc/pacman.d/mirrorlist
 --protocol https
---fastest 20
---age 6
+--country RU
+--latest 5
 --sort rate
+--save /etc/pacman.d/mirrorlist
 EOF
 
     systemctl enable reflector.timer
@@ -131,6 +131,7 @@ if [ "$de" != "$de_none" ]; then
         pipewire \
         pipewire-pulse \
         pipewire-jack \
+        pipewire-alsa \
         wireplumber
 
     # Common
@@ -155,10 +156,6 @@ if [ "$de" = "$de_xfce" ]; then
         xfce4-goodies \
         lightdm \
         lightdm-gtk-greeter
-
-    pacman -S --noconfirm \
-        papirus-icon-theme \
-        arc-gtk-theme
 
     pacman -S --noconfirm \
         network-manager-applet
