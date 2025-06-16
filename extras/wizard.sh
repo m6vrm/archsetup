@@ -18,7 +18,6 @@ dialog_features() {
     feature_list+=("$(( ++i ))" "Zsh as default login shell" "on")
     feature_list+=("$(( ++i ))" "Zram for swap" "on")
     feature_list+=("$(( ++i ))" "Autologin if root filesystem is encrypted" "on")
-    feature_list+=("$(( ++i ))" "Reflector to retrieve fastest pacman mirrors" "on")
     feature_list+=("$(( ++i ))" "Paccache to automatically clean pacman cache" "on")
     [ "$vbox" = "on" ] && feature_list+=("$(( ++i ))" "VirtualBox guest additions" "$vbox") || let ++i
 

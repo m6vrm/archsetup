@@ -10,7 +10,6 @@ feature_man=$(( 1 << ++i ))
 feature_zsh=$(( 1 << ++i ))
 feature_zram=$(( 1 << ++i ))
 feature_autologin=$(( 1 << ++i ))
-feature_reflector=$(( 1 << ++i ))
 feature_paccache=$(( 1 << ++i ))
 feature_vbox=$(( 1 << ++i ))
 
@@ -52,23 +51,6 @@ pacman -Sy
 
 if (( features & feature_nobeep )); then
     echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
-fi
-
-# Reflector
-
-if (( features & feature_reflector )); then
-    pacman -S --noconfirm reflector
-
-    cat > /etc/xdg/reflector/reflector.conf <<EOF
---download-timeout 2
---protocol https
---country RU
---latest 5
---sort rate
---save /etc/pacman.d/mirrorlist
-EOF
-
-    systemctl enable reflector.timer
 fi
 
 # Paccache
