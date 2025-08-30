@@ -88,7 +88,7 @@ if (( features & feature_vbox )); then
 
     systemctl enable vboxservice.service
 
-    usermod -aG vboxsf "{$username}"
+    usermod -aG vboxsf "$username"
 fi
 
 # Any DE
