@@ -229,7 +229,7 @@ dialog_recovery() {
 
     i=0
     option_list=()
-    option_list+=("$(( ++i ))" "Recovery bootloader entry" "on")
+    option_list+=("$(( ++i ))" "Recovery bootloader entry" "off")
     option_list+=("$(( ++i ))" "BTRFS snapshots after installation" "on")
 
     command=(dialog --stdout \

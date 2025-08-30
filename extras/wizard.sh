@@ -3,7 +3,7 @@ set -uf -o pipefail
 
 i=-1 # de_none should be == 0
 de_none=$(( ++i ))
-de_xfce=$(( ++i ))
+de_kde=$(( ++i ))
 
 dialog_features() {
     local i feature_list command selected_features dmi vbox
@@ -16,7 +16,6 @@ dialog_features() {
     feature_list+=("$(( ++i ))" "Disable PC speaker (beep)" "on")
     feature_list+=("$(( ++i ))" "Man pages" "on")
     feature_list+=("$(( ++i ))" "Zsh as default login shell" "on")
-    feature_list+=("$(( ++i ))" "Zram for swap" "on")
     feature_list+=("$(( ++i ))" "Autologin if root filesystem is encrypted" "on")
     feature_list+=("$(( ++i ))" "Paccache to automatically clean pacman cache" "on")
     [ "$vbox" = "on" ] && feature_list+=("$(( ++i ))" "VirtualBox guest additions" "$vbox") || let ++i
@@ -40,7 +39,7 @@ dialog_de() {
     i=0
     de_list=()
     de_list+=("$(( ++i ))" "None")
-    de_list+=("$(( ++i ))" "XFCE")
+    de_list+=("$(( ++i ))" "KDE Plasma")
 
     command=(dialog --stdout \
         --clear \

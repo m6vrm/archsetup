@@ -8,14 +8,13 @@ i=0
 feature_nobeep=$(( 1 << ++i ))
 feature_man=$(( 1 << ++i ))
 feature_zsh=$(( 1 << ++i ))
-feature_zram=$(( 1 << ++i ))
 feature_autologin=$(( 1 << ++i ))
 feature_paccache=$(( 1 << ++i ))
 feature_vbox=$(( 1 << ++i ))
 
-i=-1 # de_none should be == 0
+i=-1 # de_none must be == 0
 de_none=$(( ++i ))
-de_xfce=$(( ++i ))
+de_kde=$(( ++i ))
 
 # Environment
 
@@ -82,19 +81,6 @@ if (( features & feature_zsh )); then
     rm -f "/home/${username}/.bashrc"
 fi
 
-# Zram
-
-if (( features & feature_zram )); then
-    pacman -S --noconfirm zram-generator
-
-    cat > /etc/systemd/zram-generator.conf <<EOF
-[zram0]
-zram-size = ram / 2
-compression-algorithm = zstd
-EOF
-
-fi
-
 # VirtualBox guest additions
 
 if (( features & feature_vbox )); then
@@ -129,28 +115,14 @@ if [ "$de" != "$de_none" ]; then
         noto-fonts-emoji
 fi
 
-# XFCE
+# KDE
 
-if [ "$de" = "$de_xfce" ]; then
+if [ "$de" = "$de_kde" ]; then
     pacman -S --noconfirm \
-        xorg \
-        xfce4 \
-        xfce4-goodies \
-        lightdm \
-        lightdm-gtk-greeter
+        plasma-meta \
+        sddm
 
-    pacman -S --noconfirm \
-        network-manager-applet
-
-    systemctl enable lightdm.service
-
-    # LightDM autologin
-    if (( features & feature_autologin )) && [ "$root_encrypted" != "0" ]; then
-        sed -i -E "s/#?autologin-user=.*$/autologin-user=${username}/" /etc/lightdm/lightdm.conf
-
-        groupadd -r autologin
-        gpasswd -a "$username" autologin
-    fi
+    systemctl enable sddm.service
 fi
 
 # Cleanup
